@@ -7,12 +7,138 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/categories"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:text="@string/text_categories"
+        android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.097"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.036" />
+
+    <Button
+        android:id="@+id/search_button"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
+        android:text="@string/button_search"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/account_button"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/account_button"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
+        android:text="@string/button_account"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/post_thread_button"
+        app:layout_constraintStart_toEndOf="@id/search_button" />
+
+    <Button
+        android:id="@+id/post_thread_button"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
+        android:text="@string/button_create_thread"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/account_button"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageButton
+        android:id="@+id/category1"
+        android:layout_width="161dp"
+        android:layout_height="91dp"
+        app:srcCompat="@android:drawable/divider_horizontal_textfield"
+        app:layout_constraintBottom_toTopOf="@id/category3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/category2"
+        app:layout_constraintTop_toBottomOf="@id/categories" />
+
+    <ImageButton
+        android:id="@+id/category2"
+        android:layout_width="161dp"
+        android:layout_height="91dp"
+        app:srcCompat="@android:drawable/divider_horizontal_textfield"
+        tools:layout_editor_absoluteX="225dp"
+        tools:layout_editor_absoluteY="84dp"
+        app:layout_constraintBottom_toTopOf="@id/category4"
+        app:layout_constraintStart_toEndOf="@id/category1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/categories"/>
+
+    <ImageButton
+        android:id="@+id/category3"
+        android:layout_width="161dp"
+        android:layout_height="91dp"
+        app:srcCompat="@android:drawable/divider_horizontal_textfield"
+        tools:layout_editor_absoluteX="26dp"
+        tools:layout_editor_absoluteY="205dp"
+        app:layout_constraintBottom_toTopOf="@id/category5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/category4"
+        app:layout_constraintTop_toBottomOf="@id/category1" />
+
+    <ImageButton
+        android:id="@+id/category4"
+        android:layout_width="161dp"
+        android:layout_height="91dp"
+        app:srcCompat="@android:drawable/divider_horizontal_textfield"
+        tools:layout_editor_absoluteX="26dp"
+        tools:layout_editor_absoluteY="329dp"
+        app:layout_constraintBottom_toTopOf="@id/category6"
+        app:layout_constraintStart_toEndOf="@id/category3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/category2" />
+
+    <ImageButton
+        android:id="@+id/category5"
+        android:layout_width="161dp"
+        android:layout_height="91dp"
+        app:srcCompat="@android:drawable/divider_horizontal_textfield"
+        tools:layout_editor_absoluteX="26dp"
+        tools:layout_editor_absoluteY="456dp"
+        app:layout_constraintBottom_toTopOf="@id/category7"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/category6"
+        app:layout_constraintTop_toBottomOf="@id/category3" />
+
+    <ImageButton
+        android:id="@+id/category6"
+        android:layout_width="161dp"
+        android:layout_height="91dp"
+        app:srcCompat="@android:drawable/divider_horizontal_textfield"
+        tools:layout_editor_absoluteX="225dp"
+        tools:layout_editor_absoluteY="456dp"
+        app:layout_constraintBottom_toTopOf="@id/category8"
+        app:layout_constraintStart_toEndOf="@id/category5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/category4" />
+
+    <ImageButton
+        android:id="@+id/category7"
+        android:layout_width="161dp"
+        android:layout_height="91dp"
+        app:srcCompat="@android:drawable/divider_horizontal_textfield"
+        tools:layout_editor_absoluteX="225dp"
+        tools:layout_editor_absoluteY="329dp"
+        app:layout_constraintBottom_toTopOf="@id/search_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/category8"
+        app:layout_constraintTop_toBottomOf="@id/category5" />
+
+    <ImageButton
+        android:id="@+id/category8"
+        android:layout_width="161dp"
+        android:layout_height="91dp"
+        app:srcCompat="@android:drawable/divider_horizontal_textfield"
+        tools:layout_editor_absoluteX="225dp"
+        tools:layout_editor_absoluteY="205dp"
+        app:layout_constraintBottom_toTopOf="@id/post_thread_button"
+        app:layout_constraintStart_toEndOf="@id/category7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/category6" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
