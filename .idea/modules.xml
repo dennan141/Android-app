@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/studyAssist.iml" filepath="$PROJECT_DIR$/.idea/studyAssist.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/StudyAssist.iml" filepath="$PROJECT_DIR$/.idea/modules/StudyAssist.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/StudyAssist.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/StudyAssist.app.iml" />
     </modules>
   </component>
 </project>
