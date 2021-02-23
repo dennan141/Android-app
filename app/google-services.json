@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "242779780085",
+    "project_id": "studyassist-aa5bd",
+    "storage_bucket": "studyassist-aa5bd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:242779780085:android:1015cc5f7272b6797f66bc",
+        "android_client_info": {
+          "package_name": "se.ju.student.kade1796.studyAssist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "242779780085-h5hhhbiubejm9q69ua7mrf82aboe5i38.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJl2lrhd4zGKIIVs1rRDzfrJPGmaRWG24"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "242779780085-h5hhhbiubejm9q69ua7mrf82aboe5i38.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
