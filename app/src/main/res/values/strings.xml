@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">StudyAssist</string>
     <string name="text_categories">Categories</string>
-    <string name="button_search">Search</string>
-    <string name="button_account">Account</string>
-    <string name="button_create_thread">Create Thread</string>
+    <string name="text_account">Account</string>
+    <string name="text_home">Home</string>
+    <string name="text_post">Post</string>
 </resources>

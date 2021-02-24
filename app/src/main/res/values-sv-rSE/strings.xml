@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">StudyAssist</string>
     <string name="text_categories">Kategorier</string>
-    <string name="button_search">Sök</string>
-    <string name="button_account">Konto</string>
-    <string name="button_create_thread">Skapa Tråd</string>
+    <string name="text_account">Konto</string>
+    <string name="text_post">Posta</string>
+    <string name="text_home">Hem</string>
 </resources>
