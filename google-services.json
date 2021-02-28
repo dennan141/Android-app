@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "242779780085",
-    "project_id": "studyassist-aa5bd",
-    "storage_bucket": "studyassist-aa5bd.appspot.com"
+    "project_number": "570754748680",
+    "project_id": "studyassist-3a856",
+    "storage_bucket": "studyassist-3a856.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:242779780085:android:054c172d4fd15ad87f66bc",
+        "mobilesdk_app_id": "1:570754748680:android:fe071b7684e80084fe1cbd",
         "android_client_info": {
           "package_name": "se.ju.student.kade1796.studyassist"
         }
       },
       "oauth_client": [
         {
-          "client_id": "242779780085-h5hhhbiubejm9q69ua7mrf82aboe5i38.apps.googleusercontent.com",
+          "client_id": "570754748680-e5r20keoce0788nfcufdqvn8jkuq0v62.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAJl2lrhd4zGKIIVs1rRDzfrJPGmaRWG24"
+          "current_key": "AIzaSyAZG9njCyrd0q8fIK3nFcGPj0UInKRDzTk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "242779780085-h5hhhbiubejm9q69ua7mrf82aboe5i38.apps.googleusercontent.com",
+              "client_id": "570754748680-e5r20keoce0788nfcufdqvn8jkuq0v62.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
