@@ -12,9 +12,9 @@ import com.google.firebase.ktx.Firebase
 
 
 class LogInActivity : AppCompatActivity() {
+    //access a firebase auth from your Activity
     var auth = FirebaseAuth.getInstance()
-    // Access a Cloud Firestore instance from your Activity
-    var database = FirebaseFirestore.getInstance()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +24,7 @@ class LogInActivity : AppCompatActivity() {
         //THIS IS ONLY FOR TESTING AND CAN SAFELY BE REMOVED
         //*****************************************************************************
 
+
         //---------------------User can now be added using this -----------------------
         auth.createUserWithEmailAndPassword("kade1796@student.ju.se","12345678")
                 .addOnSuccessListener { Log.d("SuccessTag", "Users successfully added!") }
@@ -32,12 +33,15 @@ class LogInActivity : AppCompatActivity() {
 
 
         //---------------------Thread can now be added using this -----------------------
-        val newThread = Threads("Dennis Testing the title", "Dennis testing hardcoded content")
+        val newPost1 = Posts("CONTENT IN NEW POST 1")
+        val newPost2 = Posts("CONTENT IN NEW POST 2")
+        var mutableListOfPosts = mutableListOf<Posts>()
+        val category = "Campus"
+        val title = "test_title in newThread"
+        val content = "test_content in newThread"
 
-        database.collection("testing")
-            .add(newThread)
-            .addOnSuccessListener { Log.d("SuccessTag", "DocumentSnapshot successfully written!") }
-            .addOnFailureListener { e -> Log.e("FailTag", "Error writing document", e) }
+
+        DatabaseFirestore.instance.addThread(title, content , mutableListOfPosts ,category )
         //---------------------Thread can now be added using this -----------------------
 
 

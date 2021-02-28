@@ -17,21 +17,32 @@ class DatabaseFirestore {
     val db = FirebaseFirestore.getInstance()
     val auth = FirebaseAuth.getInstance()
 
-    fun addThread(title: String, content: String ){
 
-        val newThread = Threads(title, content)
 
-        Log.d("Adding thread", "Firestore.kt line 24 adding thread: ")
-        print(newThread)
+    //Adds a new thread by creating the new thread here, not recommended but does exist if programmer wants to use.
+    fun addThread(title: String, content: String, listOfPosts: MutableList<Posts>, category: String){
+        val newThread = Threads(title, content, listOfPosts, category)
+        db.collection(category)
+                .add(newThread)
+                .addOnSuccessListener { Log.d("SuccessTag", "DocumentSnapshot successfully written!") }
+                .addOnFailureListener { e -> Log.e("FailTag", "Error writing document", e) }
+    }
 
-        //THIS IS FOR TESTING: THIS ADDS THE THREAD TO : categories/campus/threads TODO: SHOULD NOT BE HARDCODED!!!
-        db.collection("categories")
-            .document("campus")
-            .collection("threads")
+    //Adds a new thread from the Threads-data class, recommended!
+    fun addThread(newThread: Threads){
+        db.collection(newThread.category)
+                .add(newThread)
+                .addOnSuccessListener { Log.d("SuccessTag", "DocumentSnapshot successfully written!") }
+                .addOnFailureListener { e -> Log.e("FailTag", "Error writing document", e) }
+    }
+
+
+
+
+    fun getThreadId(thread: Threads){
 
 
     }
-
 
 
 }
