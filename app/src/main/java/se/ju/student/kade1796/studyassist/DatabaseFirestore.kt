@@ -5,11 +5,11 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import android.util.Log
 
-class Firestore {
+class DatabaseFirestore {
 
 
     companion object{
-        val instance = Firestore()
+        val instance = DatabaseFirestore()
     }
 
 
@@ -26,8 +26,8 @@ class Firestore {
 
         //THIS IS FOR TESTING: THIS ADDS THE THREAD TO : categories/campus/threads TODO: SHOULD NOT BE HARDCODED!!!
         db.collection("categories")
-                .document("campus")
-                .collection("threads")
+            .document("campus")
+            .collection("threads")
 
 
     }
