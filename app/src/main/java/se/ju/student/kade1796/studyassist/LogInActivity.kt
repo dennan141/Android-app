@@ -21,19 +21,29 @@ class LogInActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
 
-        //THIS IS ONLY FOR TESTING AND CAN SAFELY BE REMOVED / DENNIS
+        //THIS IS ONLY FOR TESTING AND CAN SAFELY BE REMOVED
         //*****************************************************************************
-        auth.createUserWithEmailAndPassword("kade1796@student.ju.se","123")
+
+        //---------------------User can now be added using this -----------------------
+        auth.createUserWithEmailAndPassword("kade1796@student.ju.se","12345678")
+                .addOnSuccessListener { Log.d("SuccessTag", "Users successfully added!") }
+                .addOnFailureListener { e -> Log.e("FailTag", "Error writing user", e) }
+        //---------------------User can now be added using this -----------------------
 
 
-        val newThread = Threads("testTitle", "TestContent")
+        //---------------------Thread can now be added using this -----------------------
+        val newThread = Threads("Dennis Testing the title", "Dennis testing hardcoded content")
 
-        database.collection("categories")
+        database.collection("testing")
             .add(newThread)
             .addOnSuccessListener { Log.d("SuccessTag", "DocumentSnapshot successfully written!") }
             .addOnFailureListener { e -> Log.e("FailTag", "Error writing document", e) }
+        //---------------------Thread can now be added using this -----------------------
+
+
+        
         //***************************************************************************
-        //THIS IS ONLY FOR TESTING AND CAN SAFELY BE REMOVED / DENNIS
+        //THIS IS ONLY FOR TESTING AND CAN SAFELY BE REMOVED
             
     }
 
