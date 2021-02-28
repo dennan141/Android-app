@@ -15,7 +15,6 @@ class LogInActivity : AppCompatActivity() {
     //access a firebase auth from your Activity
     var auth = FirebaseAuth.getInstance()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)

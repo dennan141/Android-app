@@ -30,7 +30,7 @@ class DatabaseFirestore {
 
     //Adds a new thread from the Threads-data class, recommended!
     fun addThread(newThread: Threads){
-        db.collection(newThread.category)
+        db.collection(newThread.category.toString())
                 .add(newThread)
                 .addOnSuccessListener { Log.d("SuccessTag", "DocumentSnapshot successfully written!") }
                 .addOnFailureListener { e -> Log.e("FailTag", "Error writing document", e) }
