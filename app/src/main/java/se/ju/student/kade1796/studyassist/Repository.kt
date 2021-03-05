@@ -1,10 +1,11 @@
 package se.ju.student.kade1796.studyassist
 
-class ThreadsRepository {
+class Repository {
 
     companion object{
-        val instance = ThreadsRepository()
+        val instance = Repository()
     }
 
     var listOfThreads = mutableListOf<Threads>()
+    var listOfCategories = mutableListOf<Categories>()
 }

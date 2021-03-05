@@ -13,13 +13,6 @@ class ThreadDetailActivity : AppCompatActivity() {
 
 
 
-        var testButton = findViewById<Button>(R.id.button2)
-
-
-        testButton.setOnClickListener {
-            var intent = Intent(this, LogInActivity::class.java)
-            startActivity(intent)
-        }
 
     }
 }

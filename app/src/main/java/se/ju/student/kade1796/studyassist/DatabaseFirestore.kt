@@ -2,9 +2,7 @@ package se.ju.student.kade1796.studyassist
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.Firebase
 import android.util.Log
-import com.google.firebase.firestore.ktx.toObject
 
 class DatabaseFirestore {
 
@@ -18,6 +16,19 @@ class DatabaseFirestore {
     val auth = FirebaseAuth.getInstance()
 
 
+
+    fun getAllCategories(){
+        val docRef = db.collection("Categories")
+                .get()
+                .addOnSuccessListener { result ->
+
+                    for(category in result){
+                        Repository.instance.listOfThreads.add(category.toObject(Threads::class.java))
+                    }
+
+
+                }
+    }
 
     //Adds a new thread by creating the new thread here, not recommended but does exist if programmer wants to use.
     fun addThread(title: String, content: String, listOfPosts: MutableList<Posts>, category: String){
@@ -60,7 +71,7 @@ class DatabaseFirestore {
                 //On success loops through threads and adds them to threadsRepository : listOfThreads
                 .addOnSuccessListener { result ->
                 for(thread in result){
-                    ThreadsRepository.instance.listOfThreads.add(thread.toObject(Threads::class.java))
+                    Repository.instance.listOfThreads.add(thread.toObject(Threads::class.java))
                 }
 
 
