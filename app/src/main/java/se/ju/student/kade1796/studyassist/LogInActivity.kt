@@ -2,6 +2,7 @@ package se.ju.student.kade1796.studyassist
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
@@ -41,6 +42,9 @@ class LogInActivity : AppCompatActivity() {
 
 
         DatabaseFirestore.instance.addThread(title, content , mutableListOfPosts ,category )
+        val listOfThreads = DatabaseFirestore.instance.getAllThreadsInCategory(category)
+
+
         //---------------------Thread can now be added using this -----------------------
 
 
