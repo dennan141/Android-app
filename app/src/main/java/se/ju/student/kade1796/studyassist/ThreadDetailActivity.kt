@@ -5,10 +5,12 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_thread_detail.*
 import android.os.Bundle
 import android.widget.TextView
+import android.widget.Button
 
 class ThreadDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_thread_detail)
 
         val titleTextView = findViewById<TextView>(R.id.titleText)
@@ -17,6 +19,5 @@ class ThreadDetailActivity : AppCompatActivity() {
         val content  = intent.getStringExtra("content").toString()
         titleTextView.text = title
         contentTextView.text = content
-
     }
 }
