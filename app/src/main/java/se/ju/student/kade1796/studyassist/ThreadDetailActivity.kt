@@ -12,7 +12,5 @@ class ThreadDetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_thread_detail)
 
 
-
-
     }
 }
