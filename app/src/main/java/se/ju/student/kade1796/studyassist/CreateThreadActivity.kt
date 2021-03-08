@@ -16,6 +16,7 @@ class CreateThreadActivity : AppCompatActivity() {
 
         //Populate with dummy data
         DatabaseFirestore.instance.dummyData()
+        DatabaseFirestore.instance.getAllCategories()
         //populate with dummy data
 
 

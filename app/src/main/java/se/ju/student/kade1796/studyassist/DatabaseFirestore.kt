@@ -27,6 +27,8 @@ class DatabaseFirestore {
     //****************************************************************************************************
 
     //On Success: Adds the auto-generated id into the field "id" in the newly created category.
+    //sub collection "threads" is added when a thread is added for the first time
+    //TODO
     fun addCategory(newCategory: Categories) {
         val categoriesRef = db.collection("categories")
                 .add(newCategory)
@@ -39,6 +41,7 @@ class DatabaseFirestore {
     }
 
     //On Success: Adds the auto-generated id into the field "id" for the newly created category.
+    //TODO
     fun addCategory() {
         //TESTING DUMMY DATA FOR CREATION OF CATEGORY
         val emptyListOfThreads = mutableListOf<Threads>()
@@ -58,23 +61,23 @@ class DatabaseFirestore {
 
 
     //Gets a list of all categories and loads them into Repository as well as return a list
-    //TODO IMPLEMENT THIS!!!
-    fun getAllCategories() {
+    fun getAllCategories(): MutableList<Categories> {
+        var listOfResult = mutableListOf<Categories>()
         val categoryRef = db.collection("categories")
-                .whereEqualTo("title", "Campus")
                 .get()
                 .addOnSuccessListener { result ->
-                    for (category in result) {
-                        Log.d("getAllCategories", "List of all categoryTitles in Firestore ${category.toObject(Categories::class.java).categoryTitle} ")
-                        Repository.instance.listOfCategories.add(category.toObject(Categories::class.java))
-                    }
+                    listOfResult = result.toObjects(Categories::class.java)
+                    Log.d("getAllCategories", "List of all categories: $listOfResult")
+
                 }
+        return listOfResult
     }
 
 
     //****************************************THREADS FUNC*************************************************
 
     //Returns all threads in a mutableList of Threads objects into Repository
+    //TODO
     fun getAllThreadsInCategory(category: String) {
         db.collection(category)
                 .get()
@@ -88,6 +91,7 @@ class DatabaseFirestore {
 
 
     //Gets a thread object from thread id and category.
+    //TODO
     fun getThreadById(threadId: String, categoryName: String) {
         val docRef = db.collection(categoryName)
                 .whereEqualTo("id", threadId)
@@ -102,6 +106,7 @@ class DatabaseFirestore {
     }
 
     //Gets a thread object from thread id and category.
+    //TODO
     fun getThreadsByTitle(threadTitle: String, categoryName: String) {
         val docRef = db.collection(categoryName)
                 .whereEqualTo("title", threadTitle)
@@ -120,32 +125,20 @@ class DatabaseFirestore {
         //Create the new Thread
         val newThread = Threads(title, content, listOfPosts, category)
         //Try to add the new thread to the category
-        val categoryRef = db.collection("categories")
-        val docRef = categoryRef.document(newThread.category.toString())
-                .collection("threads")
-                .add(newThread)
-
-        //On success
-        docRef.addOnSuccessListener {
-            Log.d("SuccessTag", "DocumentSnapshot successfully written!")
-            //Gets the documents auto-generated id
-            val id = it.id
-            //Adds the auto-generated id into the field "id" in the object
-            val documentReference = db.collection(newThread.category.toString()).document(id)
-            documentReference.update("id", id)
-        }
+        addThread(newThread)
     }
 
 
     //Adds a new thread from the Threads-data class, recommended!
     //Give it the data class Threads and a category to be added to
     fun addThread(newThread: Threads) {
-        var docRef = db.collection("categories")
+        db.collection("categories")
                 .whereEqualTo("categoryTitle", newThread.category.toString())
                 .get()
                 .addOnSuccessListener { result ->
                     var documentId = String
-                    for (document in result){
+                    //For loop is necessary for Firestore, should only find ONE category
+                    for (document in result) {
                         val documentId = document.id.toString()
                         Log.d("forLoop", "$documentId")
 
@@ -184,7 +177,7 @@ class DatabaseFirestore {
         val newThread = Threads("Dennis title", "Dennis Content", mutableListOfPosts, "Campus")
         mutableListOfThreads.add(newThread)
         val newCategoryCampus = Categories("Campus")
-        val newCategoryOther = Categories( "Other")
+        val newCategoryOther = Categories("Other")
 
         //-----------------------DUMMY DATA---------------------------
 
