@@ -14,12 +14,14 @@ class ThreadDetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_thread_detail)
 
 
+
         val titleTextView = findViewById<TextView>(R.id.titleText)
         val contentTextView = findViewById<TextView>(R.id.contentText)
         val title  = intent.getStringExtra("title").toString()
         val content  = intent.getStringExtra("content").toString()
         titleTextView.text = title
         contentTextView.text = content
+
 
     }
 }
