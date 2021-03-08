@@ -3,6 +3,8 @@ package se.ju.student.kade1796.studyassist
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import android.util.Log
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FieldValue.arrayUnion
 
 class DatabaseFirestore {
 
@@ -26,24 +28,21 @@ class DatabaseFirestore {
 
     //On Success: Adds the auto-generated id into the field "id" in the newly created category.
     fun addCategory(newCategory: Categories) {
-        val docRef = db.collection("categories")
+        val categoriesRef = db.collection("categories")
                 .add(newCategory)
-        docRef.addOnSuccessListener {
+        categoriesRef.addOnSuccessListener {
             Log.d("SuccessTag", "DocumentSnapshot successfully written!")
-            //Gets the documents auto-generated id
             val id = it.id
-            //Adds the auto-generated id into the field "id" in the object
-            val documentReference = db.collection("categories")
-                    .document(id)
+            val documentReference = db.collection("categories").document(id)
             documentReference.update("id", id)
         }
     }
 
-    //On Success: Adds the auto-generated id into the field "id" in the newly created category.
+    //On Success: Adds the auto-generated id into the field "id" for the newly created category.
     fun addCategory() {
         //TESTING DUMMY DATA FOR CREATION OF CATEGORY
         val emptyListOfThreads = mutableListOf<Threads>()
-        val newCategory = Categories("category_title")
+        val newCategory = Categories("TEST_TITLE")
 
         val categoriesRef = db.collection("categories")
                 .add(newCategory)
@@ -66,7 +65,7 @@ class DatabaseFirestore {
                 .get()
                 .addOnSuccessListener { result ->
                     for (category in result) {
-                        Log.d("getAllCat", "List of all categories in Firestore:")
+                        Log.d("getAllCategories", "List of all categoryTitles in Firestore ${category.toObject(Categories::class.java).categoryTitle} ")
                         Repository.instance.listOfCategories.add(category.toObject(Categories::class.java))
                     }
                 }
@@ -75,7 +74,7 @@ class DatabaseFirestore {
 
     //****************************************THREADS FUNC*************************************************
 
-    //Returns all threads in a mutableList of Threads objects
+    //Returns all threads in a mutableList of Threads objects into Repository
     fun getAllThreadsInCategory(category: String) {
         db.collection(category)
                 .get()
@@ -141,27 +140,25 @@ class DatabaseFirestore {
     //Adds a new thread from the Threads-data class, recommended!
     //Give it the data class Threads and a category to be added to
     fun addThread(newThread: Threads) {
-        //Goes into the first collection "categories"
-        val docRef = db.collection("categories")
+        var docRef = db.collection("categories")
                 .whereEqualTo("categoryTitle", newThread.category.toString())
                 .get()
+                .addOnSuccessListener { result ->
+                    var documentId = String
+                    for (document in result){
+                        val documentId = document.id.toString()
+                        Log.d("forLoop", "$documentId")
 
+                        db.collection("categories")
+                                .document(documentId)
+                                .collection("threads")
+                                .add(newThread)
+                                .addOnSuccessListener { addedThread ->
+                                    addedThread.id
 
-        //On success
-        docRef.addOnSuccessListener { documents ->
-            for (document in documents) {
-                Log.d("OnSuccessAddThread", "${document.id} => ${document.data}")
-
-            }
-
-            //Gets the documents auto-generated id
-            //val id = it.id
-            //Adds the auto-generated id into the field "id" in the object
-            //val documentReference = db.collection(newThread.category.toString()).document(id)
-            //documentReference.update("id", id)
-        }
-                .addOnFailureListener { exception ->
-                    Log.w("addThreadHasFailed", "Error getting documents: ", exception)
+                                }
+                    }
+                    Log.d("SuccessAddThread", "Thread added: $newThread")
                 }
     }
 
@@ -169,8 +166,84 @@ class DatabaseFirestore {
     //TODO IMPLEMENT POSTS FUNCS
 
 
+    //******************************************DUMMY DATA FUNC*************************************************
+
+
+    fun dummyData() {
+        //---------------------Thread can now be added using this -----------------------
+        //-----------------------DUMMY DATA---------------------------
+        //Creates lists for dummy data
+        var mutableListOfPosts = mutableListOf<Posts>()
+        var mutableListOfThreads = mutableListOf<Threads>()
+        //Creates object
+        val newPost1 = Posts("CONTENT IN NEW POST 1")
+        val newPost2 = Posts("CONTENT IN NEW POST 2")
+
+        mutableListOfPosts.add(newPost1)
+        mutableListOfPosts.add(newPost2)
+        val newThread = Threads("Dennis title", "Dennis Content", mutableListOfPosts, "Campus")
+        mutableListOfThreads.add(newThread)
+        val newCategoryCampus = Categories("Campus")
+        val newCategoryOther = Categories( "Other")
+
+        //-----------------------DUMMY DATA---------------------------
+
+
+        //addCategory(newCategoryCampus)
+        //addCategory(newCategoryOther)
+
+        addThread(newThread)
+        val listOfThreads = getAllThreadsInCategory("Campus")
+        Log.d("listOfThreads", "This should be a list of threads in one category: $listOfThreads")
+
+
+        //---------------------Thread can now be added using this -----------------------
+
+
+        //***************************************************************************
+        //THIS IS ONLY FOR TESTING AND CAN SAFELY BE REMOVED
+    }
+
+
+/*
+
+    //Goes into the first collection "categories"
+    val categoryRef = db.collection("categories")
+            .whereEqualTo("categoryTitle", newThread.category.toString())
+            .get()
+
+
+
+    //On success (Should only have one result and thus FOR-loop is okay in this case.)
+    categoryRef.addOnSuccessListener { documents ->
+        for (document in documents) {
+            Log.d("OnSuccessAddThread", "${document.id} => ${document.data}")
+            val documentReference = document.id
+
+            val updates = hashMapOf<String, Any>(
+                    "listOfThreadsInCategory" to arrayUnion(newThread),
+
+                    )
+
+            db.document(documentReference)
+                    .update("listOfThreadsInCategory", arrayUnion(newThread)).addOnCompleteListener {
+
+                    }
 
 
 
 
+        }
+
+        //Gets the documents auto-generated id
+        //val id = documents.id
+        //Adds the auto-generated id into the field "id" in the object
+        //val documentReference = db.collection(newThread.category.toString()).document(id)
+        //documentReference.update("id", id)
+    }
+    .addOnFailureListener { exception ->
+        Log.w("addThreadHasFailed", "Error getting documents: ", exception)
+    }
+
+ */
 }

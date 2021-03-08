@@ -11,7 +11,14 @@ class CreateThreadActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_thread)
-        
+
+
+
+        //Populate with dummy data
+        DatabaseFirestore.instance.dummyData()
+        //populate with dummy data
+
+
         val spinner = findViewById<Spinner>(R.id.spinner)
         val title = findViewById<EditText>(R.id.title_edit_text).editableText
         val content = findViewById<EditText>(R.id.content_edit_text).editableText

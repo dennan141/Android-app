@@ -38,34 +38,6 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
         //*****************************************************************************
 
 
-        //---------------------Thread can now be added using this -----------------------
-        //-----------------------DUMMY DATA---------------------------
-        //Creates lists for dummy data
-        var mutableListOfPosts = mutableListOf<Posts>()
-        var mutableListOfThreads = mutableListOf<Threads>()
-        //Creates object
-        val newPost1 = Posts("CONTENT IN NEW POST 1")
-        val newPost2 = Posts("CONTENT IN NEW POST 2")
-
-        mutableListOfPosts.add(newPost1)
-        mutableListOfPosts.add(newPost2)
-        val newThread = Threads("TestingTitle", "TestingContent", mutableListOfPosts, "Other")
-        //mutableListOfThreads.add(newThread)
-        val newCategory = Categories("TESTING_TITLE_5")
-        //-----------------------DUMMY DATA---------------------------
-
-
-        DatabaseFirestore.instance.addCategory(newCategory)
-        DatabaseFirestore.instance.addThread(newThread)
-        val listOfThreads = DatabaseFirestore.instance.getAllThreadsInCategory("Campus")
-
-
-        //---------------------Thread can now be added using this -----------------------
-
-
-        //***************************************************************************
-        //THIS IS ONLY FOR TESTING AND CAN SAFELY BE REMOVED
-
 
 
 
