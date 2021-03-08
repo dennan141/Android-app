@@ -2,6 +2,7 @@ package se.ju.student.kade1796.studyassist
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 
@@ -29,9 +30,12 @@ class ThreadsActivity : AppCompatActivity() {
         mutableListOfPosts.add(newPost1)
         mutableListOfPosts.add(newPost2)
         val newThread = Threads("TestingTitle", "TestingContent", mutableListOfPosts, "Other")
-
+        //mutableListOfThreads.add(newThread)
+        val newCategory = Categories("TESTING_TITLE_5")
         //-----------------------DUMMY DATA---------------------------
 
+
+        DatabaseFirestore.instance.addCategory(newCategory)
         DatabaseFirestore.instance.addThread(newThread)
         val listOfThreads = DatabaseFirestore.instance.getAllThreadsInCategory("Campus")
 
