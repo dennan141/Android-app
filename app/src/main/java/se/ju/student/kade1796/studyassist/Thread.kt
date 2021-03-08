@@ -1,4 +1,6 @@
 package se.ju.student.kade1796.studyassist
 
-class Thread {
-}
+data class Thread(
+        var title: String,
+        var content: String
+)

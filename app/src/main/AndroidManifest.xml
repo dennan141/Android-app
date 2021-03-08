@@ -9,9 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.StudyAssist">
+        
 
-        <activity android:name=".CreateThreadActivity" />
-        <activity android:name=".ThreadsActivity">
+        <activity android:name=".ThreadDetailActivity"></activity>
+        <activity android:name=".ThreadsActivity" />
+        <activity android:name=".CreateThreadActivity">
 
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
