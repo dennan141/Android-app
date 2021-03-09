@@ -3,6 +3,7 @@ package se.ju.student.kade1796.studyassist
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import android.provider.ContactsContract
@@ -18,6 +19,8 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
         setContentView(R.layout.activity_threads)
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+        val categoryText = findViewById<TextView>(R.id.categoryText)
+        categoryText.text = intent.getStringExtra("category").toString()
 
 
         recyclerView.adapter = adapter
