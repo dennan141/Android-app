@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.StudyAssist">
-        <activity android:name=".ThreadDetailActivity"></activity>
+        <activity android:name=".CommentActivity"></activity>
+        <activity android:name=".ThreadDetailActivity" />
         <activity android:name=".ThreadsActivity" />
         <activity android:name=".CreateThreadActivity">
             <intent-filter>
@@ -18,10 +19,7 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-        <activity android:name=".LogInActivity">
-
-        </activity>
-
+        <activity android:name=".LogInActivity"></activity>
     </application>
 
 </manifest>
