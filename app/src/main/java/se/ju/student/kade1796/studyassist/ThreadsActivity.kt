@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import android.provider.ContactsContract
+import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 
 class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
@@ -20,6 +22,7 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
         val categoryText = findViewById<TextView>(R.id.categoryText)
         categoryText.text = intent.getStringExtra("category").toString()
 
+
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
         val title  = intent.getStringExtra("title").toString()
@@ -29,6 +32,49 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
         val newItem = Thread(title, content)
         threadList.add(startIndex, newItem)
         adapter.notifyItemInserted(startIndex)
+
+
+
+
+
+        //THIS IS ONLY FOR TESTING AND CAN SAFELY BE REMOVED
+        //*****************************************************************************
+
+
+        //---------------------Thread can now be added using this -----------------------
+        //-----------------------DUMMY DATA---------------------------
+        //Creates lists for dummy data
+        var mutableListOfPosts = mutableListOf<Posts>()
+        var mutableListOfThreads = mutableListOf<Threads>()
+        //Creates object
+        val newPost1 = Posts("CONTENT IN NEW POST 1")
+        val newPost2 = Posts("CONTENT IN NEW POST 2")
+
+        mutableListOfPosts.add(newPost1)
+        mutableListOfPosts.add(newPost2)
+        val newThread = Threads("TestingTitle", "TestingContent", mutableListOfPosts, "Other")
+        //mutableListOfThreads.add(newThread)
+        val newCategory = Categories("TESTING_TITLE_5")
+        //-----------------------DUMMY DATA---------------------------
+
+
+        DatabaseFirestore.instance.addCategory(newCategory)
+        DatabaseFirestore.instance.addThread(newThread)
+        val listOfThreads = DatabaseFirestore.instance.getAllThreadsInCategory("Campus")
+
+
+        //---------------------Thread can now be added using this -----------------------
+
+
+        //***************************************************************************
+        //THIS IS ONLY FOR TESTING AND CAN SAFELY BE REMOVED
+
+
+
+
+
+
+
 
     }
 
@@ -61,5 +107,8 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
             Thread("thread 56", "rrrr")
         )
         return list as ArrayList<Thread>
+
+
+
     }
 }

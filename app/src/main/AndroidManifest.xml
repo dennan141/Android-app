@@ -13,6 +13,7 @@
         <activity android:name=".ThreadDetailActivity" />
         <activity android:name=".ThreadsActivity" />
         <activity android:name=".CreateThreadActivity">
+
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
 
