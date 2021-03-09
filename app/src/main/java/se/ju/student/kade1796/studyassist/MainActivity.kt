@@ -4,6 +4,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageButton
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -11,66 +15,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val categoryCampus          = findViewById<ImageButton>(R.id.category_campus)
-        val categorySocialLife      = findViewById<ImageButton>(R.id.category_social_life)
-        val categoryStudyHelp       = findViewById<ImageButton>(R.id.category_study_help)
-        val categoryMath            = findViewById<ImageButton>(R.id.category_math)
-        val categoryCourseMaterial  = findViewById<ImageButton>(R.id.category_course_material)
-        val categoryITHelp          = findViewById<ImageButton>(R.id.category_it_help)
-        val categoryExchangeStudies = findViewById<ImageButton>(R.id.category_exchange_studies)
-        val categoryOther           = findViewById<ImageButton>(R.id.category_other)
+        val bottomNavigationView: BottomNavigationView = findViewById(R.id.nav_bar)
+        val bottomNavigationController = findNavController(R.id.nav_host_fragment)
 
-        categoryCampus.setOnClickListener {
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.navigation_category, R.id.navigation_account, R.id.navigation_post
+            )
+        )
 
-        }
-
-        categorySocialLife.setOnClickListener {
-
-        }
-
-        categoryStudyHelp.setOnClickListener {
-
-        }
-
-        categoryMath.setOnClickListener {
-
-        }
-
-        categoryCourseMaterial.setOnClickListener {
-
-        }
-
-        categoryITHelp.setOnClickListener {
-
-        }
-
-        categoryExchangeStudies.setOnClickListener {
-
-        }
-
-        categoryOther.setOnClickListener {
-
-        }
-
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nav_bar)
-
-        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
-            when(item.itemId){
-                R.id.page_home -> {
-                    //Return to main activity
-                    true
-                }
-                R.id.page_account -> {
-                    //Open the account activity
-                    true
-                }
-                R.id.page_post -> {
-                    //Open the create view activity
-                    true
-                }
-                else -> false
-            }
-        }
+        setupActionBarWithNavController(bottomNavigationController, appBarConfiguration)
+        bottomNavigationView.setupWithNavController(bottomNavigationController)
     }
 
 

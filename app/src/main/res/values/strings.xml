@@ -4,4 +4,6 @@
     <string name="text_account">Account</string>
     <string name="text_home">Home</string>
     <string name="text_post">Post</string>
+    <string name="text_category">Category</string>
+    <!-- TODO: Remove or change this placeholder text -->
 </resources>
