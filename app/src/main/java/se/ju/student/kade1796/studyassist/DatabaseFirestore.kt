@@ -84,10 +84,10 @@ class DatabaseFirestore {
                 .whereEqualTo("categoryTitle", category)
                 .get()
                 //On success loops through threads and adds them to threadsRepository : listOfThreads
-
                 .addOnSuccessListener { result ->
                     for (thread in result){
-                        
+                        listOfThreads.add(thread.toObject(Threads::class.java))
+                        Log.d("getAllThreads", "List of all threads in category: $listOfThreads")
                     }
                 }
     }
