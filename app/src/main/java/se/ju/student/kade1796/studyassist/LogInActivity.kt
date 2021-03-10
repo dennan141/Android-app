@@ -1,15 +1,9 @@
 package se.ju.student.kade1796.studyassist
 
-import android.content.Intent
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.util.Log
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.Firebase
-
 
 
 class LogInActivity : AppCompatActivity() {
@@ -42,7 +36,9 @@ class LogInActivity : AppCompatActivity() {
 
 
         DatabaseFirestore.instance.addThread(title, content , mutableListOfPosts ,category )
-        val listOfThreads = DatabaseFirestore.instance.getAllThreadsInCategory(category)
+        DatabaseFirestore.instance.getAllThreadsInCategory(category){ allThreads ->
+            Log.d("InLogin", "inLogin threads are: $allThreads")
+        }
 
 
         //---------------------Thread can now be added using this -----------------------

@@ -3,8 +3,6 @@ package se.ju.student.kade1796.studyassist
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import android.util.Log
-import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.FieldValue.arrayUnion
 
 class DatabaseFirestore {
 
@@ -13,42 +11,40 @@ class DatabaseFirestore {
         val instance = DatabaseFirestore()
     }
 
+
     // Loads in the instance of the database and Firestore authenticator
     val db = FirebaseFirestore.getInstance()
     val auth = FirebaseAuth.getInstance()
 
 
+    //************************************PRIVATE FUNCTIONS AND VARIABLES***************************
+    private fun categoryTitleToId(cateogryTitle: String): String {
+        val categoryId = titleToIdMap[cateogryTitle]
+        return categoryId.toString()
+    }
+
+    private val titleToIdMap = mapOf(
+        "Campus" to "jaXCitQgNMvZjMxeOUXD",
+        "Other" to "g2sN10eBiEqQ2IMkTrDP",
+        "IT" to "D1XuTitNJ1ZQsx7PVpWb"
+    )
+    //************************************PRIVATE FUNCTIONS AND VARIABLES***************************
+
+
     //*************************************CATEGORIES FUNCTIONS*************************************************
 
     //*****************************************************************************************************
-    //                                      IMPORTANT!!!
+    //                                  !!! IMPORTANT !!!
     //     - NOT BE ACCESSED FROM THE APP IN FUTURE, ONLY FOR CREATING CATEGORIES BEFORE LAUNCH -
-    //     -                    APPLIES TO BOTH addCategory FUNCTIONS!!!                        -
+    //                                  !!! IMPORTANT !!!
     //****************************************************************************************************
 
     //On Success: Adds the auto-generated id into the field "id" in the newly created category.
     //sub collection "threads" is added when a thread is added for the first time
-    //TODO (FIX UP)
+
     fun addCategory(newCategory: Categories) {
         val categoriesRef = db.collection("categories")
-                .add(newCategory)
-        categoriesRef.addOnSuccessListener {
-            Log.d("SuccessTag", "DocumentSnapshot successfully written!")
-            val id = it.id
-            val documentReference = db.collection("categories").document(id)
-            documentReference.update("id", id)
-        }
-    }
-
-    //On Success: Adds the auto-generated id into the field "id" for the newly created category.
-    //TODO (FIX UP)
-    fun addCategory() {
-        //TESTING DUMMY DATA FOR CREATION OF CATEGORY
-        val emptyListOfThreads = mutableListOf<Threads>()
-        val newCategory = Categories("TEST_TITLE")
-
-        val categoriesRef = db.collection("categories")
-                .add(newCategory)
+            .add(newCategory)
         categoriesRef.addOnSuccessListener {
             Log.d("SuccessTag", "DocumentSnapshot successfully written!")
             val id = it.id
@@ -63,100 +59,118 @@ class DatabaseFirestore {
     //Gets a list of all categories and loads them into Repository as well as return a list
     fun getAllCategories(): MutableList<Categories> {
         var listOfResult = mutableListOf<Categories>()
-        val categoryRef = db.collection("categories")
-                .get()
-                .addOnSuccessListener { result ->
-                    listOfResult = result.toObjects(Categories::class.java)
-                    Log.d("getAllCategories", "List of all categories: $listOfResult")
-
-                }
+        db.collection("categories")
+            .get()
+            .addOnSuccessListener { result ->
+                listOfResult = result.toObjects(Categories::class.java)
+                Log.d("getAllCategories", "List of all categories: $listOfResult")
+            }
         return listOfResult
     }
 
 
     //****************************************THREADS FUNC*************************************************
 
-    //Returns all threads in a mutableList of Threads objects into Repository
-    //TODO
-    fun getAllThreadsInCategory(category: String) {
+
+    //callback of all threads in a mutableList of Threads objects
+    fun getAllThreadsInCategory(categoryName: String, callback: (MutableList<Threads>) -> Unit) {
         var listOfThreads = mutableListOf<Threads>()
+        val categoryId = categoryTitleToId(categoryName)
         db.collection("categories")
-                .whereEqualTo("categoryTitle", category)
-                .get()
-                //On success loops through threads and adds them to threadsRepository : listOfThreads
-                .addOnSuccessListener { result ->
-                    for (thread in result){
-                        listOfThreads.add(thread.toObject(Threads::class.java))
-                        Log.d("getAllThreads", "List of all threads in category: $listOfThreads")
-                    }
+
+            .document(categoryId)
+            .collection("threads")
+            .get()
+
+            //On Success: loops through and adds threads into list
+            .addOnSuccessListener { result ->
+                for (thread in result) {
+                    listOfThreads.add(thread.toObject(Threads::class.java))
+
                 }
-    }
-
-
-    //Gets a thread object from thread id and category.
-    //TODO
-    fun getThreadById(threadId: String, categoryName: String) {
-        val docRef = db.collection(categoryName)
-                .whereEqualTo("id", threadId)
-                .get()
-                .addOnSuccessListener { result ->
-                    val returnedThread = result.toObjects(Threads::class.java)
-                    Log.d("SuccessTag", "Thread successfully returned, id is: ${returnedThread}")
-                }
-        docRef.addOnFailureListener { e ->
-            Log.e("FailTag", "Couldn't find a thread by that id", e)
-        }
-    }
-
-    //Gets a thread object from thread id and category.
-    //TODO
-    fun getThreadsByTitle(threadTitle: String, categoryName: String) {
-        val docRef = db.collection(categoryName)
-                .whereEqualTo("title", threadTitle)
-                .get()
-                .addOnSuccessListener { result ->
-                    val returnedThreads = result.toObjects(Threads::class.java)
-                    Log.d("SuccessTag", "Thread successfully returned, id is: ${returnedThreads}")
-                }
-        docRef.addOnFailureListener { e ->
-            Log.e("FailTag", "Couldn't find a thread by that id", e)
-        }
-    }
-
-    //Adds a new thread by creating the new thread here, not recommended but does exist if programmer wants to use.
-    fun addThread(title: String, content: String, listOfPosts: MutableList<Posts>, category: String) {
-        //Create the new Thread
-        val newThread = Threads(title, content, listOfPosts, category)
-        //Try to add the new thread to the category
-        addThread(newThread)
+                callback(listOfThreads)
+            }
     }
 
 
     //Adds a new thread from the Threads-data class, recommended!
     //Give it the data class Threads and a category to be added to
     fun addThread(newThread: Threads) {
+        val categoryId = categoryTitleToId(newThread.category.toString())
         db.collection("categories")
-                .whereEqualTo("categoryTitle", newThread.category.toString())
-                .get()
-                .addOnSuccessListener { result ->
-                    var documentId = String
-                    //For loop is necessary for Firestore, should only find ONE category
-                    for (document in result) {
-                        val documentId = document.id.toString()
-                        Log.d("forLoop", "$documentId")
-
-                        db.collection("categories")
-                                .document(documentId)
-                                .collection("threads")
-                                .add(newThread)
-                                .addOnSuccessListener { addedThread ->
-                                    addedThread.id
-
-                                }
-                    }
-                    Log.d("SuccessAddThread", "Thread added: $newThread")
-                }
+            .document(categoryId)
+            .collection("threads")
+            .add(newThread)
+            .addOnSuccessListener {
+                Log.d("SuccessAddThread", "Thread added: $newThread")
+                val id = it.id
+                val documentReference = db.collection("categories")
+                    .document(categoryId)
+                    .collection("threads")
+                    .document(id)
+                documentReference.update("id", id)
+            }
     }
+
+    //Adds a new thread by creating the new thread here, not recommended but does exist if programmer wants to use.
+    fun addThread(
+        title: String,
+        content: String,
+        listOfPosts: MutableList<Posts>,
+        category: String
+    ) {
+        val newThread = Threads(title, content, listOfPosts, category)
+        addThread(newThread)
+    }
+
+
+    //Gets a thread object from thread id and category.
+    fun getThreadById(threadId: String, categoryName: String, callback: (Threads) -> Unit) {
+        val categoryId = categoryTitleToId(categoryName)
+        val docRef = db.collection("categories")
+            .document(categoryId)
+            .collection("threads")
+            .document(threadId)
+            .get()
+        docRef.addOnSuccessListener { result ->
+            Log.d("SuccessTag", "Thread is: ${result.toObject(Threads::class.java)}")
+            result.toObject(Threads::class.java)?.let { callback(it) }
+        }
+        docRef.addOnFailureListener { e ->
+            Log.e("FailTag", "Couldn't find a thread by that id", e)
+        }
+
+    }
+
+    //INPUT: threadTitle searching for title, categoryName as String
+    //ON SUCCESS: creates a callback containing a list of att threads containing that title
+    //On most cases, it will probably only find one, but is list in case more exists
+    fun getThreadsByTitle(
+        threadTitle: String,
+        categoryName: String,
+        callback: (MutableList<Threads>) -> Unit
+    ) {
+        val listOfThreads = mutableListOf<Threads>()
+        val categoryId = categoryTitleToId(categoryName)
+
+        val docRef = db.collection("categories")
+            .document(categoryId)
+            .collection("threads")
+            .whereEqualTo("title", threadTitle)
+            .get()
+        docRef.addOnSuccessListener { result ->
+            for (threads in result){
+                listOfThreads.add(threads.toObject(Threads::class.java))
+            }
+            Log.d("SuccessTagThreadsTitle", "Threads are: $listOfThreads")
+            callback(listOfThreads)
+        }
+        docRef.addOnFailureListener { e ->
+            Log.e("FailTagThreadsTitle", "Couldn't find a thread by that id", e)
+        }
+
+    }
+
 
     //******************************************POSTS FUNC*************************************************
     //TODO IMPLEMENT POSTS FUNCS
@@ -164,37 +178,34 @@ class DatabaseFirestore {
 
     //******************************************DUMMY DATA FUNC*************************************************
 
-
+    //THIS IS ONLY FOR TESTING AND CAN SAFELY BE REMOVED
     fun dummyData() {
-        //---------------------Thread can now be added using this -----------------------
         //-----------------------DUMMY DATA---------------------------
-        //Creates lists for dummy data
+        //Lists
         var mutableListOfPosts = mutableListOf<Posts>()
         var mutableListOfThreads = mutableListOf<Threads>()
-        //Creates object
+        //Posts
         val newPost1 = Posts("CONTENT IN NEW POST 1")
         val newPost2 = Posts("CONTENT IN NEW POST 2")
-
         mutableListOfPosts.add(newPost1)
         mutableListOfPosts.add(newPost2)
-        val newThread = Threads("Dennis title", "Dennis Content", mutableListOfPosts, "Campus")
+        //Threads
+        val newThread =
+            Threads("Dennis title_testing", "Dennis Content_testing", mutableListOfPosts, "Campus")
         mutableListOfThreads.add(newThread)
-        val newCategoryCampus = Categories("Campus")
-        val newCategoryOther = Categories("Other")
+        //Categories
+        //val newCategory = Categories("IT")
 
         //-----------------------DUMMY DATA---------------------------
 
+        //*********************Adding data******************************
 
-        //addCategory(newCategoryCampus)
-        //addCategory(newCategoryOther)
 
+        //addCategory(newCategory)
         addThread(newThread)
-        val listOfThreads = getAllThreadsInCategory("Campus")
-        Log.d("listOfThreads", "This should be a list of threads in one category: $listOfThreads")
 
 
-        //---------------------Thread can now be added using this -----------------------
-
+        //*********************Adding data******************************
 
         //***************************************************************************
         //THIS IS ONLY FOR TESTING AND CAN SAFELY BE REMOVED

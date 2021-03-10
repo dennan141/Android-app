@@ -2,6 +2,8 @@ package se.ju.student.kade1796.studyassist
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.ContactsContract
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -13,10 +15,22 @@ class CreateThreadActivity : AppCompatActivity() {
         setContentView(R.layout.activity_create_thread)
 
 
-
         //Populate with dummy data
         DatabaseFirestore.instance.dummyData()
         DatabaseFirestore.instance.getAllCategories()
+        val emptyPostList = mutableListOf<Posts>()
+        val newThread = Threads("Title", "String content", emptyPostList, "Campus")
+        DatabaseFirestore.instance.getAllThreadsInCategory("Campus") { allThreads ->
+            Log.d("CallbackHell", "List of Threads is: $allThreads")
+        }
+        DatabaseFirestore.instance.getThreadById("9LeCNW7J5xid7jzxJpYa", "Campus") {
+            Log.d("testingCallback", "it is: $it")
+        }
+        DatabaseFirestore.instance.getThreadsByTitle("Dennis title_testing","Campus"){
+            Log.d("getThreadsByTitle", "Threads grabbed by title are: $it")
+        }
+
+
         //populate with dummy data
 
 
@@ -33,9 +47,16 @@ class CreateThreadActivity : AppCompatActivity() {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinner.adapter = adapter
         }
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long){
-                category.text = parent.getItemAtPosition(pos).toString()
+
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
+                // An item was selected. You can retrieve the selected item using
+                Toast.makeText(
+                    applicationContext,
+                    parent.getItemAtPosition(pos).toString(),
+                    Toast.LENGTH_SHORT
+                ).show()
+
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {}
@@ -45,7 +66,7 @@ class CreateThreadActivity : AppCompatActivity() {
 
         val createButton = findViewById<Button>(R.id.create_button)
 
-        createButton.setOnClickListener{
+        createButton.setOnClickListener {
             val intent = Intent(this, ThreadsActivity::class.java)
             intent.putExtra("category", category.text)
             intent.putExtra("title", title.toString())
