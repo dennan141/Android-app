@@ -20,6 +20,19 @@ class DatabaseFirestore {
     val db = FirebaseFirestore.getInstance()
     val auth = FirebaseAuth.getInstance()
 
+    //************************************PRIVATE FUNCTIONS AND VARIABLES***************************
+    private fun categoryTitleToId(cateogryTitle: String): String {
+        val categoryId = titleToIdMap.get(cateogryTitle)
+        return categoryId.toString()
+    }
+
+    private val titleToIdMap = mapOf(
+        "Campus" to "jaXCitQgNMvZjMxeOUXD",
+        "Other" to "bla bla bla"
+    )
+    //************************************PRIVATE FUNCTIONS AND VARIABLES***************************
+
+
 
     //*************************************CATEGORIES FUNCTIONS*************************************************
 
@@ -84,9 +97,9 @@ class DatabaseFirestore {
     //TODO
     fun getAllThreadsInCategory(category: String, callback: (MutableList<Threads>) -> Unit) {
         var listOfThreads = mutableListOf<Threads>()
-
+        val categoryId = categoryTitleToId(category)
         val docRef = db.collection("categories")
-            .document(category)
+            .document(categoryId)
             .collection("threads")
             .get()
 
@@ -98,6 +111,8 @@ class DatabaseFirestore {
                 callback(listOfThreads)
             }
     }
+
+
 
 
     //Adds a new thread from the Threads-data class, recommended!
