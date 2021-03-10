@@ -6,4 +6,8 @@
     <string name="text_post">Posta</string>
     <string name="text_home">Hem</string>
     <string name="text_category">Kategori</string>
+    <string name="create_thread">Skapa Tråd</string>
+    <string name="title">Titel:</string>
+    <string name="content">Innehåll:</string>
+    <string name="selected_item">Valt föremål:</string>
 </resources>
