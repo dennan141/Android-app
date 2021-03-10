@@ -2,6 +2,8 @@ package se.ju.student.kade1796.studyassist
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.ContactsContract
+import android.util.Log
 import android.view.View
 import android.widget.*
 import android.widget.Button
@@ -17,6 +19,13 @@ class CreateThreadActivity : AppCompatActivity() {
         //Populate with dummy data
         DatabaseFirestore.instance.dummyData()
         DatabaseFirestore.instance.getAllCategories()
+        val emptyPostList = mutableListOf<Posts>()
+        val newThread = Threads("Title", "String content", emptyPostList, "Campus")
+       // DatabaseFirestore.instance.addThread(newThread)
+        DatabaseFirestore.instance.getAllThreadsInCategory("Campus") { allThreads ->
+            Log.d("CallbackHell", "List of Threads is: $allThreads")
+        }
+
         //populate with dummy data
 
 
