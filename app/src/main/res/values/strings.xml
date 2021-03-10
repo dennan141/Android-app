@@ -5,5 +5,9 @@
     <string name="text_home">Home</string>
     <string name="text_post">Post</string>
     <string name="text_category">Category</string>
+    <string name="create_thread">Create Thread</string>
+    <string name="title">Title:</string>
+    <string name="content">Content:</string>
+    <string name="selected_item">Selected Item:</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>
