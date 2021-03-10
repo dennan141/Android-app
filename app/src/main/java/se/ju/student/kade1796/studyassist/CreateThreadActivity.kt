@@ -23,12 +23,16 @@ class CreateThreadActivity : AppCompatActivity() {
         DatabaseFirestore.instance.getAllThreadsInCategory("Campus") { allThreads ->
             Log.d("CallbackHell", "List of Threads is: $allThreads")
         }
-        DatabaseFirestore.instance.getThreadById("9LeCNW7J5xid7jzxJpYa", "Campus") {
+        DatabaseFirestore.instance.getThreadById("Aq3816gTNPaiwDrolCwL", "Campus") {
+            //DatabaseFirestore.instance.deleteThread(it)
             Log.d("testingCallback", "it is: $it")
         }
         DatabaseFirestore.instance.getThreadsByTitle("Dennis title_testing","Campus"){
             Log.d("getThreadsByTitle", "Threads grabbed by title are: $it")
         }
+
+
+
 
 
         //populate with dummy data

@@ -41,7 +41,6 @@ class DatabaseFirestore {
 
     //On Success: Adds the auto-generated id into the field "id" in the newly created category.
     //sub collection "threads" is added when a thread is added for the first time
-
     fun addCategory(newCategory: Categories) {
         val categoriesRef = db.collection("categories")
             .add(newCategory)
@@ -77,7 +76,6 @@ class DatabaseFirestore {
         var listOfThreads = mutableListOf<Threads>()
         val categoryId = categoryTitleToId(categoryName)
         db.collection("categories")
-
             .document(categoryId)
             .collection("threads")
             .get()
@@ -86,7 +84,6 @@ class DatabaseFirestore {
             .addOnSuccessListener { result ->
                 for (thread in result) {
                     listOfThreads.add(thread.toObject(Threads::class.java))
-
                 }
                 callback(listOfThreads)
             }
@@ -139,8 +136,35 @@ class DatabaseFirestore {
         docRef.addOnFailureListener { e ->
             Log.e("FailTag", "Couldn't find a thread by that id", e)
         }
-
     }
+
+    //On success deletes a the thread
+    fun deleteThreadById(threadId: String, categoryName: String){
+        val categoryId = categoryTitleToId(categoryName)
+        db.collection("categories")
+            .document(categoryId)
+            .collection("threads")
+            .document(threadId)
+            .delete()
+            .addOnSuccessListener { Log.d("SuccessDeletingThread", "Thread successfully deleted!") }
+            .addOnFailureListener { e -> Log.w("FailDeletingThread", "Error deleting thread", e) }
+    }
+
+    //On success deletes a the thread
+    fun deleteThread(threadToDelete: Threads){
+        val categoryId = categoryTitleToId(threadToDelete.category.toString())
+
+        db.collection("categories")
+            .document(categoryId)
+            .collection("threads")
+            .document(threadToDelete.id.toString())
+            .delete()
+            .addOnSuccessListener { Log.d("SuccessDeletingThread", "Thread successfully deleted!") }
+            .addOnFailureListener { e -> Log.w("FailDeletingThread", "Error deleting thread", e) }
+    }
+
+
+
 
     //INPUT: threadTitle searching for title, categoryName as String
     //ON SUCCESS: creates a callback containing a list of att threads containing that title
