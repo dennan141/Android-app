@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">StudyAssist</string>
+    <string name="text_categories">Kategorier</string>
+    <string name="text_account">Konto</string>
+    <string name="text_post">Posta</string>
+    <string name="text_home">Hem</string>
+    <string name="text_category">Kategori</string>
+</resources>
