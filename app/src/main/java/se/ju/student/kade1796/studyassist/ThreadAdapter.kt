@@ -3,6 +3,7 @@ package se.ju.student.kade1796.studyassist
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.thread_item.view.*
@@ -20,6 +21,10 @@ class ThreadAdapter(
     override fun onBindViewHolder(holder: ThreadViewHolder, position: Int) {
         holder.titleTextView.text = threadList[position].title
         holder.descriptionTextView.text = threadList[position].content
+        holder.likeButtonImageButton.setOnClickListener{
+            listener.add(position)
+        }
+        holder.likesTextView.text = threadList[position].likes.toString()
     }
 
     override fun getItemCount() = threadList.size
@@ -28,6 +33,9 @@ class ThreadAdapter(
     View.OnClickListener{
         val titleTextView: TextView = itemView.title_textView
         val descriptionTextView: TextView = itemView.description_textView
+        var likeButtonImageButton: ImageButton = itemView.likeButton
+        var likesTextView: TextView = itemView.likes_textView
+
 
         init {
             itemView.setOnClickListener(this)
@@ -43,5 +51,7 @@ class ThreadAdapter(
 
     interface OnItemClickListener{
         fun onItemClick(position: Int)
+        fun add(position: Int)
     }
+
 }

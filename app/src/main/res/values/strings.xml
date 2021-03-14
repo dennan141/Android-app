@@ -4,6 +4,13 @@
     <string name="title">Title:</string>
     <string name="content">Content:</string>
     <string name="selected_item">Selected item:</string>
+    <string name="add_comment">add comment</string>
+    <string name="isEmpty">The field can not be empty.</string>
+    <string name="titleTextInvalid">The title must be between 5 - 20 characters.</string>
+    <string name="contentTextInvalid">The content must be between 10 - 300 characters.</string>
+
+    <integer name="titleLimit">20</integer>
+    <integer name="contentLimit">300</integer>
 
     <string-array name="categories">
         <item>Campus</item>

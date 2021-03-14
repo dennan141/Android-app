@@ -3,16 +3,17 @@ package se.ju.student.kade1796.studyassist
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import android.provider.ContactsContract
-import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.activity_threads.*
 
 class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
-    private val threadList = dummyList()
+    private val threadList = list()
     private val adapter = ThreadAdapter(threadList, this)
+    private var likesCounter = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,16 +23,15 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
         val categoryText = findViewById<TextView>(R.id.categoryText)
         categoryText.text = intent.getStringExtra("category").toString()
 
-
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(this)
         val title  = intent.getStringExtra("title").toString()
         val content = intent.getStringExtra("content").toString()
-        println(title)
-        val startIndex = 0
+        val category = intent.getStringExtra("category").toString()
+
+
+        /*val startIndex = 0
         val newItem = Thread(title, content)
         threadList.add(startIndex, newItem)
-        adapter.notifyItemInserted(startIndex)
+        adapter.notifyItemInserted(startIndex)*/
 
 
 
@@ -52,7 +52,7 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
 
         mutableListOfPosts.add(newPost1)
         mutableListOfPosts.add(newPost2)
-        val newThread = Threads("TestingTitle", "TestingContent", mutableListOfPosts, "Other")
+        val newThread = Threads(title, content, mutableListOfPosts, category)
         //mutableListOfThreads.add(newThread)
         val newCategory = Categories("TESTING_TITLE_5")
         //-----------------------DUMMY DATA---------------------------
@@ -61,7 +61,10 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
         DatabaseFirestore.instance.addCategory(newCategory)
         DatabaseFirestore.instance.addThread(newThread)
         val listOfThreads = DatabaseFirestore.instance.getAllThreadsInCategory("Campus")
-
+        println(listOfThreads)
+        //threadAdapter = ThreadAdapter(firestoreRecyclerOptions, this);*/
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = adapter
 
         //---------------------Thread can now be added using this -----------------------
 
@@ -70,13 +73,8 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
         //THIS IS ONLY FOR TESTING AND CAN SAFELY BE REMOVED
 
 
-
-
-
-
-
-
     }
+
 
     override fun onItemClick(position: Int) {
         Toast.makeText(this,"Item $position clicked", Toast.LENGTH_SHORT).show()
@@ -85,30 +83,33 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
         val intent = Intent(this, ThreadDetailActivity::class.java)
         intent.putExtra("title", clickedItem.title)
         intent.putExtra("content", clickedItem.content)
+        intent.putExtra("likes", clickedItem.likes)
         startActivity(intent)
     }
 
-    private fun dummyList() : ArrayList<Thread>{
+    override fun add(position: Int) {
+        threadList[position].likes += 1
+        adapter.notifyItemChanged(position)
+    }
+
+    private fun list(): MutableList<Thread>{
         val list = mutableListOf(
-            Thread("thread rere", "dsadsa"),
-            Thread("thread 2", "rrrr"),
-            Thread("thread 3", "rrrr"),
-            Thread("thread 4", "rrrr"),
-            Thread("thread 5", "rrrr"),
-            Thread("thread 6", "rrrr"),
-            Thread("thread 7", "rrrr"),
-            Thread("thread 8", "rrrr"),
-            Thread("thread 9", "rrrr"),
-            Thread("thread 465", "rrrr"),
-            Thread("thread 7", "rrrr"),
-            Thread("thread 8", "rrrr"),
-            Thread("thread 9", "rrrr"),
-            Thread("thread 465", "rrrr"),
-            Thread("thread 56", "rrrr")
+                Thread("thread rere", "dsadsa", 0),
+                Thread("thread 2", "rrrr", 2),
+                Thread("thread 3", "rrrr", 1),
+                Thread("thread 4", "rrrr", 1),
+                Thread("thread 5", "rrrr", 1),
+                Thread("thread 6", "rrrr", 1),
+                Thread("thread 7", "rrrr", 2),
+                Thread("thread 8", "rrrr", 5),
+                Thread("thread 9", "rrrr",11),
+                Thread("thread 465", "rrrr", 44),
+                Thread("thread 7", "rrrr",33),
+                Thread("thread 8", "rrrr",1),
+                Thread("thread 9", "rrrr",0),
+                Thread("thread 465", "rrrr",1),
+                Thread("thread 56", "rrrr",1)
         )
-        return list as ArrayList<Thread>
-
-
-
+        return list
     }
 }

@@ -9,6 +9,7 @@ class DatabaseFirestore {
 
     companion object {
         val instance = DatabaseFirestore()
+        var listthreads = mutableListOf<Threads>()
     }
 
     // Loads in the instance of the database and Firestore authenticator
@@ -76,15 +77,26 @@ class DatabaseFirestore {
     //****************************************THREADS FUNC*************************************************
 
     //Returns all threads in a mutableList of Threads objects
-    fun getAllThreadsInCategory(category: String) {
-        db.collection(category)
-                .get()
-                //On success loops through threads and adds them to threadsRepository : listOfThreads
-                .addOnSuccessListener { result ->
-                    for (thread in result) {
-                        Repository.instance.listOfThreads.add(thread.toObject(Threads::class.java))
-                    }
+    fun getAllThreadsInCategory(category: String){
+        var listOfThreads = mutableListOf<Threads>()
+        db.collection("categories")
+            .document(category)
+            .collection("threads")
+            .get()
+            //On success loops through threads and adds them to threadsRepository : listOfThreads
+            .addOnSuccessListener { result ->
+                for (thread in result){
+                    listOfThreads.add(thread.toObject(Threads::class.java))
+                    Log.d("getAllThreads", "List of all threads in category: $listOfThreads")
                 }
+                listthreads = listOfThreads
+                println(listOfThreads)
+                println("--------------------------------------------------")
+                println(listthreads)
+            }
+            .addOnFailureListener {exception ->
+                Log.w("internalError", "Error getting documents", exception)
+            }
     }
 
 
