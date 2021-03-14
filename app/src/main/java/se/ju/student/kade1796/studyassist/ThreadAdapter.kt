@@ -31,8 +31,13 @@ class ThreadAdapter(
 
     inner class ThreadViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
     View.OnClickListener{
+
+
+        //TODO: FIX ERROR UNRESOLVED REFERENCE !!!
         val titleTextView: TextView = itemView.title_textView
         val descriptionTextView: TextView = itemView.description_textView
+
+        //TODO: FIX ERROR UNRESOLVED REFERENCE !!!
         var likeButtonImageButton: ImageButton = itemView.likeButton
         var likesTextView: TextView = itemView.likes_textView
 
