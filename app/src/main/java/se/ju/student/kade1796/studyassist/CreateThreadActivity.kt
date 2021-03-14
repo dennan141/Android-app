@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import kotlinx.android.synthetic.main.activity_create_thread.*
 
 class CreateThreadActivity : AppCompatActivity() {
@@ -35,9 +36,10 @@ class CreateThreadActivity : AppCompatActivity() {
 
 
         val spinner = findViewById<Spinner>(R.id.spinner)
-        val title = findViewById<EditText>(R.id.title_edit_text).editableText
-        val content = findViewById<EditText>(R.id.content_edit_text).editableText
+        val title = findViewById<EditText>(R.id.title_editText)
+        val content = findViewById<EditText>(R.id.content_editText)
         var category = findViewById<TextView>(R.id.categoryText)
+        val createButton = findViewById<Button>(R.id.create_button)
 
         ArrayAdapter.createFromResource(
             this,
@@ -61,19 +63,31 @@ class CreateThreadActivity : AppCompatActivity() {
 
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
-        Toast.makeText(this, category.text, Toast.LENGTH_SHORT)
 
 
-        val createButton = findViewById<Button>(R.id.create_button)
-
-        createButton.setOnClickListener {
-            val intent = Intent(this, ThreadsActivity::class.java)
-            intent.putExtra("category", category.text)
-            intent.putExtra("title", title.toString())
-            intent.putExtra("content", content.toString())
-            startActivity(intent)
+        createButton.setOnClickListener{
+            if(!validateTitleText(title)){
+                title.error = getString(R.string.titleTextInvalid)
+            }else if(!validateContentText(content)){
+                content.error = getString(R.string.contentTextInvalid)
+            }else{
+                val intent = Intent(this, ThreadsActivity::class.java)
+                intent.putExtra("category", category.text)
+                intent.putExtra("title", title.toString())
+                intent.putExtra("content", content.toString())
+                startActivity(intent)
+            }
         }
     }
 
+
+
+    private fun validateTitleText(editText: EditText): Boolean {
+        return (editText.text.length in 6..29)
+    }
+
+    private fun validateContentText(editText: EditText): Boolean {
+        return (editText.text.length in 10..300)
+    }
 
 }

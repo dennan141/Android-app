@@ -10,4 +10,34 @@
     <string name="content">Content:</string>
     <string name="selected_item">Selected Item:</string>
     <!-- TODO: Remove or change this placeholder text -->
+    <string name="selected_item">Selected item:</string>
+    <string name="add_comment">add comment</string>
+    <string name="isEmpty">The field can not be empty.</string>
+    <string name="titleTextInvalid">The title must be between 5 - 20 characters.</string>
+    <string name="contentTextInvalid">The content must be between 10 - 300 characters.</string>
+
+    <integer name="titleLimit">20</integer>
+    <integer name="contentLimit">300</integer>
+
+    <string-array name="categories">
+        <item>Campus</item>
+        <item>Social Life</item>
+        <item>Math</item>
+        <item>Study Help</item>
+        <item>IT Help</item>
+        <item>Course Material</item>
+        <item>Exchange Students</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="threads">
+        <item>Campus 1</item>
+        <item>Social 123Life</item>
+        <item>Math323</item>
+        <item>Study4324w Help</item>
+        <item>IT Hrewrewelp</item>
+        <item>Coursetdfd Material</item>
+        <item>Exchangegdfgd Students</item>
+        <item>Other</item>
+    </string-array>
 </resources>
