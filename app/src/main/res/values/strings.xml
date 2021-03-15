@@ -10,4 +10,7 @@
     <string name="content">Content:</string>
     <string name="selected_item">Selected Item:</string>
     <!-- TODO: Remove or change this placeholder text -->
+    <string-array name="categories">
+        <item>Campus</item>
+    </string-array>
 </resources>

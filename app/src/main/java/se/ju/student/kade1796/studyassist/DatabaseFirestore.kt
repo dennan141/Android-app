@@ -1,21 +1,23 @@
 package se.ju.student.kade1796.studyassist
 
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
+import android.app.Activity
+import android.content.Intent
 import android.util.Log
+import android.widget.Toast
+import androidx.core.content.ContextCompat.startActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.FirebaseFirestore
 
 class DatabaseFirestore {
-
 
     companion object {
         val instance = DatabaseFirestore()
     }
 
-
     // Loads in the instance of the database and Firestore authenticator
     val db = FirebaseFirestore.getInstance()
     val auth = FirebaseAuth.getInstance()
-
 
     //************************************PRIVATE FUNCTIONS AND VARIABLES***************************
     private fun categoryTitleToId(cateogryTitle: String): String {
@@ -96,16 +98,15 @@ class DatabaseFirestore {
     //Adds a new thread from the Threads-data class, recommended!
     //Give it the data class Threads and a category to be added to
     fun addThread(newThread: Threads) {
-        val categoryId = categoryTitleToId(newThread.category.toString())
         db.collection("categories")
-            .document(categoryId)
+            .document(newThread.category.toString())
             .collection("threads")
             .add(newThread)
             .addOnSuccessListener {
                 Log.d("SuccessAddThread", "Thread added: $newThread")
                 val id = it.id
                 val documentReference = db.collection("categories")
-                    .document(categoryId)
+                    .document(newThread.category.toString())
                     .collection("threads")
                     .document(id)
                 documentReference.update("id", id)
@@ -119,16 +120,15 @@ class DatabaseFirestore {
         listOfPosts: MutableList<Posts>,
         category: String
     ) {
-        val newThread = Threads(title, content, listOfPosts, category)
+        val newThread = Threads(title, content, listOfPosts, category, auth.currentUser?.uid)
         addThread(newThread)
     }
 
 
     //Gets a thread object from thread id and category.
     fun getThreadById(threadId: String, categoryName: String, callback: (Threads) -> Unit) {
-        val categoryId = categoryTitleToId(categoryName)
         val docRef = db.collection("categories")
-            .document(categoryId)
+            .document(categoryName)
             .collection("threads")
             .document(threadId)
             .get()
@@ -168,12 +168,49 @@ class DatabaseFirestore {
         docRef.addOnFailureListener { e ->
             Log.e("FailTagThreadsTitle", "Couldn't find a thread by that id", e)
         }
-
     }
 
+    fun deleteThread(thread: Threads)  {
+        if(auth.currentUser?.uid == thread.ownerId) {
+            db.collection(thread.category!!).document(thread.id!!).delete()
+                .addOnSuccessListener { Log.d("DELETE", "DocumentSnapshot successfully deleted!") }
+                .addOnFailureListener { e -> Log.w("DELETE", "Error deleting document", e) }
+        }
+    }
 
     //******************************************POSTS FUNC*************************************************
     //TODO IMPLEMENT POSTS FUNCS
+
+
+    //****************************************** LOGIN ****************************************************
+    fun loginWithEmail(activity: Activity, email: String, password: String) {
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(activity) { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d("TAG", "signInWithEmail:success")
+                    val user = auth.currentUser
+                    if (user != null) {
+                        updateUI(user, activity)
+                    }   else
+                        updateUI(null, null)
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.w("TAG", "signInWithEmail:failure", task.exception)
+                    updateUI(null, null);
+                }
+            }
+    }
+
+    private fun updateUI(user: FirebaseUser?, activity: Activity?) {
+        if(user != null) {
+            val intent = Intent(activity, ThreadsActivity::class.java)
+            activity?.startActivity(intent);
+        }   else {
+            Toast.makeText(MainActivity.applicationContext(), "Authentication failed.",
+                Toast.LENGTH_SHORT).show()
+        }
+    }
 
 
     //******************************************DUMMY DATA FUNC*************************************************
@@ -191,7 +228,7 @@ class DatabaseFirestore {
         mutableListOfPosts.add(newPost2)
         //Threads
         val newThread =
-            Threads("Dennis title_testing", "Dennis Content_testing", mutableListOfPosts, "Campus")
+            Threads("Dennis title_testing", "Dennis Content_testing", mutableListOfPosts, "Campus", auth.currentUser?.uid)
         mutableListOfThreads.add(newThread)
         //Categories
         //val newCategory = Categories("IT")

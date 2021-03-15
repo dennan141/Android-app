@@ -3,13 +3,8 @@ package se.ju.student.kade1796.studyassist
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.auth.FirebaseAuth
-
 
 class LogInActivity : AppCompatActivity() {
-    //access a firebase auth from your Activity
-    var auth = FirebaseAuth.getInstance()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -20,11 +15,11 @@ class LogInActivity : AppCompatActivity() {
 
 
         //---------------------User can now be added using this -----------------------
-        auth.createUserWithEmailAndPassword("kade1796@student.ju.se","12345678")
+        /*auth.createUserWithEmailAndPassword("kade1796@student.ju.se","12345678")
                 .addOnSuccessListener { Log.d("SuccessTag", "Users successfully added!") }
                 .addOnFailureListener { e -> Log.e("FailTag", "Error writing user", e) }
-        //---------------------User can now be added using this -----------------------
-
+        *///---------------------User can now be added using this -----------------------
+        DatabaseFirestore.instance.loginWithEmail(this, "kade1796@student.ju.se","12345678");
 
         //---------------------Thread can now be added using this -----------------------
         val newPost1 = Posts("CONTENT IN NEW POST 1")
@@ -35,14 +30,12 @@ class LogInActivity : AppCompatActivity() {
         val content = "test_content in newThread"
 
 
-        DatabaseFirestore.instance.addThread(title, content , mutableListOfPosts ,category )
+        DatabaseFirestore.instance.addThread(title, content, mutableListOfPosts, category)
         DatabaseFirestore.instance.getAllThreadsInCategory(category){ allThreads ->
             Log.d("InLogin", "inLogin threads are: $allThreads")
         }
 
-
         //---------------------Thread can now be added using this -----------------------
-
 
         
         //***************************************************************************
@@ -50,13 +43,7 @@ class LogInActivity : AppCompatActivity() {
             
     }
 
-
     override fun onStart() {
         super.onStart()
-
-
-
-
-
     }
 }

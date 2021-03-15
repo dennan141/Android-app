@@ -1,5 +1,6 @@
 package se.ju.student.kade1796.studyassist
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +12,18 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
+    init {
+        instance = this
+    }
+
+    companion object {
+        private var instance: MainActivity? = null
+
+        fun applicationContext() : Context {
+            return instance!!.applicationContext
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
