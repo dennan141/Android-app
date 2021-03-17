@@ -42,7 +42,7 @@ class DatabaseFirestore {
     //On Success: Adds the auto-generated id into the field "id" in the newly created category.
     //sub collection "threads" is added when a thread is added for the first time
 
-    fun addCategory(newCategory: Categories) {
+    fun addCategory(newCategory: Category) {
         val categoriesRef = db.collection("categories")
             .add(newCategory)
         categoriesRef.addOnSuccessListener {
@@ -57,12 +57,12 @@ class DatabaseFirestore {
 
 
     //Gets a list of all categories and loads them into Repository as well as return a list
-    fun getAllCategories(): MutableList<Categories> {
-        var listOfResult = mutableListOf<Categories>()
+    fun getAllCategories(): MutableList<Category> {
+        var listOfResult = mutableListOf<Category>()
         db.collection("categories")
             .get()
             .addOnSuccessListener { result ->
-                listOfResult = result.toObjects(Categories::class.java)
+                listOfResult = result.toObjects(Category::class.java)
                 Log.d("getAllCategories", "List of all categories: $listOfResult")
             }
         return listOfResult

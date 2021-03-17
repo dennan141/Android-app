@@ -1,117 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:orientation="vertical">
 
     <TextView
-        android:id="@+id/categories"
+        android:id="@+id/categories_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
         android:text="@string/text_categories"
         android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.097"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.036" />
+        android:textStyle="bold" />
 
-    <ImageButton
-        android:id="@+id/category_campus"
-        android:layout_width="161dp"
-        android:layout_height="91dp"
-        app:srcCompat="@android:drawable/divider_horizontal_textfield"
-        app:layout_constraintBottom_toTopOf="@id/category_study_help"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/category_social_life"
-        app:layout_constraintTop_toBottomOf="@id/categories" />
+    <GridView
+        android:id="@+id/category_gridView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:background="@color/white"
+        android:columnWidth="150dp"
+        android:horizontalSpacing="15dp"
+        android:numColumns="2"
+        android:verticalSpacing="15dp" />
 
-    <ImageButton
-        android:id="@+id/category_social_life"
-        android:layout_width="161dp"
-        android:layout_height="91dp"
-        app:srcCompat="@android:drawable/divider_horizontal_textfield"
-        tools:layout_editor_absoluteX="225dp"
-        tools:layout_editor_absoluteY="84dp"
-        app:layout_constraintBottom_toTopOf="@id/category_math"
-        app:layout_constraintStart_toEndOf="@id/category_campus"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/categories"/>
-
-    <ImageButton
-        android:id="@+id/category_study_help"
-        android:layout_width="161dp"
-        android:layout_height="91dp"
-        app:srcCompat="@android:drawable/divider_horizontal_textfield"
-        tools:layout_editor_absoluteX="26dp"
-        tools:layout_editor_absoluteY="205dp"
-        app:layout_constraintBottom_toTopOf="@id/category_course_material"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/category_math"
-        app:layout_constraintTop_toBottomOf="@id/category_campus" />
-
-    <ImageButton
-        android:id="@+id/category_math"
-        android:layout_width="161dp"
-        android:layout_height="91dp"
-        app:srcCompat="@android:drawable/divider_horizontal_textfield"
-        tools:layout_editor_absoluteX="26dp"
-        tools:layout_editor_absoluteY="329dp"
-        app:layout_constraintBottom_toTopOf="@id/category_it_help"
-        app:layout_constraintStart_toEndOf="@id/category_study_help"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/category_social_life" />
-
-    <ImageButton
-        android:id="@+id/category_course_material"
-        android:layout_width="161dp"
-        android:layout_height="91dp"
-        app:srcCompat="@android:drawable/divider_horizontal_textfield"
-        tools:layout_editor_absoluteX="26dp"
-        tools:layout_editor_absoluteY="456dp"
-        app:layout_constraintBottom_toTopOf="@id/category_exchange_studies"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/category_it_help"
-        app:layout_constraintTop_toBottomOf="@id/category_study_help" />
-
-    <ImageButton
-        android:id="@+id/category_it_help"
-        android:layout_width="161dp"
-        android:layout_height="91dp"
-        app:srcCompat="@android:drawable/divider_horizontal_textfield"
-        tools:layout_editor_absoluteX="225dp"
-        tools:layout_editor_absoluteY="456dp"
-        app:layout_constraintBottom_toTopOf="@id/category_other"
-        app:layout_constraintStart_toEndOf="@id/category_course_material"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/category_math" />
-
-    <ImageButton
-        android:id="@+id/category_exchange_studies"
-        android:layout_width="161dp"
-        android:layout_height="91dp"
-        app:srcCompat="@android:drawable/divider_horizontal_textfield"
-        tools:layout_editor_absoluteX="225dp"
-        tools:layout_editor_absoluteY="329dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/category_other"
-        app:layout_constraintTop_toBottomOf="@id/category_course_material"
-        android:layout_marginBottom="30dp"/>
-
-    <ImageButton
-        android:id="@+id/category_other"
-        android:layout_width="161dp"
-        android:layout_height="91dp"
-        app:srcCompat="@android:drawable/divider_horizontal_textfield"
-        tools:layout_editor_absoluteX="225dp"
-        tools:layout_editor_absoluteY="205dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/category_exchange_studies"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/category_it_help"
-        android:layout_marginBottom="30dp"/>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
