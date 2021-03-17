@@ -13,5 +13,5 @@ class Repository {
     var listOfThreads = mutableListOf<Threads>()
 
     //This is a list of categories, used in start to display all categories
-    var listOfCategories = mutableListOf<Categories>()
+    var listOfCategories = mutableListOf<Category>()
 }
