@@ -10,6 +10,7 @@ class DatabaseFirestore {
 
     companion object {
         val instance = DatabaseFirestore()
+        var listthreads = mutableListOf<Threads>()
     }
 
 

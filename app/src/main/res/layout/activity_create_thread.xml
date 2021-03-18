@@ -21,8 +21,8 @@
         android:id="@+id/spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/title_edit_text"
-        app:layout_constraintEnd_toStartOf="@+id/title_edit_text"
+        app:layout_constraintBottom_toBottomOf="@+id/title_editText"
+        app:layout_constraintEnd_toStartOf="@+id/title_editText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/headerText" />
 
@@ -33,7 +33,7 @@
         android:layout_marginTop="15dp"
         android:layout_marginBottom="21dp"
         android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/title_edit_text"
+        app:layout_constraintBottom_toTopOf="@+id/title_editText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinner" />
@@ -44,10 +44,10 @@
         android:layout_height="wrap_content"
         android:text="@string/title"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintBottom_toBottomOf="@+id/title_edit_text"
+        app:layout_constraintBottom_toBottomOf="@+id/title_editText"
         app:layout_constraintTop_toTopOf="@id/headerText"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/title_edit_text"
+        app:layout_constraintEnd_toStartOf="@+id/title_editText"
         app:layout_constraintVertical_bias="0.932" />
 
     <TextView
@@ -56,13 +56,13 @@
         android:layout_height="wrap_content"
         android:text="@string/content"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintTop_toTopOf="@+id/content_edit_text"
-        app:layout_constraintBottom_toBottomOf="@+id/content_edit_text"
+        app:layout_constraintTop_toTopOf="@+id/content_editText"
+        app:layout_constraintBottom_toBottomOf="@+id/content_editText"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/content_edit_text" />
+        app:layout_constraintEnd_toStartOf="@+id/content_editText" />
 
     <EditText
-        android:id="@+id/title_edit_text"
+        android:id="@+id/title_editText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="208dp"
@@ -73,14 +73,14 @@
         app:layout_constraintTop_toTopOf="@id/headerText" />
 
     <EditText
-        android:id="@+id/content_edit_text"
+        android:id="@+id/content_editText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:ems="10"
         android:inputType="textMultiLine"
         android:maxLines="4"
-        app:layout_constraintTop_toBottomOf="@+id/title_edit_text"
+        app:layout_constraintTop_toBottomOf="@+id/title_editText"
         app:layout_constraintStart_toEndOf="@+id/contentText"
         app:layout_constraintEnd_toEndOf="parent" />
 
