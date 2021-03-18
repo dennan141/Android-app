@@ -9,9 +9,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.StudyAssist">
-        <activity android:name=".ThreadDetailActivity" ></activity>
+
+        <activity android:name=".ThreadDetailActivity" />
         <activity android:name=".ThreadsActivity" />
+
+
         <activity android:name=".MainActivity" />
+
+        <activity android:name=".CreateThreadActivity" />
+
+
         <activity android:name=".LogInActivity">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -19,7 +26,7 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-        <activity android:name=".CreateThreadActivity"></activity>
+
     </application>
 
 </manifest>

@@ -58,7 +58,7 @@ class CreateThreadActivity : AppCompatActivity() {
             //DatabaseFirestore.instance.deleteThread(it)
             Log.d("testingCallback", "it is: $it")
         }
-        DatabaseFirestore.instance.getThreadsByTitle("Dennis title_testing","Campus"){
+        DatabaseFirestore.instance.getThreadsByTitle("Dennis title_testing", "Campus") {
             Log.d("getThreadsByTitle", "Threads grabbed by title are: $it")
         }
 
@@ -88,6 +88,18 @@ class CreateThreadActivity : AppCompatActivity() {
 
         val createButton = findViewById<Button>(R.id.create_button)
 
+
+        //*
+        //   ArrayAdapter.createFromResource(
+        //            this,
+        //            R.array.categories,
+        //            android.R.layout.simple_spinner_item
+        //        ).also { adapter ->
+        //            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        //            spinner.adapter = adapter
+        //        }
+        //
+        // */
 
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {

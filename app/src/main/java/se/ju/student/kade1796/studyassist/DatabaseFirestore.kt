@@ -46,7 +46,10 @@ class DatabaseFirestore {
 
     //On Success: Adds the auto-generated id into the field "id" in the newly created category.
     //sub collection "threads" is added when a thread is added for the first time
+
+
     fun addCategory(newCategory: Categories) {
+
         val categoriesRef = db.collection("categories")
             .add(newCategory)
         categoriesRef.addOnSuccessListener {
