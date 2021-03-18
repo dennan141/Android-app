@@ -24,7 +24,7 @@ class ThreadAdapter(
         holder.likeButtonImageButton.setOnClickListener{
             listener.add(position)
         }
-        holder.likesTextView.text = threadList[position].likes.toString()
+        //holder.likesTextView.text = threadList[position].likes.toString()
     }
 
     override fun getItemCount() = threadList.size

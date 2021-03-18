@@ -1,20 +1,14 @@
 package se.ju.student.kade1796.studyassist
 
-import android.app.Dialog
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ProgressBar
+import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import android.provider.ContactsContract
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
-import android.widget.*
-import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.activity_threads.*
+import com.google.firebase.firestore.FirebaseFirestore
 
 class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
     private val threadList = dummyList()
