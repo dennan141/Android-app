@@ -27,8 +27,9 @@ class ThreadDetailActivity : AppCompatActivity(), CommentAdapter.OnItemClickList
         var content = findViewById<TextView>(R.id.contentText)
         var likes = findViewById<TextView>(R.id.likesText)
 
-        title.text  = intent.getStringExtra("title").toString()
-        content.text = intent.getStringExtra("content").toString()
+        title.text  = intent.getStringExtra("title")
+        content.text = intent.getStringExtra("content")
+        println(intent.getStringExtra("title"))
         likes.text = intent.getIntExtra("likes",0).toString()
         var likesCounter = intent.getIntExtra("likes", 0)
 
@@ -42,6 +43,8 @@ class ThreadDetailActivity : AppCompatActivity(), CommentAdapter.OnItemClickList
             likesCounter +=1
             likes.text = likesCounter.toString()
         }
+
+
 
     }
 

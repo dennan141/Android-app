@@ -1,15 +1,21 @@
 package se.ju.student.kade1796.studyassist.ui.categories
 
+import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import se.ju.student.kade1796.studyassist.DatabaseFirestore
+import se.ju.student.kade1796.studyassist.LoadingDialog
 import se.ju.student.kade1796.studyassist.R
+import se.ju.student.kade1796.studyassist.ThreadsActivity
+
 
 class CategoryFragment : Fragment() {
 
@@ -41,18 +47,34 @@ class CategoryFragment : Fragment() {
 
         categoryCampus.setOnClickListener {
 
+            val intent = Intent(this.context, ThreadsActivity::class.java)
+            DatabaseFirestore.instance.getAllThreadsInCategory("Campus")
+            val loadingDialog = LoadingDialog(this)
+            loadingDialog.startLoadingDialog()
+            Handler(Looper.getMainLooper()).postDelayed({
+                loadingDialog.dismissDialog()
+                intent.putExtra("category", "campus")
+                startActivity(intent)
+            }, 1000)
+
         }
 
         categorySocialLife.setOnClickListener {
-
+            val intent = Intent(this.context, ThreadsActivity::class.java)
+            intent.putExtra("category", "social life")
+            startActivity(intent)
         }
 
         categoryStudyHelp.setOnClickListener {
-
+            val intent = Intent(this.context, ThreadsActivity::class.java)
+            intent.putExtra("category", "study help")
+            startActivity(intent)
         }
 
         categoryMath.setOnClickListener {
-
+            val intent = Intent(this.context, ThreadsActivity::class.java)
+            intent.putExtra("category", "math")
+            startActivity(intent)
         }
 
         categoryCourseMaterial.setOnClickListener {

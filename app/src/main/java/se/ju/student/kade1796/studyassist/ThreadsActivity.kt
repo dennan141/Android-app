@@ -1,19 +1,20 @@
 package se.ju.student.kade1796.studyassist
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ImageButton
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.activity_threads.*
+import com.google.firebase.firestore.FirebaseFirestore
 
 class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
-    private val threadList = list()
+    private val db = DatabaseFirestore.instance
+    private var threadList = DatabaseFirestore.listthreads
     private val adapter = ThreadAdapter(threadList, this)
-    private var likesCounter = 0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,12 +24,10 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
         val categoryText = findViewById<TextView>(R.id.categoryText)
         categoryText.text = intent.getStringExtra("category").toString()
 
-        val title  = intent.getStringExtra("title").toString()
-        val content = intent.getStringExtra("content").toString()
-        val category = intent.getStringExtra("category").toString()
-
-
-        /*val startIndex = 0
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.hasFixedSize()
+    /*val startIndex = 0
         val newItem = Thread(title, content)
         threadList.add(startIndex, newItem)
         adapter.notifyItemInserted(startIndex)*/
@@ -46,7 +45,7 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
 
 
     override fun onItemClick(position: Int) {
-        Toast.makeText(this,"Item $position clicked", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Item $position clicked", Toast.LENGTH_SHORT).show()
         val clickedItem = threadList[position]
         adapter.notifyItemChanged(position)
         val intent = Intent(this, ThreadDetailActivity::class.java)
@@ -59,26 +58,15 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
     override fun add(position: Int) {
         threadList[position].likes += 1
         adapter.notifyItemChanged(position)
+        val likes = threadList[position].likes
+        val id = threadList[position].id
+        println(id)
+        println(likes)
+        if (id != null) {
+            db.updateLikes(id, likes)
+        }
     }
 
-    private fun list(): MutableList<Thread>{
-        val list = mutableListOf(
-                Thread("thread rere", "dsadsa", 0),
-                Thread("thread 2", "rrrr", 2),
-                Thread("thread 3", "rrrr", 1),
-                Thread("thread 4", "rrrr", 1),
-                Thread("thread 5", "rrrr", 1),
-                Thread("thread 6", "rrrr", 1),
-                Thread("thread 7", "rrrr", 2),
-                Thread("thread 8", "rrrr", 5),
-                Thread("thread 9", "rrrr",11),
-                Thread("thread 465", "rrrr", 44),
-                Thread("thread 7", "rrrr",33),
-                Thread("thread 8", "rrrr",1),
-                Thread("thread 9", "rrrr",0),
-                Thread("thread 465", "rrrr",1),
-                Thread("thread 56", "rrrr",1)
-        )
-        return list
-    }
+
+
 }
