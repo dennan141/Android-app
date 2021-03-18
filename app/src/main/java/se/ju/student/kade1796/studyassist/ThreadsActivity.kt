@@ -1,10 +1,13 @@
 package se.ju.student.kade1796.studyassist
 
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
+import android.text.Editable
+import android.text.TextWatcher
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -64,7 +67,7 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
             //Set adapter
             listView.adapter = arrayAdapter
 
-            editText.addTextChangedListener(object: TextWatcher{
+            editText.addTextChangedListener(object: TextWatcher {
                 override fun afterTextChanged(s: Editable?) {
                 }
 
@@ -105,6 +108,10 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
         intent.putExtra("title", clickedItem.title)
         intent.putExtra("content", clickedItem.content)
         startActivity(intent)
+    }
+
+    override fun add(position: Int) {
+        TODO("Not yet implemented")
     }
 
     private fun dummyList() : ArrayList<Thread>{
