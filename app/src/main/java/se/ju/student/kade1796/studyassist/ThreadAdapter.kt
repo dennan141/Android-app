@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.thread_item.view.*
 
 class ThreadAdapter(
-    var threadList: List<Thread>,
+    var threadList: MutableList<Threads>,
     val listener: OnItemClickListener
 ) : RecyclerView.Adapter<ThreadAdapter.ThreadViewHolder>() {
 

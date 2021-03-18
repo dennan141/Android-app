@@ -67,6 +67,6 @@ dependencies {
     // For example, declare the dependencies for Firebase Authentication and Cloud Firestore
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.firebase:firebase-firestore-ktx'
-    // FirebaseUI for Cloud Firestore
-    implementation 'com.firebaseui:firebase-ui-firestore:7.1.1'
+
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.2.1"
 }
