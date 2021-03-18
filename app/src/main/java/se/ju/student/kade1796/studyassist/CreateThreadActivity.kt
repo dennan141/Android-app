@@ -24,51 +24,6 @@ class CreateThreadActivity : AppCompatActivity() {
         setContentView(R.layout.activity_create_thread)
 
 
-
-
-        //Populate with dummy data
-        //DatabaseFirestore.instance.dummyData()
-        DatabaseFirestore.instance.getAllCategories()
-        val emptyPostList = mutableListOf<Posts>()
-
-        val newThread = Threads("Title", "String content", emptyPostList, "Campus")
-        DatabaseFirestore.instance.addThread(newThread)
-
-
-
-        DatabaseFirestore.instance.getAllThreadsInCategory("Campus")
-        val data = Repository.instance.listOfThreads
-        Log.d("TESTING FFS", "$data")
-
-
-
-
-
-        DatabaseFirestore.instance.getAllThreadsInCategory("Campus") { listOfThreads ->
-            Log.d("Testing", "$listOfThreads")
-        }
-
-
-
-
-
-
-
-        DatabaseFirestore.instance.getThreadById("Aq3816gTNPaiwDrolCwL", "Campus") {
-            //DatabaseFirestore.instance.deleteThread(it)
-            Log.d("testingCallback", "it is: $it")
-        }
-        DatabaseFirestore.instance.getThreadsByTitle("Dennis title_testing", "Campus") {
-            Log.d("getThreadsByTitle", "Threads grabbed by title are: $it")
-        }
-
-
-
-
-
-        //populate with dummy data
-
-
         val spinner = findViewById<Spinner>(R.id.spinner)
         val title = findViewById<EditText>(R.id.title_editText)
         val content = findViewById<EditText>(R.id.content_editText)
@@ -103,7 +58,12 @@ class CreateThreadActivity : AppCompatActivity() {
 
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View?,
+                pos: Int,
+                id: Long
+            ) {
                 // An item was selected. You can retrieve the selected item using
                 Toast.makeText(
                     applicationContext,
@@ -117,12 +77,12 @@ class CreateThreadActivity : AppCompatActivity() {
         }
 
 
-        createButton.setOnClickListener{
-            if(!validateTitleText(title)){
+        createButton.setOnClickListener {
+            if (!validateTitleText(title)) {
                 title.error = getString(R.string.titleTextInvalid)
-            }else if(!validateContentText(content)){
+            } else if (!validateContentText(content)) {
                 content.error = getString(R.string.contentTextInvalid)
-            }else{
+            } else {
                 val intent = Intent(this, ThreadsActivity::class.java)
                 intent.putExtra("category", category.text)
                 intent.putExtra("title", title.toString())
@@ -133,7 +93,6 @@ class CreateThreadActivity : AppCompatActivity() {
     }
 
 
-
     private fun validateTitleText(editText: EditText): Boolean {
         return (editText.text.length in 6..29)
     }
@@ -141,5 +100,5 @@ class CreateThreadActivity : AppCompatActivity() {
     private fun validateContentText(editText: EditText): Boolean {
         return (editText.text.length in 10..300)
     }
-
 }
+

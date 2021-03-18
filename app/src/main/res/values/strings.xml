@@ -10,8 +10,7 @@
     <string name="content">Content:</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="selected_item">Selected item:</string>
-    <string name="add_comment">add comment</string>
+    <string name="add_comment">Add comment</string>
     <string name="isEmpty">The field can not be empty.</string>
     <string name="titleTextInvalid">The title must be between 5 - 20 characters.</string>
     <string name="contentTextInvalid">The content must be between 10 - 300 characters.</string>

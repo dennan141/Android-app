@@ -20,8 +20,8 @@ class DatabaseFirestore {
 
 
     //************************************PRIVATE FUNCTIONS AND VARIABLES***************************
-    private fun categoryTitleToId(cateogryTitle: String): String {
-        val categoryId = titleToIdMap[cateogryTitle]
+    private fun categoryTitleToId(categoryTitle: String): String {
+        val categoryId = titleToIdMap[categoryTitle]
         return categoryId.toString()
     }
 
@@ -80,27 +80,8 @@ class DatabaseFirestore {
 
 
 
-    fun getAllThreadsInCategory(categoryName: String) {
-        var listOfThreads = mutableListOf<Threads>()
-        val categoryId = categoryTitleToId(categoryName)
-        val threadList = db.collection("categories")
-            .document(categoryId)
-            .collection("threads")
-            .get()
-            .result
-
-        if (threadList != null) {
-            for(document in threadList)
-                Repository.instance.listOfThreads.add(document.toObject(Threads::class.java))
-        }
-        else Log.d("ERROR", "ERROR IN GET ALL THREADS ")
-    }
-
-
-
-
     //callback of all threads in a mutableList of Threads objects
-    fun getAllThreadsInCategory(categoryName: String, callback: (MutableList<Threads>) -> Unit) {
+    fun getAllThreadsInCategory(categoryName: String) {
         var listOfThreads = mutableListOf<Threads>()
         val categoryId = categoryTitleToId(categoryName)
         db.collection("categories")
@@ -114,9 +95,16 @@ class DatabaseFirestore {
                 for (thread in result) {
                     listOfThreads.add(thread.toObject(Threads::class.java))
                 }
-                callback(listOfThreads)
+                load(listOfThreads)
             }
     }
+
+    private fun load(list: MutableList<Threads>){
+        listthreads = list
+        println("load")
+        println(listthreads)
+    }
+
 
 
     //Adds a new thread from the Threads-data class, recommended!
@@ -142,10 +130,11 @@ class DatabaseFirestore {
     fun addThread(
         title: String,
         content: String,
+        likes: Int,
         listOfPosts: MutableList<Posts>,
         category: String
     ) {
-        val newThread = Threads(title, content, listOfPosts, category)
+        val newThread = Threads(title, content, likes, listOfPosts, category)
         addThread(newThread)
     }
 
@@ -247,9 +236,9 @@ class DatabaseFirestore {
         mutableListOfPosts.add(newPost1)
         mutableListOfPosts.add(newPost2)
         //Threads
-        val newThread =
-            Threads("Dennis title_testing", "Dennis Content_testing", mutableListOfPosts, "Campus")
-        mutableListOfThreads.add(newThread)
+        /*val newThread =
+            Threads("Dennis title_testing", "Dennis Content_testing", 3, mutableListOfPosts, "Campus")
+        mutableListOfThreads.add(newThread)*/
         //Categories
         val newCategory = Categories("IT")
         val newCategory2 = Categories("Other")
@@ -263,11 +252,10 @@ class DatabaseFirestore {
         //*********************Adding data******************************
 
 
-        addCategory(newCategory)
-        addCategory(newCategory2)
-        addCategory(newCategory3)
-        addCategory(newCategory4)
-        addThread(newThread)
+
+        //addCategory(newCategory)
+        //addThread(newThread)
+
 
 
         //*********************Adding data******************************

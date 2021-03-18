@@ -10,7 +10,9 @@ import kotlinx.android.synthetic.main.thread_item.view.*
 
 class ThreadAdapter(
     var threadList: MutableList<Threads>,
-    val listener: ThreadsActivity
+
+    val listener: OnItemClickListener
+
 ) : RecyclerView.Adapter<ThreadAdapter.ThreadViewHolder>() {
 
     override fun onCreateViewHolder(ThreadsActivty: ViewGroup, viewType: Int): ThreadViewHolder {

@@ -41,9 +41,11 @@ class LogInActivity : AppCompatActivity() {
 
         var currentUser = auth.currentUser
 
+
         //USED FOR TESTING
         currentUser = null
         //USED FOR TESTING
+
 
         //If user is logged in, open categories instead
         if (currentUser != null) {

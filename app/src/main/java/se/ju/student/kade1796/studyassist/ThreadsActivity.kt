@@ -14,8 +14,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
 
 class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
-    private val threadList = mutableListOf<Threads>()
+
+    private val db = DatabaseFirestore.instance
+    private var threadList = DatabaseFirestore.listthreads
     private val adapter = ThreadAdapter(threadList, this)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +30,8 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
 
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
-        val title  = intent.getStringExtra("title").toString()
+
+        val title = intent.getStringExtra("title").toString()
         val content = intent.getStringExtra("content").toString()
         println(title)
         val startIndex = 0
@@ -38,7 +42,7 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
         //Search function, assign variable
         val searchTextView = findViewById<TextView>(R.id.search_textView)
 
-        searchTextView.setOnClickListener{
+        searchTextView.setOnClickListener {
             //Initialize dialog
             val dialog = Dialog(this)
             //Set custom dialog
@@ -54,7 +58,7 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
             var listView = dialog.findViewById<ListView>(R.id.list_view)
 
             //Create array of thread titles
-            var threadTitles : List<String> = threadList.map{
+            var threadTitles: List<String> = threadList.map {
                 it.title!!
             }
 
@@ -62,57 +66,64 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
             var arrayAdapter = ArrayAdapter(
                 this,
                 android.R.layout.simple_expandable_list_item_1,
-                threadList)
+                threadList
+            )
 
             //Set adapter
             listView.adapter = arrayAdapter
 
-            editText.addTextChangedListener(object: TextWatcher {
-                override fun afterTextChanged(s: Editable?) {
-                }
-
+            editText.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(
                     s: CharSequence?,
                     start: Int,
                     count: Int,
                     after: Int
                 ) {
+                    TODO("Not yet implemented")
                 }
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    //Filter array list
-                    arrayAdapter.filter.filter(s)
+                    TODO("Not yet implemented")
                 }
+
+                override fun afterTextChanged(s: Editable?) {
+                    TODO("Not yet implemented")
+                }
+
             })
 
-            listView.setOnItemClickListener{ parent, view, position, id ->
-                //Code based of code from: "override fun onItemClick(position: Int)"
-                var clickedItem = parent.getItemAtPosition(position) as Thread
-
-                adapter.notifyItemChanged(position)
-                val intent = Intent(this, ThreadDetailActivity::class.java)
-                intent.putExtra("title", clickedItem.title)
-                intent.putExtra("content", clickedItem.content)
-                startActivity(intent)
-
-                dialog.dismiss()
-            }
         }
+
+
     }
 
+
     override fun onItemClick(position: Int) {
-        Toast.makeText(this,"Item $position clicked", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Item $position clicked", Toast.LENGTH_SHORT).show()
         val clickedItem = threadList[position]
         adapter.notifyItemChanged(position)
         val intent = Intent(this, ThreadDetailActivity::class.java)
         intent.putExtra("title", clickedItem.title)
         intent.putExtra("content", clickedItem.content)
+        intent.putExtra("likes", clickedItem.likes)
         startActivity(intent)
     }
 
     override fun add(position: Int) {
-        TODO("Not yet implemented")
+        //TODO SOMETHING THAT DOES NOT PRODUCE ERRORS
+
+        threadList[position].likes = threadList[position].likes?.plus(1)
+        adapter.notifyItemChanged(position)
+        val likes = threadList[position].likes
+        val id = threadList[position].id
+        println(id)
+
+        if (id != null) {
+            if (likes != null) {
+                db.updateLikes(id, likes)
+            }
+        }
+
     }
-
-
 }
+
