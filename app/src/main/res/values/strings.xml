@@ -8,7 +8,7 @@
     <string name="create_thread">Create Thread</string>
     <string name="title">Title:</string>
     <string name="content">Content:</string>
-    <string name="selected_item">Selected Item:</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="selected_item">Selected item:</string>
     <string name="add_comment">add comment</string>

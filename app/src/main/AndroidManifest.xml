@@ -11,6 +11,7 @@
         android:theme="@style/Theme.StudyAssist">
         <activity android:name=".ThreadDetailActivity" ></activity>
         <activity android:name=".ThreadsActivity" />
+        <activity android:name=".MainActivity" />
         <activity android:name=".LogInActivity">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
