@@ -3,6 +3,7 @@ package se.ju.student.kade1796.studyassist
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import android.util.Log
+import kotlinx.coroutines.tasks.await
 
 class DatabaseFirestore {
 
@@ -23,10 +24,13 @@ class DatabaseFirestore {
         return categoryId.toString()
     }
 
+
+
     private val titleToIdMap = mapOf(
-        "Campus" to "jaXCitQgNMvZjMxeOUXD",
-        "Other" to "g2sN10eBiEqQ2IMkTrDP",
-        "IT" to "D1XuTitNJ1ZQsx7PVpWb"
+        "Campus" to "u6XsDE4PJ32OPmg3xPKl",
+        "Other" to "BTxSqt5S6ByK6EQaZMpp",
+        "IT" to "NRq7MPQ7135cyEDTvWt8",
+        "Math" to "YpPDZBqsWcedKFKOfwTa"
     )
     //************************************PRIVATE FUNCTIONS AND VARIABLES***************************
 
@@ -71,6 +75,26 @@ class DatabaseFirestore {
     //****************************************THREADS FUNC*************************************************
 
 
+
+    fun getAllThreadsInCategory(categoryName: String) {
+        var listOfThreads = mutableListOf<Threads>()
+        val categoryId = categoryTitleToId(categoryName)
+        val threadList = db.collection("categories")
+            .document(categoryId)
+            .collection("threads")
+            .get()
+            .result
+
+        if (threadList != null) {
+            for(document in threadList)
+                Repository.instance.listOfThreads.add(document.toObject(Threads::class.java))
+        }
+        else Log.d("ERROR", "ERROR IN GET ALL THREADS ")
+    }
+
+
+
+
     //callback of all threads in a mutableList of Threads objects
     fun getAllThreadsInCategory(categoryName: String, callback: (MutableList<Threads>) -> Unit) {
         var listOfThreads = mutableListOf<Threads>()
@@ -79,6 +103,7 @@ class DatabaseFirestore {
             .document(categoryId)
             .collection("threads")
             .get()
+
 
             //On Success: loops through and adds threads into list
             .addOnSuccessListener { result ->
@@ -218,14 +243,22 @@ class DatabaseFirestore {
             Threads("Dennis title_testing", "Dennis Content_testing", mutableListOfPosts, "Campus")
         mutableListOfThreads.add(newThread)
         //Categories
-        //val newCategory = Categories("IT")
+        val newCategory = Categories("IT")
+        val newCategory2 = Categories("Other")
+        val newCategory3 = Categories("Campus")
+        val newCategory4 = Categories("Math")
+
+
 
         //-----------------------DUMMY DATA---------------------------
 
         //*********************Adding data******************************
 
 
-        //addCategory(newCategory)
+        addCategory(newCategory)
+        addCategory(newCategory2)
+        addCategory(newCategory3)
+        addCategory(newCategory4)
         addThread(newThread)
 
 
