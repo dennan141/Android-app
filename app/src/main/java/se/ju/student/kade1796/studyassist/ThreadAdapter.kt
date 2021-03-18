@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.thread_item.view.*
 
 class ThreadAdapter(
-    var threadList: List<Thread>,
-    val listener: OnItemClickListener
+    var threadList: MutableList<Threads>,
+    val listener: ThreadsActivity
 ) : RecyclerView.Adapter<ThreadAdapter.ThreadViewHolder>() {
 
     override fun onCreateViewHolder(ThreadsActivty: ViewGroup, viewType: Int): ThreadViewHolder {
@@ -22,7 +22,7 @@ class ThreadAdapter(
         holder.titleTextView.text = threadList[position].title
         holder.descriptionTextView.text = threadList[position].content
         holder.likeButtonImageButton.setOnClickListener{
-            listener.add(position)
+
         }
         //holder.likesTextView.text = threadList[position].likes.toString()
     }
@@ -49,7 +49,7 @@ class ThreadAdapter(
         override fun onClick(v: View?) {
             val position = adapterPosition
             if(position != RecyclerView.NO_POSITION) {
-                listener.onItemClick(position)
+
             }
         }
     }

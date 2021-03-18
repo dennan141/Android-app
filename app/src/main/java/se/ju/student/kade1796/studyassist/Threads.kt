@@ -5,5 +5,6 @@ data class Threads(
         val content: String? = "-Empty Content-",
         val posts: MutableList<Posts>? = mutableListOf<Posts>(),
         val category: String? = "Other",
-        val id: String? = " "
+        val id: String? = " ",
+        var likes: Int? = 0
 )

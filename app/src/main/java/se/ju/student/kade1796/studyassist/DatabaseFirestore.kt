@@ -224,6 +224,10 @@ class DatabaseFirestore {
 
     }
 
+    fun updateLikes(threadId: String, likes: Int){
+
+        db.collection("").document().collection("threads").document(threadId).update("likes", likes)
+    }
 
     //******************************************POSTS FUNC*************************************************
     //TODO IMPLEMENT POSTS FUNCS
