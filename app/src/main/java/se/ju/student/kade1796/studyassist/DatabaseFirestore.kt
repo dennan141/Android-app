@@ -20,11 +20,10 @@ class DatabaseFirestore {
 
 
     //************************************PRIVATE FUNCTIONS AND VARIABLES***************************
-    private fun categoryTitleToId(cateogryTitle: String): String {
-        val categoryId = titleToIdMap[cateogryTitle]
+    private fun categoryTitleToId(categoryTitle: String): String {
+        val categoryId = titleToIdMap[categoryTitle]
         return categoryId.toString()
     }
-
 
 
     private val titleToIdMap = mapOf(
@@ -33,6 +32,12 @@ class DatabaseFirestore {
         "IT" to "NRq7MPQ7135cyEDTvWt8",
         "Math" to "YpPDZBqsWcedKFKOfwTa"
     )
+
+    private fun load(list: MutableList<Threads>) {
+        listthreads = list
+        println("load")
+        println(listthreads)
+    }
     //************************************PRIVATE FUNCTIONS AND VARIABLES***************************
 
 
@@ -79,7 +84,7 @@ class DatabaseFirestore {
     //****************************************THREADS FUNC*************************************************
 
 
-
+    //Returns a list of threads to local Repository
     fun getAllThreadsInCategory(categoryName: String) {
         var listOfThreads = mutableListOf<Threads>()
         val categoryId = categoryTitleToId(categoryName)
@@ -90,17 +95,14 @@ class DatabaseFirestore {
             .result
 
         if (threadList != null) {
-            for(document in threadList)
+            for (document in threadList)
                 Repository.instance.listOfThreads.add(document.toObject(Threads::class.java))
-        }
-        else Log.d("ERROR", "ERROR IN GET ALL THREADS ")
+        } else Log.d("ERROR", "ERROR IN GET ALL THREADS ")
     }
 
 
-
-
-    //callback of all threads in a mutableList of Threads objects
-    fun getAllThreadsInCategory(categoryName: String, callback: (MutableList<Threads>) -> Unit) {
+    //Loads listOfThreads somewhe.... Hawkar vad gör denna? Lägg en kommentar på det här sen
+    fun loadAllThreadsInCategory(categoryName: String) {
         var listOfThreads = mutableListOf<Threads>()
         val categoryId = categoryTitleToId(categoryName)
         db.collection("categories")
@@ -114,7 +116,7 @@ class DatabaseFirestore {
                 for (thread in result) {
                     listOfThreads.add(thread.toObject(Threads::class.java))
                 }
-                callback(listOfThreads)
+                load(listOfThreads)
             }
     }
 
@@ -136,16 +138,19 @@ class DatabaseFirestore {
                     .document(id)
                 documentReference.update("id", id)
             }
+
+
     }
 
     //Adds a new thread by creating the new thread here, not recommended but does exist if programmer wants to use.
     fun addThread(
         title: String,
         content: String,
+        likes: Int,
         listOfPosts: MutableList<Posts>,
         category: String
     ) {
-        val newThread = Threads(title, content, listOfPosts, category)
+        val newThread = Threads(title, content, likes, listOfPosts, category)
         addThread(newThread)
     }
 
@@ -168,7 +173,7 @@ class DatabaseFirestore {
     }
 
     //On success deletes a the thread
-    fun deleteThreadById(threadId: String, categoryName: String){
+    fun deleteThreadById(threadId: String, categoryName: String) {
         val categoryId = categoryTitleToId(categoryName)
         db.collection("categories")
             .document(categoryId)
@@ -180,7 +185,7 @@ class DatabaseFirestore {
     }
 
     //On success deletes a the thread
-    fun deleteThread(threadToDelete: Threads){
+    fun deleteThread(threadToDelete: Threads) {
         val categoryId = categoryTitleToId(threadToDelete.category.toString())
 
         db.collection("categories")
@@ -191,8 +196,6 @@ class DatabaseFirestore {
             .addOnSuccessListener { Log.d("SuccessDeletingThread", "Thread successfully deleted!") }
             .addOnFailureListener { e -> Log.w("FailDeletingThread", "Error deleting thread", e) }
     }
-
-
 
 
     //INPUT: threadTitle searching for title, categoryName as String
@@ -212,7 +215,7 @@ class DatabaseFirestore {
             .whereEqualTo("title", threadTitle)
             .get()
         docRef.addOnSuccessListener { result ->
-            for (threads in result){
+            for (threads in result) {
                 listOfThreads.add(threads.toObject(Threads::class.java))
             }
             Log.d("SuccessTagThreadsTitle", "Threads are: $listOfThreads")
@@ -224,14 +227,22 @@ class DatabaseFirestore {
 
     }
 
+    fun updateLikes(thread: Threads, likes: Int) {
+        val categoryId = categoryTitleToId(thread.category.toString())
+        db.collection("categories")
+            .document(categoryId)
+            .collection("threads")
+            .document(thread.id.toString())
+            .update("likes", likes)
+    }
 
     //******************************************POSTS FUNC*************************************************
     //TODO IMPLEMENT POSTS FUNCS
 
 
-    //******************************************DUMMY DATA FUNC*************************************************
+    //****************************************** DUMMY DATA FUNCS *************************************************
+    //****************************************** CAN SAFELY BE REMOVED *************************************************
 
-    //THIS IS ONLY FOR TESTING AND CAN SAFELY BE REMOVED
     fun dummyData() {
         //-----------------------DUMMY DATA---------------------------
         //Lists
@@ -243,9 +254,9 @@ class DatabaseFirestore {
         mutableListOfPosts.add(newPost1)
         mutableListOfPosts.add(newPost2)
         //Threads
-        val newThread =
-            Threads("Dennis title_testing", "Dennis Content_testing", mutableListOfPosts, "Campus")
-        mutableListOfThreads.add(newThread)
+        /*val newThread =
+            Threads("Dennis title_testing", "Dennis Content_testing", 3, mutableListOfPosts, "Campus")
+        mutableListOfThreads.add(newThread)*/
         //Categories
         val newCategory = Categories("IT")
         val newCategory2 = Categories("Other")
@@ -253,17 +264,15 @@ class DatabaseFirestore {
         val newCategory4 = Categories("Math")
 
 
-
         //-----------------------DUMMY DATA---------------------------
 
         //*********************Adding data******************************
 
 
-        addCategory(newCategory)
-        addCategory(newCategory2)
-        addCategory(newCategory3)
-        addCategory(newCategory4)
-        addThread(newThread)
+
+        //addCategory(newCategory)
+        //addThread(newThread)
+
 
 
         //*********************Adding data******************************
@@ -314,4 +323,7 @@ class DatabaseFirestore {
     }
 
  */
+
+    //****************************************** DUMMY DATA FUNCS *************************************************
+    //****************************************** CAN SAFELY BE REMOVED *************************************************
 }

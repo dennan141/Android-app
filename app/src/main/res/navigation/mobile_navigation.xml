@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/navigation_post"
-        android:name="se.ju.student.kade1796.studyassist.ui.post.PostFragment"
+        android:name="se.ju.student.kade1796.studyassist.ui.create_thread.CreateThreadFragment"
         android:label="@string/text_post"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_create" />
 </navigation>

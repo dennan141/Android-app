@@ -1,10 +1,10 @@
-package se.ju.student.kade1796.studyassist.ui.post
+package se.ju.student.kade1796.studyassist.ui.create_thread
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class PostViewModel : ViewModel() {
+class CreateThreadViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is notifications Fragment"

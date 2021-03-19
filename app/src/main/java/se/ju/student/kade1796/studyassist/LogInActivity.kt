@@ -39,11 +39,14 @@ class LogInActivity : AppCompatActivity() {
         val loginButton = findViewById<Button>(R.id.loginButton)
 
 
+
         var currentUser = auth.currentUser
+
 
         //USED FOR TESTING
         currentUser = null
         //USED FOR TESTING
+
 
         //If user is logged in, open categories instead
         if (currentUser != null) {
@@ -67,7 +70,7 @@ class LogInActivity : AppCompatActivity() {
     }
 
 
-    //*********** PRIVATE FUNCTION; MOVE TO OTHER FILE LATER
+    //*********** PRIVATE FUNCTION; MOVE TO OTHER FILE LATER **************
 
 
 
@@ -83,8 +86,6 @@ class LogInActivity : AppCompatActivity() {
 
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
-
-
 
 
                 } else {
@@ -114,5 +115,6 @@ class LogInActivity : AppCompatActivity() {
     private fun updateUI(user: FirebaseUser?) {
         //Update the UI with this
     }
+    //*********** PRIVATE FUNCTION; MOVE TO OTHER FILE LATER **************
 
 }
