@@ -49,7 +49,7 @@ class CategoryFragment : Fragment(), AdapterView.OnItemClickListener {
 
         gridView = root!!.findViewById(R.id.category_gridView)
         arrayList = ArrayList()
-        arrayList = categoryViewModel.tempCategoryList()
+        arrayList = categoryViewModel.getCategoryList()
         categoryAdapter = CategoryAdapter(requireContext(), arrayList!!)
         gridView!!.adapter = categoryAdapter
         gridView!!.onItemClickListener = this
@@ -60,64 +60,6 @@ class CategoryFragment : Fragment(), AdapterView.OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
-        val categoryCampus = view.findViewById<ImageButton>(R.id.category_campus)
-        val categorySocialLife = view.findViewById<ImageButton>(R.id.category_social_life)
-        val categoryStudyHelp = view.findViewById<ImageButton>(R.id.category_study_help)
-        val categoryMath = view.findViewById<ImageButton>(R.id.category_math)
-        val categoryCourseMaterial = view.findViewById<ImageButton>(R.id.category_course_material)
-        val categoryITHelp = view.findViewById<ImageButton>(R.id.category_it_help)
-        val categoryExchangeStudies = view.findViewById<ImageButton>(R.id.category_exchange_studies)
-        val categoryOther = view.findViewById<ImageButton>(R.id.category_other)
-
-        categoryCampus.setOnClickListener {
-
-            val intent = Intent(this.context, ThreadsActivity::class.java)
-            DatabaseFirestore.instance.getAllThreadsInCategory("Campus")
-            val loadingDialog = LoadingDialog(this)
-            loadingDialog.startLoadingDialog()
-            Handler(Looper.getMainLooper()).postDelayed({
-                loadingDialog.dismissDialog()
-                intent.putExtra("category", "campus")
-                startActivity(intent)
-            }, 1000)
-
-        }
-
-        categorySocialLife.setOnClickListener {
-            val intent = Intent(this.context, ThreadsActivity::class.java)
-            intent.putExtra("category", "social life")
-            startActivity(intent)
-        }
-
-        categoryStudyHelp.setOnClickListener {
-            val intent = Intent(this.context, ThreadsActivity::class.java)
-            intent.putExtra("category", "study help")
-            startActivity(intent)
-        }
-
-        categoryMath.setOnClickListener {
-            val intent = Intent(this.context, ThreadsActivity::class.java)
-            intent.putExtra("category", "math")
-            startActivity(intent)
-        }
-
-        categoryCourseMaterial.setOnClickListener {
-
-        }
-
-        categoryITHelp.setOnClickListener {
-
-        }
-
-        categoryExchangeStudies.setOnClickListener {
-
-        }
-
-        categoryOther.setOnClickListener {
-
-        }
 
     }
 
@@ -132,7 +74,7 @@ class CategoryFragment : Fragment(), AdapterView.OnItemClickListener {
             .show()
         val clickedItem = arrayList!![position]
         val intent = Intent(parent!!.context, ThreadsActivity::class.java)
-        intent.putExtra("title", clickedItem.id)
+        intent.putExtra("title", clickedItem.categoryTitle)
         startActivity(intent)
     }
 }

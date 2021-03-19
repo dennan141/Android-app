@@ -2,11 +2,13 @@ package se.ju.student.kade1796.studyassist.ui.categories
 
 import androidx.lifecycle.ViewModel
 import se.ju.student.kade1796.studyassist.Categories
+import se.ju.student.kade1796.studyassist.DatabaseFirestore
 import se.ju.student.kade1796.studyassist.R
 
 class CategoryViewModel : ViewModel() {
 
-    fun tempCategoryList(): ArrayList<Categories> {
+    fun getCategoryList(): ArrayList<Categories> {
+        
         val list = mutableListOf(
             Categories("Campus", "campus", R.drawable.image_campus),
             Categories("Social Life", "social", R.drawable.image_social),
@@ -17,6 +19,7 @@ class CategoryViewModel : ViewModel() {
             Categories("Exchange Studies", "study", R.drawable.image_exchange),
             Categories("Other", "study", R.drawable.image_other)
         )
+        //val list = DatabaseFirestore.instance.getAllCategories()
         return list as ArrayList<Categories>
     }
 }
