@@ -2,13 +2,14 @@ package se.ju.student.kade1796.studyassist
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.ProgressBar
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.firestore.FirebaseFirestore
 
 class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
     private val db = DatabaseFirestore.instance
@@ -27,20 +28,6 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.hasFixedSize()
-    /*val startIndex = 0
-        val newItem = Thread(title, content)
-        threadList.add(startIndex, newItem)
-        adapter.notifyItemInserted(startIndex)*/
-
-
-
-
-
-        //THIS IS ONLY FOR TESTING AND CAN SAFELY BE REMOVED
-        //*****************************************************************************
-
-
-
     }
 
 
@@ -49,21 +36,19 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
         val clickedItem = threadList[position]
         adapter.notifyItemChanged(position)
         val intent = Intent(this, ThreadDetailActivity::class.java)
-        intent.putExtra("title", clickedItem.title)
-        intent.putExtra("content", clickedItem.content)
-        intent.putExtra("likes", clickedItem.likes)
+        intent.putExtra("id", clickedItem.id)
         startActivity(intent)
+
     }
 
     override fun add(position: Int) {
         threadList[position].likes += 1
         adapter.notifyItemChanged(position)
         val likes = threadList[position].likes
-        val id = threadList[position].id
-        println(id)
-        println(likes)
-        if (id != null) {
-            db.updateLikes(id, likes)
+        val thread = threadList[position]
+
+        if (thread != null) {
+            db.updateLikes(thread, likes)
         }
     }
 

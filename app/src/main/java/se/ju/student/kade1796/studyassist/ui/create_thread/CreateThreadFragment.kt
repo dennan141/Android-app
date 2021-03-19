@@ -65,11 +65,6 @@ class CreateThreadFragment : Fragment() {
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
                 // An item was selected. You can retrieve the selected item using
-                Toast.makeText(
-                    context,
-                    parent.getItemAtPosition(pos).toString(),
-                    Toast.LENGTH_SHORT
-                ).show()
                 category.text = parent.getItemAtPosition(pos).toString()
             }
 
@@ -89,8 +84,7 @@ class CreateThreadFragment : Fragment() {
                 addThreadToDb(threadTitle, threadContent, emptyPostList, threadCategory)
 
                 val intent = Intent(this.context, ThreadDetailActivity::class.java)
-                intent.putExtra("title", threadTitle)
-                intent.putExtra("content", threadContent)
+                intent.putExtra("id", threadTitle)
                 startActivity(intent)
             }
         }
@@ -112,8 +106,8 @@ class CreateThreadFragment : Fragment() {
         emptyPostList: MutableList<Posts>,
         threadCategory: CharSequence
     ) {
-        println(Threads(threadTitle, threadContent, 0, emptyPostList, threadCategory.toString()))
         db.addThread(Threads(threadTitle, threadContent, 0, emptyPostList, threadCategory.toString()))
+
     }
 
 }

@@ -103,7 +103,7 @@ class DatabaseFirestore {
 
     //Adds a new thread from the Threads-data class, recommended!
     //Give it the data class Threads and a category to be added to
-    fun addThread(newThread: Threads) {
+    fun addThread(newThread: Threads){
         val categoryId = categoryTitleToId(newThread.category.toString())
         db.collection("categories")
             .document(categoryId)
@@ -118,6 +118,8 @@ class DatabaseFirestore {
                     .document(id)
                 documentReference.update("id", id)
             }
+
+
     }
 
     //Adds a new thread by creating the new thread here, not recommended but does exist if programmer wants to use.
@@ -180,9 +182,13 @@ class DatabaseFirestore {
 
     }
 
-    fun updateLikes(threadId: String, likes: Int){
-
-        db.collection("").document().collection("threads").document(threadId).update("likes", likes)
+    fun updateLikes(thread: Threads, likes: Int){
+        val categoryId = categoryTitleToId(thread.category.toString())
+        db.collection("categories")
+            .document(categoryId)
+            .collection("threads")
+            .document(thread.id.toString())
+            .update("likes", likes)
     }
 
     //******************************************POSTS FUNC*************************************************
