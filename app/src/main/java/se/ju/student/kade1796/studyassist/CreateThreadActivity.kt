@@ -20,10 +20,8 @@ class CreateThreadActivity : AppCompatActivity() {
         DatabaseFirestore.instance.dummyData()
         DatabaseFirestore.instance.getAllCategories()
         val emptyPostList = mutableListOf<Posts>()
-        val newThread = Threads("Title", "String content", emptyPostList, "Campus")
-        DatabaseFirestore.instance.getAllThreadsInCategory("Campus") { allThreads ->
-            Log.d("CallbackHell", "List of Threads is: $allThreads")
-        }
+        val newThread = Threads("Title", "String content", 3, emptyPostList, "Campus")
+        DatabaseFirestore.instance.getAllThreadsInCategory("Campus")
         DatabaseFirestore.instance.getThreadById("9LeCNW7J5xid7jzxJpYa", "Campus") {
             Log.d("testingCallback", "it is: $it")
         }

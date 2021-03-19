@@ -10,4 +10,8 @@
     <string name="title">Titel:</string>
     <string name="content">Innehåll:</string>
     <string name="selected_item">Valt föremål:</string>
+    <string name="add_comment">Lägg till kommentar</string>
+    <string name="isEmpty">Fältet kan inte vara tomt.</string>
+    <string name="titleTextInvalid">Titel måste vara mellan 5 - 20 bokstäver</string>
+    <string name="contentTextInvalid">Innehållet måste vara mellan 10 - 300 bokstäver.</string>
 </resources>

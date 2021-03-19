@@ -19,15 +19,16 @@ class DatabaseFirestore {
 
 
     //************************************PRIVATE FUNCTIONS AND VARIABLES***************************
-    private fun categoryTitleToId(cateogryTitle: String): String {
-        val categoryId = titleToIdMap[cateogryTitle]
+    private fun categoryTitleToId(categoryTitle: String): String {
+        val categoryId = titleToIdMap[categoryTitle]
         return categoryId.toString()
     }
 
     private val titleToIdMap = mapOf(
-        "Campus" to "jaXCitQgNMvZjMxeOUXD",
-        "Other" to "g2sN10eBiEqQ2IMkTrDP",
-        "IT" to "D1XuTitNJ1ZQsx7PVpWb"
+        "Campus" to "u6XsDE4PJ32OPmg3xPKl",
+        "Other" to "BTxSqt5S6ByK6EQaZMpp",
+        "IT" to "NRq7MPQ7135cyEDTvWt8",
+        "Math" to "YpPDZBqsWcedKFKOfwTa"
     )
     //************************************PRIVATE FUNCTIONS AND VARIABLES***************************
 
@@ -74,12 +75,12 @@ class DatabaseFirestore {
 
 
     //callback of all threads in a mutableList of Threads objects
-    fun getAllThreadsInCategory(categoryName: String, callback: (MutableList<Threads>) -> Unit) {
+    fun getAllThreadsInCategory(categoryName: String) {
         var listOfThreads = mutableListOf<Threads>()
         val categoryId = categoryTitleToId(categoryName)
         db.collection("categories")
 
-            .document(categoryId)
+            .document("u6XsDE4PJ32OPmg3xPKl")
             .collection("threads")
             .get()
 
@@ -87,16 +88,22 @@ class DatabaseFirestore {
             .addOnSuccessListener { result ->
                 for (thread in result) {
                     listOfThreads.add(thread.toObject(Threads::class.java))
-
                 }
-                callback(listOfThreads)
+                load(listOfThreads)
             }
     }
+
+    private fun load(list: MutableList<Threads>){
+        listthreads = list
+        println("load")
+        println(listthreads)
+    }
+
 
 
     //Adds a new thread from the Threads-data class, recommended!
     //Give it the data class Threads and a category to be added to
-    fun addThread(newThread: Threads) {
+    fun addThread(newThread: Threads){
         val categoryId = categoryTitleToId(newThread.category.toString())
         db.collection("categories")
             .document(categoryId)
@@ -111,16 +118,19 @@ class DatabaseFirestore {
                     .document(id)
                 documentReference.update("id", id)
             }
+
+
     }
 
     //Adds a new thread by creating the new thread here, not recommended but does exist if programmer wants to use.
     fun addThread(
         title: String,
         content: String,
+        likes: Int,
         listOfPosts: MutableList<Posts>,
         category: String
     ) {
-        val newThread = Threads(title, content, listOfPosts, category)
+        val newThread = Threads(title, content, likes, listOfPosts, category)
         addThread(newThread)
     }
 
@@ -172,6 +182,14 @@ class DatabaseFirestore {
 
     }
 
+    fun updateLikes(thread: Threads, likes: Int){
+        val categoryId = categoryTitleToId(thread.category.toString())
+        db.collection("categories")
+            .document(categoryId)
+            .collection("threads")
+            .document(thread.id.toString())
+            .update("likes", likes)
+    }
 
     //******************************************POSTS FUNC*************************************************
     //TODO IMPLEMENT POSTS FUNCS
@@ -191,9 +209,9 @@ class DatabaseFirestore {
         mutableListOfPosts.add(newPost1)
         mutableListOfPosts.add(newPost2)
         //Threads
-        val newThread =
-            Threads("Dennis title_testing", "Dennis Content_testing", mutableListOfPosts, "Campus")
-        mutableListOfThreads.add(newThread)
+        /*val newThread =
+            Threads("Dennis title_testing", "Dennis Content_testing", 3, mutableListOfPosts, "Campus")
+        mutableListOfThreads.add(newThread)*/
         //Categories
         //val newCategory = Categories("IT")
 
@@ -203,7 +221,7 @@ class DatabaseFirestore {
 
 
         //addCategory(newCategory)
-        addThread(newThread)
+        //addThread(newThread)
 
 
         //*********************Adding data******************************

@@ -32,13 +32,13 @@ class LogInActivity : AppCompatActivity() {
         var mutableListOfPosts = mutableListOf<Posts>()
         val category = "Campus"
         val title = "test_title in newThread"
+        val likes = 23
         val content = "test_content in newThread"
 
 
-        DatabaseFirestore.instance.addThread(title, content , mutableListOfPosts ,category )
-        DatabaseFirestore.instance.getAllThreadsInCategory(category){ allThreads ->
-            Log.d("InLogin", "inLogin threads are: $allThreads")
-        }
+        DatabaseFirestore.instance.addThread(title, content, likes, mutableListOfPosts ,category )
+        DatabaseFirestore.instance.getAllThreadsInCategory(category)
+
 
 
         //---------------------Thread can now be added using this -----------------------
