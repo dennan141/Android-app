@@ -16,4 +16,12 @@
     <string name="contentTextInvalid">Innehållet måste vara mellan 10 - 300 bokstäver.</string>
     <string name="editThread">Ändra Tråd</string>
     <string name="deleteThread">Ta bort Tråd</string>
+    <string name="text_campus">Campus</string>
+    <string name="text_social_life">Samhällsliv</string>
+    <string name="text_study_help">Studie Hjälp</string>
+    <string name="text_it_help">IT Hjälp</string>
+    <string name="text_math">Matte</string>
+    <string name="text_course_material">Kurs Material</string>
+    <string name="text_exchange_studies">Utbytes Studier</string>
+    <string name="text_other">Övrigt</string>
 </resources>

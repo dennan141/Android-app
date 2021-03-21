@@ -25,7 +25,7 @@ class CategoryAdapter(
         var listItem:Categories = arrayList[position]
 
         imageView.setImageResource(listItem.icons!!)
-        title.text = listItem.categoryTitle
+        title.text = listItem.categoryTitleStringResource?.let { context.resources.getString(it) }
 
         return view
     }
