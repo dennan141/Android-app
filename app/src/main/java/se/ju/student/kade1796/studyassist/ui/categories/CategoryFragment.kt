@@ -65,8 +65,6 @@ class CategoryFragment : Fragment(), AdapterView.OnItemClickListener {
         id: Long
     ) {
         //Start ThreadsActivity at clicked item
-        Toast.makeText(parent!!.context, "Item $position clicked", Toast.LENGTH_SHORT)
-            .show()
         val clickedItem = arrayList!![position]
         val category = clickedItem.categoryTitle
         loadThreads(category)

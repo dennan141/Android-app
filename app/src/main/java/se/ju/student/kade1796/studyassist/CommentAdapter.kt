@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.comment_item.view.likes_textView
 import kotlinx.android.synthetic.main.thread_item.view.*
 
 class CommentAdapter(
-        var commentList: List<Posts>,
+        var commentList: MutableList<Posts>,
         private val listener: CommentAdapter.OnItemClickListener
 ) : RecyclerView.Adapter<CommentAdapter.CommentViewHolder>() {
 
@@ -24,9 +24,13 @@ class CommentAdapter(
     override fun onBindViewHolder(holder: CommentViewHolder, position: Int) {
         holder.commentTextView.text = commentList[position].content
         holder.likeButtonImageButton.setOnClickListener{
-            listener.add(position)
+            listener.addLikes(position)
         }
         holder.likesTextView.text = commentList[position].likes.toString()
+    }
+
+    fun addPosts(posts:MutableList<Posts>) {
+        this.commentList.addAll(posts);
     }
 
     override fun getItemCount() = commentList.size
@@ -39,7 +43,6 @@ class CommentAdapter(
     }
 
     interface OnItemClickListener{
-        fun add(position: Int)
+        fun addLikes(position: Int)
     }
-
 }
