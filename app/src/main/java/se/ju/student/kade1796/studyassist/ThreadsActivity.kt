@@ -19,7 +19,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
 
     private val db = DatabaseFirestore.instance
-    private var threadList = DatabaseFirestore.listthreads
+    private var threadList = Repository.instance.listOfThreads
     private val adapter = ThreadAdapter(threadList, this)
 
 

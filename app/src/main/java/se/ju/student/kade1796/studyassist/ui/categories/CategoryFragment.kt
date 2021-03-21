@@ -11,7 +11,6 @@ package se.ju.student.kade1796.studyassist.ui.categories
 
 
 
-import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -19,16 +18,12 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import android.widget.ImageButton
 import androidx.lifecycle.ViewModelProvider
 import se.ju.student.kade1796.studyassist.R
 import android.widget.*
 import se.ju.student.kade1796.studyassist.*
 import se.ju.student.kade1796.studyassist.DatabaseFirestore
-import se.ju.student.kade1796.studyassist.LoadingDialog
 import se.ju.student.kade1796.studyassist.ThreadsActivity
 
 
@@ -73,8 +68,20 @@ class CategoryFragment : Fragment(), AdapterView.OnItemClickListener {
         Toast.makeText(parent!!.context, "Item $position clicked", Toast.LENGTH_SHORT)
             .show()
         val clickedItem = arrayList!![position]
+        val category = clickedItem.categoryTitle
+        loadThreads(category)
         val intent = Intent(parent!!.context, ThreadsActivity::class.java)
         intent.putExtra("title", clickedItem.categoryTitle)
         startActivity(intent)
+    }
+
+    private fun loadThreads(category: String?) {
+
+        val loadingDialog = LoadingDialog(this)
+        loadingDialog.startLoadingDialog()
+        Handler(Looper.getMainLooper()).postDelayed({
+            DatabaseFirestore.instance.getAllThreadsInCategory(category!!)
+            loadingDialog.dismissDialog()
+        }, 1000)
     }
 }
