@@ -6,6 +6,7 @@ class Repository {
         val instance = Repository()
     }
 
+    val currentUser = Authentication.instance.getCurrentUser()
 
     //Use this to access data from the database by loading them into proper variables
 

@@ -18,7 +18,6 @@ class CreateThreadActivity : AppCompatActivity() {
     val database = DatabaseFirestore.instance
     var GlobalData = mutableListOf<Threads>()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_thread)
@@ -64,6 +63,8 @@ class CreateThreadActivity : AppCompatActivity() {
 
 
         createButton.setOnClickListener {
+
+
             if (!validateTitleText(title)) {
                 title.error = getString(R.string.titleTextInvalid)
             } else if (!validateContentText(content)) {

@@ -13,14 +13,18 @@
         <activity android:name=".ThreadDetailActivity" />
         <activity android:name=".ThreadsActivity" />
         <activity android:name=".CreateThreadActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" />
+
+
+        <activity android:name=".LogInActivity">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
 
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-        <activity android:name=".LogInActivity" />
-    </application>
 
+
+
+    </application>
 </manifest>

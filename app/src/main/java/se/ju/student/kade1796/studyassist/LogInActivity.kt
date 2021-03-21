@@ -2,6 +2,7 @@ package se.ju.student.kade1796.studyassist
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
@@ -11,10 +12,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.coroutines.delay
-import se.ju.student.kade1796.studyassist.ui.categories.CategoryFragment
-import kotlin.math.sign
 
 
 class LogInActivity : AppCompatActivity() {
@@ -27,9 +24,7 @@ class LogInActivity : AppCompatActivity() {
 
         //initialize firebase auth here
         auth = Firebase.auth
-
     }
-
 
     override fun onStart() {
         super.onStart()
@@ -38,40 +33,42 @@ class LogInActivity : AppCompatActivity() {
         val enteredPassword = findViewById<EditText>(R.id.loginPassword).editableText
         val loginButton = findViewById<Button>(R.id.loginButton)
 
+        var currentUser = Authentication.instance.getCurrentUser()
 
-        var currentUser = auth.currentUser
-
-
-        //USED FOR TESTING
-        currentUser = null
-        //USED FOR TESTING
-
+        //FOR TESTING!!!
+        //currentUser = null
+        //FOR TESTING!!!
 
         //If user is logged in, open categories instead
         if (currentUser != null) {
-            val intent = Intent(this, ThreadsActivity::class.java)
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
 
         loginButton.setOnClickListener {
-            if (enteredEmail == null) {
+            if (isEmpty(enteredEmail)) {
                 Toast.makeText(
-                    baseContext, "Enter EMAIL for fan",
+                    baseContext, "Enter your email",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else if (isEmpty(enteredPassword)) {
+                Toast.makeText(
+                    baseContext, "Enter your password",
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
+                Log.d("login Empty", "$enteredEmail $enteredPassword")
                 signIn(enteredEmail.toString(), enteredPassword.toString())
-
-                Log.d("login", "Logged in as ${auth.currentUser?.email}")
             }
-
         }
     }
 
 
     //*********** PRIVATE FUNCTION; MOVE TO OTHER FILE LATER
 
-
+    private fun isEmpty(inputText: Editable): Boolean {
+        return inputText.toString().isEmpty()
+    }
 
     private fun signIn(email: String, password: String) {
         // [START sign_in_with_email]
@@ -81,13 +78,8 @@ class LogInActivity : AppCompatActivity() {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d("successTag", "signInWithEmail:success")
                     val user = auth.currentUser
-
-
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
-
-
-
 
                 } else {
                     // If sign in fails, display a message to the user.
@@ -102,19 +94,11 @@ class LogInActivity : AppCompatActivity() {
         // [END sign_in_with_email]
     }
 
-    private fun sendEmailVerification() {
-        // [START send_email_verification]
-        val user = auth.currentUser!!
-        user.sendEmailVerification()
-            .addOnCompleteListener(this) { task ->
-                // Email Verification sent
-            }
-        // [END send_email_verification]
-    }
 
 
     private fun updateUI(user: FirebaseUser?) {
         //Update the UI with this
+        //Suited bettet in accountHandler as a function, can update UI whenever necessary?
     }
 
 }
