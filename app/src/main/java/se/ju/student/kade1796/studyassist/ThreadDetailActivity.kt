@@ -1,77 +1,80 @@
 package se.ju.student.kade1796.studyassist
 
-import android.content.Intent
-import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 //import kotlinx.android.synthetic.main.activity_thread_detail.*
 import android.os.Bundle
-import android.widget.TextView
+import android.view.View
 import android.widget.Button
-import android.widget.ImageButton
-import android.widget.Toast
-import androidx.appcompat.content.res.AppCompatResources
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.android.synthetic.main.activity_thread_detail.*
 
 class ThreadDetailActivity : AppCompatActivity(), CommentAdapter.OnItemClickListener {
-    private val commentList = dummyList()
-    private val adapter = CommentAdapter(commentList, this)
+    private val commentList:MutableList<Posts> = ArrayList()
+    private val db = DatabaseFirestore.instance
+    private var thread = Threads()
+    private lateinit var recyclerView: RecyclerView;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_thread_detail)
-        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-        var title = findViewById<TextView>(R.id.titleText)
-        var content = findViewById<TextView>(R.id.contentText)
-        var likes = findViewById<TextView>(R.id.likesText)
 
-        title.text  = intent.getStringExtra("title")
-        content.text = intent.getStringExtra("content")
-        println(intent.getStringExtra("title"))
-        likes.text = intent.getIntExtra("likes",0).toString()
-        var likesCounter = intent.getIntExtra("likes", 0)
+        val currentUser = DatabaseFirestore.instance.auth.currentUser;
 
+        recyclerView = findViewById(R.id.recyclerView)
+        val editButton = findViewById<Button>(R.id.editButton)
+        val deleteButton = findViewById<Button>(R.id.deleteButton)
 
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(this)
-
-        val likeButton = findViewById<ImageButton>(R.id.likeButton)
-
-        likeButton.setOnClickListener {
-            likesCounter +=1
-            likes.text = likesCounter.toString()
+        if(currentUser != null && thread.userId == currentUser.uid) {
+            editButton.visibility = View.VISIBLE;
+            deleteButton.visibility = View.VISIBLE;
         }
 
+        deleteButton.setOnClickListener {
+            DatabaseFirestore.instance.deleteThread(thread)
+            finish();
+        }
 
+        //TODO: Fix edit thread
 
+        recyclerView.adapter = CommentAdapter(commentList, this)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        loadThread()
     }
 
-    private fun dummyList() : ArrayList<Posts>{
-        val list = mutableListOf(
-            Posts("comment rere", "dsadsa"),
-            Posts("comment 2", "rrrr"),
-            Posts("Posts 3", "rrrr"),
-            Posts("Posts 4", "rrrr"),
-            Posts("Posts 5", "rrrr"),
-            Posts("Posts 6", "rrrr"),
-            Posts("Posts 7", "rrrr"),
-            Posts("Posts 8", "rrrr"),
-            Posts("Posts 9", "rrrr"),
-            Posts("Posts 465", "rrrr"),
-            Posts("Posts 7", "rrrr"),
-            Posts("Posts 8", "rrrr"),
-            Posts("Posts 9", "rrrr"),
-            Posts("comment 465", "rrrr"),
-            Posts("thread 56", "rrrr")
-        )
-        return list as ArrayList<Posts>
-    }
-
-    override fun add(position: Int) {
+    override fun addLikes(position: Int) {
         commentList[position].likes = commentList[position].likes?.plus(1)
-        adapter.notifyItemChanged(position)
+
+        /*if (thread != null)
+            DatabaseFirestore.instance.updateCommentLikes(thread, likes!!)
+        recyclerView.adapter!!.notifyItemChanged(position)*/
     }
 
+    private fun loadThread() {
+        var titleText = findViewById<TextView>(R.id.titleText)
+        var contentText = findViewById<TextView>(R.id.contentText)
+        var likesText = findViewById<TextView>(R.id.likesText)
+
+        val id = intent.getStringExtra("id")
+        val category = intent.getStringExtra("category")
+        val title = intent.getStringExtra("title")
+        val content = intent.getStringExtra("content")
+        val args = intent.getBundleExtra("bundleArgs")
+        val posts = args!!.getSerializable("bundlePosts") as MutableList<Posts>;
+        var likes = intent.getIntExtra("likes", 0)
+        val userId = intent.getStringExtra("userId");
+
+        titleText.text = title
+        contentText.text = content
+        likesText.text = likes.toString()
+        likeButton.setOnClickListener{
+            likes+=1
+            likesText.text = likes.toString()
+            db.updateLikes(thread, likes)
+        }
+        (recyclerView.adapter as CommentAdapter).addPosts(posts)
+        thread = Threads(title, content, category, userId, likes!!.toInt(), posts, id);
+    }
 }

@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModelProvider
 import se.ju.student.kade1796.studyassist.*
 
 class CreateThreadFragment : Fragment() {
-
     private lateinit var createThreadViewModel: CreateThreadViewModel
     private val db = DatabaseFirestore.instance
 
@@ -23,32 +22,17 @@ class CreateThreadFragment : Fragment() {
     ): View? {
         createThreadViewModel =
             ViewModelProvider(this).get(CreateThreadViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_create, container, false)
 
-
-        return root
+        return inflater.inflate(R.layout.fragment_create, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //Populate with dummy data
-        db.dummyData()
-        db.getAllCategories()
-        val emptyPostList = mutableListOf<Posts>()
-        val newThread = Threads("Title", "String content", 4, emptyPostList, "Campus")
-        db.getAllThreadsInCategory("Campus")
-        db.getThreadById("9LeCNW7J5xid7jzxJpYa", "Campus") {
-            Log.d("testingCallback", "it is: $it")
-        }
-        db.getThreadsByTitle("Dennis title_testing","Campus"){
-            Log.d("getThreadsByTitle", "Threads grabbed by title are: $it")
-        }
-
         val spinner = view.findViewById<Spinner>(R.id.spinner)
         val title = view.findViewById<EditText>(R.id.title_editText)
         val content = view.findViewById<EditText>(R.id.content_editText)
-        var category = view.findViewById<TextView>(R.id.categoryText)
+        val category = view.findViewById<TextView>(R.id.categoryText)
         val createButton = view.findViewById<Button>(R.id.create_button)
 
         activity?.let {
@@ -65,11 +49,6 @@ class CreateThreadFragment : Fragment() {
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
                 // An item was selected. You can retrieve the selected item using
-                Toast.makeText(
-                    context,
-                    parent.getItemAtPosition(pos).toString(),
-                    Toast.LENGTH_SHORT
-                ).show()
                 category.text = parent.getItemAtPosition(pos).toString()
             }
 
@@ -85,18 +64,25 @@ class CreateThreadFragment : Fragment() {
             }else{
                 val threadTitle = title.text.toString()
                 val threadContent = content.text.toString()
-                val threadCategory = category.text
-                addThreadToDb(threadTitle, threadContent, emptyPostList, threadCategory)
+                val threadCategory = category.text.toString()
+
+                addThreadToDb(threadTitle, threadContent, threadCategory)
 
                 val intent = Intent(this.context, ThreadDetailActivity::class.java)
                 intent.putExtra("title", threadTitle)
                 intent.putExtra("content", threadContent)
+                intent.putExtra("category", threadCategory)
+
+                val args = Bundle()
+                val posts = ArrayList<Posts>()
+                args.putSerializable("bundlePosts", posts)
+                intent.putExtra("bundleArgs", args)
+
+                intent.putExtra("userId", DatabaseFirestore.instance.auth.currentUser!!.uid)
                 startActivity(intent)
             }
         }
     }
-
-
 
     private fun validateTitleText(editText: EditText): Boolean {
         return (editText.text.length in 6..29)
@@ -109,11 +95,13 @@ class CreateThreadFragment : Fragment() {
     private fun addThreadToDb(
         threadTitle: String,
         threadContent: String,
-        emptyPostList: MutableList<Posts>,
-        threadCategory: CharSequence
+        threadCategory: String
     ) {
-        println(Threads(threadTitle, threadContent, 0, emptyPostList, threadCategory.toString()))
-        db.addThread(Threads(threadTitle, threadContent, 0, emptyPostList, threadCategory.toString()))
+        db.addThread(
+            Threads(
+                threadTitle, threadContent, threadCategory, DatabaseFirestore.instance.auth.currentUser?.uid
+            )
+        )
     }
 
 }

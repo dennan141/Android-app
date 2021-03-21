@@ -3,6 +3,7 @@ package se.ju.student.kade1796.studyassist
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
+import android.text.TextUtils.isEmpty
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
@@ -15,15 +16,16 @@ import com.google.firebase.ktx.Firebase
 
 
 class LogInActivity : AppCompatActivity() {
+
     //access a firebase auth from your Activity
     var auth = FirebaseAuth.getInstance()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
         //initialize firebase auth here
         auth = Firebase.auth
+
     }
 
     override fun onStart() {
@@ -42,25 +44,35 @@ class LogInActivity : AppCompatActivity() {
         //If user is logged in, open categories instead
         if (currentUser != null) {
             val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-        }
+            //If user is logged in, open categories instead
+            if (DatabaseFirestore.instance.auth.currentUser != null) {
+                val intent = Intent(this, ThreadsActivity::class.java)
+                startActivity(intent)
+            }
 
-        loginButton.setOnClickListener {
-            if (isEmpty(enteredEmail)) {
-                Toast.makeText(
-                    baseContext, "Enter your email",
-                    Toast.LENGTH_SHORT
-                ).show()
-            } else if (isEmpty(enteredPassword)) {
-                Toast.makeText(
-                    baseContext, "Enter your password",
-                    Toast.LENGTH_SHORT
-                ).show()
-            } else {
-                Log.d("login Empty", "$enteredEmail $enteredPassword")
-                signIn(enteredEmail.toString(), enteredPassword.toString())
+            loginButton.setOnClickListener {
+                if (isEmpty(enteredEmail)) {
+                    Toast.makeText(
+                        baseContext, "Enter your email",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else if (isEmpty(enteredPassword)) {
+                    Toast.makeText(
+                        baseContext, "Enter your password",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    Log.d("login Empty", "$enteredEmail $enteredPassword")
+                    signIn(enteredEmail.toString(), enteredPassword.toString())
+
+                    Log.d(
+                        "login",
+                        "Logged in as ${DatabaseFirestore.instance.auth.currentUser?.email}"
+                    )
+                }
             }
         }
+
     }
 
 
@@ -88,17 +100,12 @@ class LogInActivity : AppCompatActivity() {
                         baseContext, "Authentication failed.",
                         Toast.LENGTH_SHORT
                     ).show()
-                    updateUI(null)
+                    //failed to sign in
                 }
             }
         // [END sign_in_with_email]
     }
 
-
-
-    private fun updateUI(user: FirebaseUser?) {
-        //Update the UI with this
-        //Suited bettet in accountHandler as a function, can update UI whenever necessary?
-    }
+    //*********** PRIVATE FUNCTION; MOVE TO OTHER FILE LATER **************
 
 }

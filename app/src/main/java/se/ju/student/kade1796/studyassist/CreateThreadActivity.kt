@@ -2,17 +2,10 @@ package se.ju.student.kade1796.studyassist
 
 import android.content.Intent
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.LiveData
-import androidx.core.widget.addTextChangedListener
-import kotlinx.android.synthetic.main.activity_create_thread.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class CreateThreadActivity : AppCompatActivity() {
     val database = DatabaseFirestore.instance
@@ -27,19 +20,6 @@ class CreateThreadActivity : AppCompatActivity() {
         val title = findViewById<EditText>(R.id.title_editText)
         val content = findViewById<EditText>(R.id.content_editText)
         var category = findViewById<TextView>(R.id.categoryText)
-
-//*
-//   ArrayAdapter.createFromResource(
-//            this,
-//            R.array.categories,
-//            android.R.layout.simple_spinner_item
-//        ).also { adapter ->
-//            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-//            spinner.adapter = adapter
-//        }
-//
-// */
-
         val createButton = findViewById<Button>(R.id.create_button)
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -58,6 +38,7 @@ class CreateThreadActivity : AppCompatActivity() {
 
             }
 
+
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
 
@@ -65,19 +46,25 @@ class CreateThreadActivity : AppCompatActivity() {
         createButton.setOnClickListener {
 
 
-            if (!validateTitleText(title)) {
-                title.error = getString(R.string.titleTextInvalid)
-            } else if (!validateContentText(content)) {
-                content.error = getString(R.string.contentTextInvalid)
-            } else {
-                val intent = Intent(this, ThreadsActivity::class.java)
-                intent.putExtra("category", category.text)
-                intent.putExtra("title", title.toString())
-                intent.putExtra("content", content.toString())
-                startActivity(intent)
+            //********************* ON CLICK CREATE THREAD ************************
+            createButton.setOnClickListener {
+                if (!validateTitleText(title)) {
+                    title.error = getString(R.string.titleTextInvalid)
+                } else if (!validateContentText(content)) {
+                    content.error = getString(R.string.contentTextInvalid)
+                } else {
+                    val intent = Intent(this, ThreadsActivity::class.java)
+                    intent.putExtra("category", category.text)
+                    intent.putExtra("title", title.toString())
+                    intent.putExtra("content", content.toString())
+                    startActivity(intent)
+                }
             }
+            //********************* ON CLICK CREATE THREAD ************************
         }
     }
+
+    //*********************** PRIVATE FUNCTIONS ************************
 
 
     private fun validateTitleText(editText: EditText): Boolean {
@@ -89,3 +76,5 @@ class CreateThreadActivity : AppCompatActivity() {
     }
 }
 
+
+//*********************** PRIVATE FUNCTIONS ************************

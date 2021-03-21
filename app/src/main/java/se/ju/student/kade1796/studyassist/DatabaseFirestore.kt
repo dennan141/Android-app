@@ -1,23 +1,20 @@
 package se.ju.student.kade1796.studyassist
 
+import android.content.Intent
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import android.util.Log
-import kotlinx.coroutines.tasks.await
+import android.widget.Toast
 
 class DatabaseFirestore {
-
-
     companion object {
         val instance = DatabaseFirestore()
         var listthreads = mutableListOf<Threads>()
     }
 
-
     // Loads in the instance of the database and Firestore authenticator
     val db = FirebaseFirestore.getInstance()
     val auth = FirebaseAuth.getInstance()
-
 
     //************************************PRIVATE FUNCTIONS AND VARIABLES***************************
     private fun categoryTitleToId(categoryTitle: String): String {
@@ -25,14 +22,13 @@ class DatabaseFirestore {
         return categoryId.toString()
     }
 
-
-
     private val titleToIdMap = mapOf(
         "Campus" to "u6XsDE4PJ32OPmg3xPKl",
         "Other" to "BTxSqt5S6ByK6EQaZMpp",
         "IT" to "NRq7MPQ7135cyEDTvWt8",
         "Math" to "YpPDZBqsWcedKFKOfwTa"
     )
+
     //************************************PRIVATE FUNCTIONS AND VARIABLES***************************
 
 
@@ -49,7 +45,6 @@ class DatabaseFirestore {
 
 
     fun addCategory(newCategory: Categories) {
-
         val categoriesRef = db.collection("categories")
             .add(newCategory)
         categoriesRef.addOnSuccessListener {
@@ -59,53 +54,38 @@ class DatabaseFirestore {
             documentReference.update("id", id)
         }
     }
-
     //********* - ABOVE ^ NOT BE ACCESSED IN FUTURE, ONLY FOR CREATING CATEGORIES BEFORE LAUNCH ^ ABOVE - ******
 
 
-    //Gets a list of all categories and loads them into Repository as well as return a list
-    fun getAllCategories(): MutableList<Categories> {
-        var listOfResult = mutableListOf<Categories>()
-        db.collection("categories")
-            .get()
-            .addOnSuccessListener { result ->
-                listOfResult = result.toObjects(Categories::class.java)
-                Log.d("getAllCategories", "List of all categories: $listOfResult")
-            }
-        return listOfResult
-    }
-
-
     //****************************************THREADS FUNC*************************************************
-
 
 
     //callback of all threads in a mutableList of Threads objects
     fun getAllThreadsInCategory(categoryName: String) {
         var listOfThreads = mutableListOf<Threads>()
         val categoryId = categoryTitleToId(categoryName)
+    }
+
+    //Returns a list of threads to local Repository
+    fun getAllThreadsInCategory(categoryName: String, adapter: ThreadAdapter) {
+        val categoryId = categoryTitleToId(categoryName)
+
         db.collection("categories")
             .document(categoryId)
             .collection("threads")
             .get()
-
-
-            //On Success: loops through and adds threads into list
             .addOnSuccessListener { result ->
-                for (thread in result) {
-                    listOfThreads.add(thread.toObject(Threads::class.java))
-                }
-                load(listOfThreads)
+                var listOfThreads = mutableListOf<Threads>()
+
+                for (document in result)
+                    listOfThreads.add(document.toObject(Threads::class.java));
+
+                adapter.update(listOfThreads);
+            }
+            .addOnFailureListener { exception ->
+                println("Error getting documents: $exception");
             }
     }
-
-    private fun load(list: MutableList<Threads>){
-        listthreads = list
-        println("load")
-        println(listthreads)
-    }
-
-
 
     //Adds a new thread from the Threads-data class, recommended!
     //Give it the data class Threads and a category to be added to
@@ -134,7 +114,14 @@ class DatabaseFirestore {
         listOfPosts: MutableList<Posts>,
         category: String
     ) {
-        val newThread = Threads(title, content, likes, listOfPosts, category)
+        val newThread = Threads(
+            title,
+            content,
+            category,
+            DatabaseFirestore.instance.auth.uid,
+            likes,
+            listOfPosts
+        )
         addThread(newThread)
     }
 
@@ -157,19 +144,30 @@ class DatabaseFirestore {
     }
 
     //On success deletes a the thread
-    fun deleteThreadById(threadId: String, categoryName: String){
+    fun deleteThreadById(threadId: String, categoryName: String) {
         val categoryId = categoryTitleToId(categoryName)
         db.collection("categories")
             .document(categoryId)
             .collection("threads")
             .document(threadId)
             .delete()
-            .addOnSuccessListener { Log.d("SuccessDeletingThread", "Thread successfully deleted!") }
-            .addOnFailureListener { e -> Log.w("FailDeletingThread", "Error deleting thread", e) }
+            .addOnSuccessListener {
+                Log.d(
+                    "SuccessDeletingThread",
+                    "Thread successfully deleted!"
+                )
+            }
+            .addOnFailureListener { e ->
+                Log.w(
+                    "FailDeletingThread",
+                    "Error deleting thread",
+                    e
+                )
+            }
     }
 
     //On success deletes a the thread
-    fun deleteThread(threadToDelete: Threads){
+    fun deleteThread(threadToDelete: Threads) {
         val categoryId = categoryTitleToId(threadToDelete.category.toString())
 
         db.collection("categories")
@@ -177,12 +175,20 @@ class DatabaseFirestore {
             .collection("threads")
             .document(threadToDelete.id.toString())
             .delete()
-            .addOnSuccessListener { Log.d("SuccessDeletingThread", "Thread successfully deleted!") }
-            .addOnFailureListener { e -> Log.w("FailDeletingThread", "Error deleting thread", e) }
+            .addOnSuccessListener {
+                Log.d(
+                    "SuccessDeletingThread",
+                    "Thread successfully deleted!"
+                )
+            }
+            .addOnFailureListener { e ->
+                Log.w(
+                    "FailDeletingThread",
+                    "Error deleting thread",
+                    e
+                )
+            }
     }
-
-
-
 
     //INPUT: threadTitle searching for title, categoryName as String
     //ON SUCCESS: creates a callback containing a list of att threads containing that title
@@ -201,7 +207,7 @@ class DatabaseFirestore {
             .whereEqualTo("title", threadTitle)
             .get()
         docRef.addOnSuccessListener { result ->
-            for (threads in result){
+            for (threads in result) {
                 listOfThreads.add(threads.toObject(Threads::class.java))
             }
             Log.d("SuccessTagThreadsTitle", "Threads are: $listOfThreads")
@@ -213,9 +219,13 @@ class DatabaseFirestore {
 
     }
 
-    fun updateLikes(threadId: String, likes: Int){
-
-        db.collection("").document().collection("threads").document(threadId).update("likes", likes)
+    fun updateLikes(thread: Threads, likes: Int) {
+        val categoryId = categoryTitleToId(thread.category.toString())
+        db.collection("categories")
+            .document(categoryId)
+            .collection("threads")
+            .document(thread.id.toString())
+            .update("likes", likes)
     }
 
     //******************************************POSTS FUNC*************************************************
@@ -246,16 +256,13 @@ class DatabaseFirestore {
         val newCategory4 = Categories("Math")
 
 
-
         //-----------------------DUMMY DATA---------------------------
 
         //*********************Adding data******************************
 
 
-
         //addCategory(newCategory)
         //addThread(newThread)
-
 
 
         //*********************Adding data******************************
@@ -263,47 +270,4 @@ class DatabaseFirestore {
         //***************************************************************************
         //THIS IS ONLY FOR TESTING AND CAN SAFELY BE REMOVED
     }
-
-
-/*
-
-    //Goes into the first collection "categories"
-    val categoryRef = db.collection("categories")
-            .whereEqualTo("categoryTitle", newThread.category.toString())
-            .get()
-
-
-
-    //On success (Should only have one result and thus FOR-loop is okay in this case.)
-    categoryRef.addOnSuccessListener { documents ->
-        for (document in documents) {
-            Log.d("OnSuccessAddThread", "${document.id} => ${document.data}")
-            val documentReference = document.id
-
-            val updates = hashMapOf<String, Any>(
-                    "listOfThreadsInCategory" to arrayUnion(newThread),
-
-                    )
-
-            db.document(documentReference)
-                    .update("listOfThreadsInCategory", arrayUnion(newThread)).addOnCompleteListener {
-
-                    }
-
-
-
-
-        }
-
-        //Gets the documents auto-generated id
-        //val id = documents.id
-        //Adds the auto-generated id into the field "id" in the object
-        //val documentReference = db.collection(newThread.category.toString()).document(id)
-        //documentReference.update("id", id)
-    }
-    .addOnFailureListener { exception ->
-        Log.w("addThreadHasFailed", "Error getting documents: ", exception)
-    }
-
- */
 }

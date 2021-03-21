@@ -25,16 +25,21 @@ class ThreadAdapter(
         holder.descriptionTextView.text = threadList[position].content
         holder.likeButtonImageButton.setOnClickListener{
 
+            listener.addLikes(position)
+
         }
-        //holder.likesTextView.text = threadList[position].likes.toString()
+        holder.likesTextView.text = threadList[position].likes.toString()
     }
 
     override fun getItemCount() = threadList.size
 
+    fun update(threads: MutableList<Threads>) {
+        this.threadList.addAll(threads)
+        this.notifyDataSetChanged()
+    }
+
     inner class ThreadViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
     View.OnClickListener{
-
-
         //TODO: FIX ERROR UNRESOLVED REFERENCE !!!
         val titleTextView: TextView = itemView.title_textView
         val descriptionTextView: TextView = itemView.description_textView
@@ -42,7 +47,6 @@ class ThreadAdapter(
         //TODO: FIX ERROR UNRESOLVED REFERENCE !!!
         var likeButtonImageButton: ImageButton = itemView.likeButton
         var likesTextView: TextView = itemView.likes_textView
-
 
         init {
             itemView.setOnClickListener(this)
@@ -58,7 +62,6 @@ class ThreadAdapter(
 
     interface OnItemClickListener{
         fun onItemClick(position: Int)
-        fun add(position: Int)
+        fun addLikes(position: Int)
     }
-
 }
