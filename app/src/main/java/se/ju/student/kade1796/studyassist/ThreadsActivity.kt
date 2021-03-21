@@ -13,6 +13,8 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
     private lateinit var recyclerView: RecyclerView;
     private var threadList:MutableList<Threads> = arrayListOf()
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_threads)

@@ -48,17 +48,17 @@ class CreateThreadActivity : AppCompatActivity() {
 
             //********************* ON CLICK CREATE THREAD ************************
             createButton.setOnClickListener {
-                if (!validateTitleText(title)) {
-                    title.error = getString(R.string.titleTextInvalid)
-                } else if (!validateContentText(content)) {
-                    content.error = getString(R.string.contentTextInvalid)
-                } else {
-                    val intent = Intent(this, ThreadsActivity::class.java)
-                    intent.putExtra("category", category.text)
-                    intent.putExtra("title", title.toString())
-                    intent.putExtra("content", content.toString())
-                    startActivity(intent)
-                }
+                    if (!validateTitleText(title)) {
+                        title.error = getString(R.string.titleTextInvalid)
+                    } else if (!validateContentText(content)) {
+                        content.error = getString(R.string.contentTextInvalid)
+                    } else {
+                        val intent = Intent(this, ThreadsActivity::class.java)
+                        intent.putExtra("category", category.text)
+                        intent.putExtra("title", title.toString())
+                        intent.putExtra("content", content.toString())
+                        startActivity(intent)
+                    }
             }
             //********************* ON CLICK CREATE THREAD ************************
         }

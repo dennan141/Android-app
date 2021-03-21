@@ -56,31 +56,40 @@ class CreateThreadFragment : Fragment() {
         }
 
 
-        createButton.setOnClickListener{
-            if(!validateTitleText(title)){
-                title.error = getString(R.string.titleTextInvalid)
-            }else if(!validateContentText(content)){
-                content.error = getString(R.string.contentTextInvalid)
-            }else{
-                val threadTitle = title.text.toString()
-                val threadContent = content.text.toString()
-                val threadCategory = category.text.toString()
+        createButton.setOnClickListener {
 
-                addThreadToDb(threadTitle, threadContent, threadCategory)
+            if (Authentication.instance.getCurrentUser() != null) {
+                Log.d("LoginCheck", "logged in")
+                if (!validateTitleText(title)) {
+                    title.error = getString(R.string.titleTextInvalid)
+                } else if (!validateContentText(content)) {
+                    content.error = getString(R.string.contentTextInvalid)
+                } else {
+                    val threadTitle = title.text.toString()
+                    val threadContent = content.text.toString()
+                    val threadCategory = category.text.toString()
 
-                val intent = Intent(this.context, ThreadDetailActivity::class.java)
-                intent.putExtra("title", threadTitle)
-                intent.putExtra("content", threadContent)
-                intent.putExtra("category", threadCategory)
+                    addThreadToDb(threadTitle, threadContent, threadCategory)
 
-                val args = Bundle()
-                val posts = ArrayList<Posts>()
-                args.putSerializable("bundlePosts", posts)
-                intent.putExtra("bundleArgs", args)
+                    val intent = Intent(this.context, ThreadDetailActivity::class.java)
+                    intent.putExtra("title", threadTitle)
+                    intent.putExtra("content", threadContent)
+                    intent.putExtra("category", threadCategory)
 
-                intent.putExtra("userId", DatabaseFirestore.instance.auth.currentUser!!.uid)
+                    val args = Bundle()
+                    val posts = ArrayList<Posts>()
+                    args.putSerializable("bundlePosts", posts)
+                    intent.putExtra("bundleArgs", args)
+
+                    intent.putExtra("userId", DatabaseFirestore.instance.auth.currentUser!!.uid)
+                    startActivity(intent)
+                }
+            }else {
+               val intent = Intent(this.context, LogInActivity::class.java)
+                intent.putExtra("errorMessage", "You must be logged in to do this")
                 startActivity(intent)
             }
+
         }
     }
 
@@ -99,7 +108,10 @@ class CreateThreadFragment : Fragment() {
     ) {
         db.addThread(
             Threads(
-                threadTitle, threadContent, threadCategory, DatabaseFirestore.instance.auth.currentUser?.uid
+                threadTitle,
+                threadContent,
+                threadCategory,
+                DatabaseFirestore.instance.auth.currentUser?.uid
             )
         )
     }

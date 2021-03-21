@@ -34,23 +34,16 @@ class LogInActivity : AppCompatActivity() {
         val enteredEmail = findViewById<EditText>(R.id.loginEmail).editableText
         val enteredPassword = findViewById<EditText>(R.id.loginPassword).editableText
         val loginButton = findViewById<Button>(R.id.loginButton)
-
-        var currentUser = Authentication.instance.getCurrentUser()
-
-        //FOR TESTING!!!
-        //currentUser = null
-        //FOR TESTING!!!
+        val errorMessage = intent.getStringExtra("errorMessage")
+        val currentUser = Authentication.instance.getCurrentUser()
 
         //If user is logged in, open categories instead
         if (currentUser != null) {
             val intent = Intent(this, MainActivity::class.java)
-            //If user is logged in, open categories instead
-            if (DatabaseFirestore.instance.auth.currentUser != null) {
-                val intent = Intent(this, ThreadsActivity::class.java)
-                startActivity(intent)
-            }
-
+            startActivity(intent)
+        } else {
             loginButton.setOnClickListener {
+                Log.d("hejhej", "onclick")
                 if (isEmpty(enteredEmail)) {
                     Toast.makeText(
                         baseContext, "Enter your email",
@@ -72,9 +65,7 @@ class LogInActivity : AppCompatActivity() {
                 }
             }
         }
-
     }
-
 
     //*********** PRIVATE FUNCTION; MOVE TO OTHER FILE LATER
 
@@ -83,27 +74,22 @@ class LogInActivity : AppCompatActivity() {
     }
 
     private fun signIn(email: String, password: String) {
-        // [START sign_in_with_email]
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Log.d("successTag", "signInWithEmail:success")
-                    val user = auth.currentUser
+                    Log.d("tryLogin", "logged in")
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
-
                 } else {
                     // If sign in fails, display a message to the user.
-                    Log.w("FailTag", "signInWithEmail:failure", task.exception)
+                    Log.d("tryLogin", "logged in not")
                     Toast.makeText(
                         baseContext, "Authentication failed.",
                         Toast.LENGTH_SHORT
                     ).show()
-                    //failed to sign in
+
                 }
             }
-        // [END sign_in_with_email]
     }
 
     //*********** PRIVATE FUNCTION; MOVE TO OTHER FILE LATER **************

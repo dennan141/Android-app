@@ -15,6 +15,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
+        //************THIS IS FOR TESTING; IT's CALLED TO LOG OUT USERS EVERY TIME *******
+        //CAN SAFELY BE REMOVED
+        //Authentication.instance.logOutUser()
+        //CAN SAFELY BE REMOVED
+        //************THIS IS FOR TESTING; IT's CALLED TO LOG OUT USERS EVERY TIME *******
+
+
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.nav_bar)
         val bottomNavigationController = findNavController(R.id.nav_host_fragment)
 
