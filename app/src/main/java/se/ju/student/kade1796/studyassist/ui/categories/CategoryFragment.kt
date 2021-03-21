@@ -70,8 +70,6 @@ class CategoryFragment : Fragment(), AdapterView.OnItemClickListener {
         id: Long
     ) {
         //Start ThreadsActivity at clicked item
-        Toast.makeText(parent!!.context, "Item $position clicked", Toast.LENGTH_SHORT)
-            .show()
         val clickedItem = arrayList!![position]
         val intent = Intent(parent!!.context, ThreadsActivity::class.java)
         intent.putExtra("title", clickedItem.categoryTitle)
