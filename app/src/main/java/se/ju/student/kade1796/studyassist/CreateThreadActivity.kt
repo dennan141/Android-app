@@ -8,13 +8,10 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 
 class CreateThreadActivity : AppCompatActivity() {
-    val database = DatabaseFirestore.instance
-    var GlobalData = mutableListOf<Threads>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_thread)
-
 
         val spinner = findViewById<Spinner>(R.id.spinner)
         val title = findViewById<EditText>(R.id.title_editText)
@@ -29,52 +26,35 @@ class CreateThreadActivity : AppCompatActivity() {
                 pos: Int,
                 id: Long
             ) {
-                // An item was selected. You can retrieve the selected item using
-                Toast.makeText(
-                    applicationContext,
-                    parent.getItemAtPosition(pos).toString(),
-                    Toast.LENGTH_SHORT
-                ).show()
-
             }
-
 
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
 
-
+        //********************* ON CLICK CREATE THREAD ************************
         createButton.setOnClickListener {
-
-
-            //********************* ON CLICK CREATE THREAD ************************
-            createButton.setOnClickListener {
-                    if (!validateTitleText(title)) {
-                        title.error = getString(R.string.titleTextInvalid)
-                    } else if (!validateContentText(content)) {
-                        content.error = getString(R.string.contentTextInvalid)
-                    } else {
-                        val intent = Intent(this, ThreadsActivity::class.java)
-                        intent.putExtra("category", category.text)
-                        intent.putExtra("title", title.toString())
-                        intent.putExtra("content", content.toString())
-                        startActivity(intent)
-                    }
+            if (!validateTitleText(title)) {
+                title.error = getString(R.string.titleTextInvalid)
+            } else if (!validateContentText(content)) {
+                content.error = getString(R.string.contentTextInvalid)
+            } else {
+                val intent = Intent(this, ThreadsActivity::class.java)
+                intent.putExtra("category", category.text)
+                intent.putExtra("title", title.toString())
+                intent.putExtra("content", content.toString())
+                startActivity(intent)
             }
-            //********************* ON CLICK CREATE THREAD ************************
         }
-    }
-
-    //*********************** PRIVATE FUNCTIONS ************************
-
-
-    private fun validateTitleText(editText: EditText): Boolean {
-        return (editText.text.length in 6..29)
-    }
-
-    private fun validateContentText(editText: EditText): Boolean {
-        return (editText.text.length in 10..300)
+        //********************* ON CLICK CREATE THREAD ************************
     }
 }
 
+//*********************** PRIVATE FUNCTIONS ************************
+private fun validateTitleText(editText: EditText): Boolean {
+    return (editText.text.length in 6..29)
+}
 
+private fun validateContentText(editText: EditText): Boolean {
+    return (editText.text.length in 10..300)
+}
 //*********************** PRIVATE FUNCTIONS ************************

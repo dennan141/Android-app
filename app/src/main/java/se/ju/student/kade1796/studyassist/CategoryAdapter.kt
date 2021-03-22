@@ -12,17 +12,15 @@ import android.widget.TextView
 class CategoryAdapter(
     private val context: Context,
     private val arrayList: ArrayList<Categories>,
-    ) : BaseAdapter() {
+) : BaseAdapter() {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
 
-        Log.d("adapter", "In adapter")
+        var view: View = View.inflate(context, R.layout.categories_item, null)
+        var imageView: ImageView = view.findViewById(R.id.category_imageView)
+        var title: TextView = view.findViewById(R.id.category_title_textView)
 
-        var view:View = View.inflate(context, R.layout.categories_item, null)
-        var imageView:ImageView = view.findViewById(R.id.category_imageView)
-        var title:TextView = view.findViewById(R.id.category_title_textView)
-
-        var listItem:Categories = arrayList[position]
+        var listItem: Categories = arrayList[position]
 
         imageView.setImageResource(listItem.icons!!)
         title.text = listItem.categoryTitleStringResource?.let { context.resources.getString(it) }

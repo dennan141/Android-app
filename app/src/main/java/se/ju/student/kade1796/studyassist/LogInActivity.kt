@@ -88,10 +88,16 @@ class LogInActivity : AppCompatActivity() {
                         Toast.LENGTH_SHORT
                     ).show()
 
+
                 }
             }
     }
 
     //*********** PRIVATE FUNCTION; MOVE TO OTHER FILE LATER **************
 
+
 }
+
+
+
+

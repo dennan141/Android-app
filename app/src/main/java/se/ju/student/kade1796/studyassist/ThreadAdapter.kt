@@ -10,23 +10,20 @@ import kotlinx.android.synthetic.main.thread_item.view.*
 
 class ThreadAdapter(
     var threadList: MutableList<Threads>,
-
     val listener: OnItemClickListener
-
 ) : RecyclerView.Adapter<ThreadAdapter.ThreadViewHolder>() {
 
     override fun onCreateViewHolder(ThreadsActivty: ViewGroup, viewType: Int): ThreadViewHolder {
-        val itemView = LayoutInflater.from(ThreadsActivty.context).inflate(R.layout.thread_item, ThreadsActivty, false)
+        val itemView = LayoutInflater.from(ThreadsActivty.context)
+            .inflate(R.layout.thread_item, ThreadsActivty, false)
         return ThreadViewHolder(itemView)
     }
 
     override fun onBindViewHolder(holder: ThreadViewHolder, position: Int) {
         holder.titleTextView.text = threadList[position].title
         holder.descriptionTextView.text = threadList[position].content
-        holder.likeButtonImageButton.setOnClickListener{
-
+        holder.likeButtonImageButton.setOnClickListener {
             listener.addLikes(position)
-
         }
         holder.likesTextView.text = threadList[position].likes.toString()
     }
@@ -39,7 +36,7 @@ class ThreadAdapter(
     }
 
     inner class ThreadViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
-    View.OnClickListener{
+        View.OnClickListener {
         //TODO: FIX ERROR UNRESOLVED REFERENCE !!!
         val titleTextView: TextView = itemView.title_textView
         val descriptionTextView: TextView = itemView.description_textView
@@ -54,13 +51,13 @@ class ThreadAdapter(
 
         override fun onClick(v: View?) {
             val position = adapterPosition
-            if(position != RecyclerView.NO_POSITION) {
-
+            if (position != RecyclerView.NO_POSITION) {
+                listener.onItemClick(position)
             }
         }
     }
 
-    interface OnItemClickListener{
+    interface OnItemClickListener {
         fun onItemClick(position: Int)
         fun addLikes(position: Int)
     }

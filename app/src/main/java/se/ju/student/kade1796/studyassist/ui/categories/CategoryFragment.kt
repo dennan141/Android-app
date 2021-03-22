@@ -1,14 +1,7 @@
-// *********************** !!! IMPORTANT !!! ****************************
-// *																	*
-// *					Old CategoryFragmet.kt - file					*
-// *		This is what came from the merge but doesnt seem to work?	*
-// *																	*
-// *********************** !!! IMPORTANT !!! ****************************
-
 package se.ju.student.kade1796.studyassist.ui.categories
 
-
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -23,11 +16,9 @@ import androidx.lifecycle.Observer
 import android.widget.ImageButton
 import se.ju.student.kade1796.studyassist.R
 import android.widget.*
+import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import se.ju.student.kade1796.studyassist.*
-import se.ju.student.kade1796.studyassist.DatabaseFirestore
-import se.ju.student.kade1796.studyassist.LoadingDialog
-import se.ju.student.kade1796.studyassist.ThreadsActivity
-
 
 class CategoryFragment : Fragment(), AdapterView.OnItemClickListener {
     private lateinit var categoryViewModel: CategoryViewModel
@@ -43,7 +34,7 @@ class CategoryFragment : Fragment(), AdapterView.OnItemClickListener {
         categoryViewModel =
             ViewModelProvider(this).get(CategoryViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_category, container, false)
-
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         gridView = root!!.findViewById(R.id.category_gridView)
         arrayList = ArrayList()
         arrayList = categoryViewModel.getCategoryList()
@@ -52,12 +43,6 @@ class CategoryFragment : Fragment(), AdapterView.OnItemClickListener {
         gridView!!.onItemClickListener = this
 
         return root
-    }
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
     }
 
     override fun onItemClick(
@@ -69,7 +54,9 @@ class CategoryFragment : Fragment(), AdapterView.OnItemClickListener {
         //Start ThreadsActivity at clicked item
         val clickedItem = arrayList!![position]
         val intent = Intent(parent!!.context, ThreadsActivity::class.java)
-        intent.putExtra("title", clickedItem.categoryTitle)
+        intent.putExtra("categoryTitle", clickedItem.categoryTitle)
         startActivity(intent)
     }
+
+
 }

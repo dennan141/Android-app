@@ -2,7 +2,6 @@ package se.ju.student.kade1796.studyassist.ui.create_thread
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +13,7 @@ import se.ju.student.kade1796.studyassist.*
 class CreateThreadFragment : Fragment() {
     private lateinit var createThreadViewModel: CreateThreadViewModel
     private val db = DatabaseFirestore.instance
+    private var categoryText = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,7 +32,6 @@ class CreateThreadFragment : Fragment() {
         val spinner = view.findViewById<Spinner>(R.id.spinner)
         val title = view.findViewById<EditText>(R.id.title_editText)
         val content = view.findViewById<EditText>(R.id.content_editText)
-        val category = view.findViewById<TextView>(R.id.categoryText)
         val createButton = view.findViewById<Button>(R.id.create_button)
 
         activity?.let {
@@ -45,11 +44,10 @@ class CreateThreadFragment : Fragment() {
                 spinner.adapter = adapter
             }
         }
-
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
                 // An item was selected. You can retrieve the selected item using
-                category.text = parent.getItemAtPosition(pos).toString()
+                getCategoryFromSpinner(parent.getItemAtPosition(pos).toString())
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {}
@@ -57,17 +55,16 @@ class CreateThreadFragment : Fragment() {
 
 
         createButton.setOnClickListener {
-
             if (Authentication.instance.getCurrentUser() != null) {
-                Log.d("LoginCheck", "logged in")
                 if (!validateTitleText(title)) {
                     title.error = getString(R.string.titleTextInvalid)
                 } else if (!validateContentText(content)) {
                     content.error = getString(R.string.contentTextInvalid)
                 } else {
+                    println(categoryText)
                     val threadTitle = title.text.toString()
                     val threadContent = content.text.toString()
-                    val threadCategory = category.text.toString()
+                    val threadCategory = categoryText
 
                     addThreadToDb(threadTitle, threadContent, threadCategory)
 
@@ -77,24 +74,29 @@ class CreateThreadFragment : Fragment() {
                     intent.putExtra("category", threadCategory)
 
                     val args = Bundle()
-                    val posts = ArrayList<Posts>()
+                    val posts = ArrayList<Comment>()
                     args.putSerializable("bundlePosts", posts)
                     intent.putExtra("bundleArgs", args)
 
-                    intent.putExtra("userId", DatabaseFirestore.instance.auth.currentUser!!.uid)
+                    //intent.putExtra("userId", DatabaseFirestore.instance.auth.currentUser!!.uid)
+
                     startActivity(intent)
                 }
-            }else {
-               val intent = Intent(this.context, LogInActivity::class.java)
+            } else {
+                val intent = Intent(this.context, LogInActivity::class.java)
                 intent.putExtra("errorMessage", "You must be logged in to do this")
-                startActivity(intent)
             }
+
 
         }
     }
 
+    private fun getCategoryFromSpinner(category: String) {
+        categoryText = category
+    }
+
     private fun validateTitleText(editText: EditText): Boolean {
-        return (editText.text.length in 6..29)
+        return (editText.text.length in 6..49)
     }
 
     private fun validateContentText(editText: EditText): Boolean {

@@ -10,26 +10,27 @@
         android:id="@+id/categoryText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="Threads"
+        android:layout_marginBottom="50dp"
+        android:text="@string/text_threads"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/search_textView"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_textView" />
 
     <TextView
+        android:id="@+id/search_textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/search_textView"
-        android:hint="Search Threads"
-        android:padding="12dp"
-        android:gravity="center_vertical"
-        android:drawableEnd="@drawable/image_search"
         android:background="@android:drawable/editbox_background"
-        app:layout_constraintTop_toBottomOf="@id/categoryText"
-        app:layout_constraintStart_toStartOf="parent"
+        android:drawableEnd="@drawable/image_search"
+        android:gravity="center_vertical"
+        android:hint="@string/text_search_threads"
+        android:padding="12dp"
+        app:layout_constraintBottom_toTopOf="@id/categoryText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/recyclerView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/categoryText"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -37,12 +38,12 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="50dp"
-        android:padding="4dp"
         android:clipToPadding="false"
-        tools:listitem="@layout/thread_item"
-        app:layout_constraintTop_toTopOf="@id/search_textView"
+        android:padding="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toTopOf="@id/categoryText"
+        tools:listitem="@layout/thread_item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,27 +9,30 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.comment_item.view.*
 import kotlinx.android.synthetic.main.comment_item.view.likeButton
 import kotlinx.android.synthetic.main.comment_item.view.likes_textView
-import kotlinx.android.synthetic.main.thread_item.view.*
 
 class CommentAdapter(
-        var commentList: MutableList<Posts>,
-        private val listener: CommentAdapter.OnItemClickListener
+    var commentList: MutableList<Comment>,
+    private val listener: CommentAdapter.OnItemClickListener
 ) : RecyclerView.Adapter<CommentAdapter.CommentViewHolder>() {
 
-    override fun onCreateViewHolder(ThreadDetailActivty: ViewGroup, viewType: Int): CommentViewHolder {
-        val itemView = LayoutInflater.from(ThreadDetailActivty.context).inflate(R.layout.comment_item, ThreadDetailActivty, false)
+    override fun onCreateViewHolder(
+        ThreadDetailActivty: ViewGroup,
+        viewType: Int
+    ): CommentViewHolder {
+        val itemView = LayoutInflater.from(ThreadDetailActivty.context)
+            .inflate(R.layout.comment_item, ThreadDetailActivty, false)
         return CommentViewHolder(itemView)
     }
 
     override fun onBindViewHolder(holder: CommentViewHolder, position: Int) {
         holder.commentTextView.text = commentList[position].content
-        holder.likeButtonImageButton.setOnClickListener{
+        holder.likeButtonImageButton.setOnClickListener {
             listener.addLikes(position)
         }
         holder.likesTextView.text = commentList[position].likes.toString()
     }
 
-    fun addPosts(posts:MutableList<Posts>) {
+    fun addPosts(posts: MutableList<Comment>) {
         this.commentList.addAll(posts);
     }
 
@@ -42,7 +45,7 @@ class CommentAdapter(
 
     }
 
-    interface OnItemClickListener{
+    interface OnItemClickListener {
         fun addLikes(position: Int)
     }
 }

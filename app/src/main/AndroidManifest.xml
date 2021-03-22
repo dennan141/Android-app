@@ -13,7 +13,6 @@
 
         <activity android:name=".ThreadDetailActivity" />
         <activity android:name=".ThreadsActivity" />
-        <activity android:name=".CreateThreadActivity" />
         <activity android:name=".LogInActivity">
         </activity>
         <activity android:name=".MainActivity">
