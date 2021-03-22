@@ -4,10 +4,12 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class Comment(
-    val threadId: String? = "",
-    val content: String? = "-Empty Content-",
-    val category: String? = "",
-    var likes: Int? = 0,
+
+        val category: String? = "",
+        val content: String? = "-Empty Content-",
+        val threadId: String? = "",
+        var likes: Int? = 0,
+
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
@@ -17,12 +19,14 @@ data class Comment(
     ) {
     }
 
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(threadId)
-        parcel.writeString(content)
-        parcel.writeString(category)
-        parcel.writeValue(likes)
-    }
+
+        override fun writeToParcel(parcel: Parcel, flags: Int) {
+                parcel.writeString(category)
+                parcel.writeString(content)
+                parcel.writeString(threadId)
+                parcel.writeValue(likes)
+        }
+
 
     override fun describeContents(): Int {
         return 0

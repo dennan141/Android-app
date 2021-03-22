@@ -31,6 +31,7 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
         println("recyclerview: " + this::recyclerView.isInitialized)
         println("getAllThreadsInCategory $DatabaseFirestore.instance.getAllThreadsInCategory(category)")
 
+
         recyclerView.adapter = ThreadAdapter(threadList, this)
         recyclerView.layoutManager = LinearLayoutManager(this)
         DatabaseFirestore.instance.getAllThreadsInCategory(

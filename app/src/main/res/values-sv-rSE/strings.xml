@@ -24,6 +24,7 @@
     <string name="text_course_material">Kurs Material</string>
     <string name="text_exchange_studies">Utbytes Studier</string>
     <string name="text_other">Övrigt</string>
+
     <string name="commentTextInvalid">Komlmentaren får inte vara tom och mindre än 100 bokstäver</string>
     <string name="text_could_not_login">Kunde inte logga in!</string>
     <string name="text_log_in">Logga in</string>
@@ -35,4 +36,5 @@
     <string name="text_search_by_title">Sök med titel...</string>
     <string name="text_title2">Titel</string>
     <string name="text_description">Beskriving</string>
+
 </resources>

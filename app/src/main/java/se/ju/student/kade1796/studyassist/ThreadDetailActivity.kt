@@ -1,6 +1,5 @@
 package se.ju.student.kade1796.studyassist
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 //import kotlinx.android.synthetic.main.activity_thread_detail.*
 import android.os.Bundle
@@ -16,6 +15,7 @@ class ThreadDetailActivity : AppCompatActivity(), CommentAdapter.OnItemClickList
     private val commentList: MutableList<Comment> = ArrayList()
     private val db = DatabaseFirestore.instance
     private var thread = Threads()
+    private var threadList:MutableList<Threads> = arrayListOf()
     private lateinit var recyclerView: RecyclerView;
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +35,10 @@ class ThreadDetailActivity : AppCompatActivity(), CommentAdapter.OnItemClickList
             deleteButton.visibility = View.VISIBLE;
         }
 
+        //TODO: Fix edit thread
+        recyclerView.adapter = CommentAdapter(commentList, this)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
         createCommentButton.setOnClickListener {
 
             if (commentText.editableText.isEmpty() || commentText.editableText.length > 100) {
@@ -43,22 +47,20 @@ class ThreadDetailActivity : AppCompatActivity(), CommentAdapter.OnItemClickList
                 val commentThreadId = intent.getStringExtra("id")
                 val commentContent = commentText.text.toString()
                 val category = intent.getStringExtra("category")
-                println(Comment(commentThreadId, commentContent, category))
-                db.addComment(Comment(commentThreadId, commentContent, category))
+                // println(Comment(commentThreadId, commentContent, category))
+                val comment = Comment(category, commentContent, commentThreadId)
+                db.addComment(comment)
 
-                recyclerView.adapter!!.notifyDataSetChanged()
+                val commentList = mutableListOf<Comment>(comment)
+                println("commentList $commentList")
+                (recyclerView.adapter as CommentAdapter).addPosts(commentList)
             }
         }
 
         deleteButton.setOnClickListener {
             DatabaseFirestore.instance.deleteThread(thread)
-            finish();
+            finish()
         }
-
-        //TODO: Fix edit thread
-
-        recyclerView.adapter = CommentAdapter(commentList, this)
-        recyclerView.layoutManager = LinearLayoutManager(this)
 
         loadThread()
     }
@@ -66,16 +68,16 @@ class ThreadDetailActivity : AppCompatActivity(), CommentAdapter.OnItemClickList
 
     override fun addLikes(position: Int) {
         commentList[position].likes = commentList[position].likes?.plus(1)
-
-        /*if (thread != null)
-            DatabaseFirestore.instance.updateCommentLikes(thread, likes!!)
-        recyclerView.adapter!!.notifyItemChanged(position)*/
+        var comment = Comment(commentList[position].category, commentList[position].content, commentList[position].threadId, commentList[position].likes)
+        if (thread != null)
+            DatabaseFirestore.instance.updateCommentLikes(comment)
+        
     }
 
     private fun loadThread() {
-        var titleText = findViewById<TextView>(R.id.titleText)
-        var contentText = findViewById<TextView>(R.id.contentText)
-        var likesText = findViewById<TextView>(R.id.likesText)
+        val titleText = findViewById<TextView>(R.id.titleText)
+        val contentText = findViewById<TextView>(R.id.contentText)
+        val likesText = findViewById<TextView>(R.id.likesText)
 
         val id = intent.getStringExtra("id")
         val category = intent.getStringExtra("category")
@@ -95,6 +97,6 @@ class ThreadDetailActivity : AppCompatActivity(), CommentAdapter.OnItemClickList
             db.updateLikes(thread, likes)
         }
         (recyclerView.adapter as CommentAdapter).addPosts(posts)
-        thread = Threads(title, content, category, userId, likes!!.toInt(), posts, id);
+        thread = Threads(title, content, category, userId, likes, posts, id);
     }
 }

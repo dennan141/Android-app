@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import se.ju.student.kade1796.studyassist.*
 
@@ -79,12 +81,13 @@ class CreateThreadFragment : Fragment() {
                     intent.putExtra("bundleArgs", args)
 
                     //intent.putExtra("userId", DatabaseFirestore.instance.auth.currentUser!!.uid)
-
                     startActivity(intent)
                 }
             } else {
                 val intent = Intent(this.context, LogInActivity::class.java)
                 intent.putExtra("errorMessage", "You must be logged in to do this")
+
+
             }
 
 

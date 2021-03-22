@@ -1,5 +1,6 @@
 package se.ju.student.kade1796.studyassist
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +12,8 @@ import kotlinx.android.synthetic.main.comment_item.view.likeButton
 import kotlinx.android.synthetic.main.comment_item.view.likes_textView
 
 class CommentAdapter(
-    var commentList: MutableList<Comment>,
-    private val listener: CommentAdapter.OnItemClickListener
+    private var commentList: MutableList<Comment>,
+    private val listener: OnItemClickListener
 ) : RecyclerView.Adapter<CommentAdapter.CommentViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -25,15 +26,22 @@ class CommentAdapter(
     }
 
     override fun onBindViewHolder(holder: CommentViewHolder, position: Int) {
-        holder.commentTextView.text = commentList[position].content
-        holder.likeButtonImageButton.setOnClickListener {
+
+        println("onBindViewHolder position $position ${commentList[position]}")
+        holder.commentTextView.text = commentList[position].content.toString()
+        holder.likeButtonImageButton.setOnClickListener{
+
             listener.addLikes(position)
         }
         holder.likesTextView.text = commentList[position].likes.toString()
     }
 
-    fun addPosts(posts: MutableList<Comment>) {
-        this.commentList.addAll(posts);
+
+    fun addPosts(listOfComments: MutableList<Comment>) {
+        println("addPosts")
+        this.commentList.addAll(listOfComments)
+        this.notifyDataSetChanged()
+
     }
 
     override fun getItemCount() = commentList.size
