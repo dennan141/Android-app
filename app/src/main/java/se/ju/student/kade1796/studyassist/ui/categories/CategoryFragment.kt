@@ -1,15 +1,4 @@
-
-
-// *********************** !!! IMPORTANT !!! ****************************
-// *																	*
-// *					Old CategoryFragmet.kt - file					*
-// *		This is what came from the merge but doesnt seem to work?	*
-// *																	*
-// *********************** !!! IMPORTANT !!! ****************************
-
 package se.ju.student.kade1796.studyassist.ui.categories
-
-
 
 import android.content.Context
 import android.content.Intent
@@ -23,7 +12,6 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import se.ju.student.kade1796.studyassist.*
-
 
 class CategoryFragment : Fragment(), AdapterView.OnItemClickListener {
     private lateinit var categoryViewModel: CategoryViewModel
@@ -49,7 +37,6 @@ class CategoryFragment : Fragment(), AdapterView.OnItemClickListener {
 
         return root
     }
-
 
     override fun onItemClick(
         parent: AdapterView<*>?,

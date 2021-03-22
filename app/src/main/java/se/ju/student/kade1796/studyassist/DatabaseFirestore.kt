@@ -112,7 +112,6 @@ class DatabaseFirestore {
     }
 
 
-
     fun updateLikes(thread: Threads, likes: Int) {
         val categoryId = categoryTitleToId(thread.category.toString())
         db.collection("categories")
@@ -126,7 +125,7 @@ class DatabaseFirestore {
     //******************************************POSTS FUNC*************************************************
     //TODO IMPLEMENT POSTS FUNCS
 
-    fun addComment(comment: Comment){
+    fun addComment(comment: Comment) {
         val categoryId = categoryTitleToId(comment.category.toString())
         db.collection("categories")
             .document(categoryId)
@@ -148,7 +147,7 @@ class DatabaseFirestore {
     //******************************************LOGIN FUNC ************************************************
     fun loginWithEmail(email: String, password: String, activity: LogInActivity) {
         auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener  { task ->
+            .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d("successTag", "signInWithEmail:success")

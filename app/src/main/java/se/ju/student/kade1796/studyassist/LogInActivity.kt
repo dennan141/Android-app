@@ -51,12 +51,12 @@ class LogInActivity : AppCompatActivity() {
         // [START send_email_verification]
         val user = DatabaseFirestore.instance.auth.currentUser
 
-        if(user != null) {
+        if (user != null) {
             user.sendEmailVerification()
                 .addOnCompleteListener(this) { task ->
                     // Email Verification sent
                 }
-        }   else    {
+        } else {
             Log.d("Email Verification", "User is not logged in!")
         }
         // [END send_email_verification]
@@ -65,12 +65,12 @@ class LogInActivity : AppCompatActivity() {
 
     fun updateUI(user: FirebaseUser?) {
         //Update the UI with this
-        if(user != null) {
+        if (user != null) {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
-        }   else    {
-            println("COULD NOT LOGIN!")
-        //Toast.makeText(baseContext, "Authentication failed.", Toast.LENGTH_SHORT).show()
+        } else {
+            println(R.string.text_could_not_login)
+            //Toast.makeText(baseContext, "Authentication failed.", Toast.LENGTH_SHORT).show()
         }
     }
 }

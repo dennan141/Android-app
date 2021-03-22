@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_thread_detail.*
 
 class ThreadDetailActivity : AppCompatActivity(), CommentAdapter.OnItemClickListener {
-    private val commentList:MutableList<Comment> = ArrayList()
+    private val commentList: MutableList<Comment> = ArrayList()
     private val db = DatabaseFirestore.instance
     private var thread = Threads()
     private lateinit var recyclerView: RecyclerView;
@@ -30,16 +30,16 @@ class ThreadDetailActivity : AppCompatActivity(), CommentAdapter.OnItemClickList
         val createCommentButton = findViewById<Button>(R.id.createCommentButton)
         val commentText = findViewById<EditText>(R.id.comment_edittext)
 
-        if(currentUser != null && thread.userId == currentUser.uid) {
+        if (currentUser != null && thread.userId == currentUser.uid) {
             editButton.visibility = View.VISIBLE;
             deleteButton.visibility = View.VISIBLE;
         }
 
         createCommentButton.setOnClickListener {
 
-            if(commentText.editableText.isEmpty() || commentText.editableText.length > 100){
+            if (commentText.editableText.isEmpty() || commentText.editableText.length > 100) {
                 commentText.error = getString(R.string.commentTextInvalid)
-            }else{
+            } else {
                 val commentThreadId = intent.getStringExtra("id")
                 val commentContent = commentText.text.toString()
                 val category = intent.getStringExtra("category")
@@ -89,8 +89,8 @@ class ThreadDetailActivity : AppCompatActivity(), CommentAdapter.OnItemClickList
         titleText.text = title
         contentText.text = content
         likesText.text = likes.toString()
-        likeButton.setOnClickListener{
-            likes+=1
+        likeButton.setOnClickListener {
+            likes += 1
             likesText.text = likes.toString()
             db.updateLikes(thread, likes)
         }
