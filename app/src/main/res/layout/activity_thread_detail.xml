@@ -87,18 +87,18 @@
     </androidx.cardview.widget.CardView>
 
     <EditText
-        android:id="@+id/editTextTextMultiLine"
+        android:id="@+id/comment_edittext"
         android:layout_width="0dp"
         android:layout_height="71dp"
         android:ems="10"
         android:inputType="textMultiLine"
         android:maxLines="3"
-        app:layout_constraintEnd_toStartOf="@+id/button2"
+        app:layout_constraintEnd_toStartOf="@id/createCommentButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/createCommentButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
