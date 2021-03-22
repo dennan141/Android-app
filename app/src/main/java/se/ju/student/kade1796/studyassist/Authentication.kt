@@ -28,6 +28,11 @@ class Authentication {
     }
 
 
+    fun isAuthorized(userId: String): Boolean{
+        return auth.currentUser?.uid == userId
+    }
+
+
 
 
 }

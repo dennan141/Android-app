@@ -59,19 +59,19 @@ class DatabaseFirestore {
     //****************************************THREADS FUNC*************************************************
     //Returns a list of threads to local Repository
     fun getAllThreadsInCategory(categoryName: String, adapter: ThreadAdapter) {
-        val categoryId = categoryTitleToId(categoryName)
-        println(categoryName + categoryId + "dasda")
+        //val categoryId = categoryTitleToId(categoryName)
+        //println(categoryName + categoryId + "dasda")
         db.collection("categories")
-            .document(categoryId)
+            .document(categoryName)
             .collection("threads")
             .get()
             .addOnSuccessListener { result ->
                 var listOfThreads = mutableListOf<Threads>()
 
-                for (document in result)
-                    listOfThreads.add(document.toObject(Threads::class.java));
-
-                adapter.update(listOfThreads);
+                for (document in result) {
+                    listOfThreads.add(document.toObject(Threads::class.java))
+                }
+                adapter.update(listOfThreads)
             }
             .addOnFailureListener { exception ->
                 println("Error getting documents: $exception");
