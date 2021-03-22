@@ -21,7 +21,7 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_threads)
 
-        val category = intent.getStringExtra("category").toString()
+        val category = intent.getStringExtra("categoryTitle").toString()
         recyclerView = findViewById(R.id.recyclerView)
         val categoryText = findViewById<TextView>(R.id.categoryText)
         categoryText.text = category
@@ -31,7 +31,7 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
 
         recyclerView.adapter = ThreadAdapter(threadList, this)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        DatabaseFirestore.instance.getAllThreadsInCategory("Campus",
+        DatabaseFirestore.instance.getAllThreadsInCategory(category,
             recyclerView.adapter as ThreadAdapter
         )
 
@@ -94,7 +94,7 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
                 recyclerView.adapter!!.notifyItemChanged(position)
                 val intent = Intent(this, ThreadDetailActivity::class.java)
 
-                thread.posts as ArrayList<Posts>
+                thread.posts as ArrayList<Comment>
 
                 intent.putExtra("id", thread.id)
                 intent.putExtra("category", thread.category)
@@ -118,7 +118,7 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
         recyclerView.adapter!!.notifyItemChanged(position)
         val intent = Intent(this, ThreadDetailActivity::class.java)
 
-        thread.posts as ArrayList<Posts>
+        thread.posts as ArrayList<Comment>
 
         intent.putExtra("id", thread.id)
         intent.putExtra("category", thread.category)

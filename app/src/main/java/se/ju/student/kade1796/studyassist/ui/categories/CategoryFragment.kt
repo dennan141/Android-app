@@ -11,25 +11,18 @@ package se.ju.student.kade1796.studyassist.ui.categories
 
 
 
-import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import android.widget.ImageButton
-import androidx.lifecycle.ViewModelProvider
-import se.ju.student.kade1796.studyassist.R
+import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import se.ju.student.kade1796.studyassist.*
-import se.ju.student.kade1796.studyassist.DatabaseFirestore
-import se.ju.student.kade1796.studyassist.LoadingDialog
-import se.ju.student.kade1796.studyassist.ThreadsActivity
 
 
 class CategoryFragment : Fragment(), AdapterView.OnItemClickListener {
@@ -46,7 +39,7 @@ class CategoryFragment : Fragment(), AdapterView.OnItemClickListener {
         categoryViewModel =
             ViewModelProvider(this).get(CategoryViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_category, container, false)
-
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         gridView = root!!.findViewById(R.id.category_gridView)
         arrayList = ArrayList()
         arrayList = categoryViewModel.getCategoryList()
@@ -58,11 +51,6 @@ class CategoryFragment : Fragment(), AdapterView.OnItemClickListener {
     }
 
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-    }
-
     override fun onItemClick(
         parent: AdapterView<*>?,
         view: View?,
@@ -72,7 +60,9 @@ class CategoryFragment : Fragment(), AdapterView.OnItemClickListener {
         //Start ThreadsActivity at clicked item
         val clickedItem = arrayList!![position]
         val intent = Intent(parent!!.context, ThreadsActivity::class.java)
-        intent.putExtra("title", clickedItem.categoryTitle)
+        intent.putExtra("categoryTitle", clickedItem.categoryTitle)
         startActivity(intent)
     }
+
+
 }

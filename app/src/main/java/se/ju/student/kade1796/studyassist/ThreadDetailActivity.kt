@@ -1,17 +1,19 @@
 package se.ju.student.kade1796.studyassist
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 //import kotlinx.android.synthetic.main.activity_thread_detail.*
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_thread_detail.*
 
 class ThreadDetailActivity : AppCompatActivity(), CommentAdapter.OnItemClickListener {
-    private val commentList:MutableList<Posts> = ArrayList()
+    private val commentList:MutableList<Comment> = ArrayList()
     private val db = DatabaseFirestore.instance
     private var thread = Threads()
     private lateinit var recyclerView: RecyclerView;
@@ -20,15 +22,32 @@ class ThreadDetailActivity : AppCompatActivity(), CommentAdapter.OnItemClickList
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_thread_detail)
 
-        val currentUser = DatabaseFirestore.instance.auth.currentUser;
+        val currentUser = DatabaseFirestore.instance.auth.currentUser
 
         recyclerView = findViewById(R.id.recyclerView)
         val editButton = findViewById<Button>(R.id.editButton)
         val deleteButton = findViewById<Button>(R.id.deleteButton)
+        val createCommentButton = findViewById<Button>(R.id.createCommentButton)
+        val commentText = findViewById<EditText>(R.id.comment_edittext)
 
         if(currentUser != null && thread.userId == currentUser.uid) {
             editButton.visibility = View.VISIBLE;
             deleteButton.visibility = View.VISIBLE;
+        }
+
+        createCommentButton.setOnClickListener {
+
+            if(commentText.editableText.isEmpty() || commentText.editableText.length > 100){
+                commentText.error = getString(R.string.commentTextInvalid)
+            }else{
+                val commentThreadId = intent.getStringExtra("id")
+                val commentContent = commentText.text.toString()
+                val category = intent.getStringExtra("category")
+                println(Comment(commentThreadId, commentContent, category))
+                db.addComment(Comment(commentThreadId, commentContent, category))
+
+                recyclerView.adapter!!.notifyDataSetChanged()
+            }
         }
 
         deleteButton.setOnClickListener {
@@ -43,6 +62,7 @@ class ThreadDetailActivity : AppCompatActivity(), CommentAdapter.OnItemClickList
 
         loadThread()
     }
+
 
     override fun addLikes(position: Int) {
         commentList[position].likes = commentList[position].likes?.plus(1)
@@ -62,7 +82,7 @@ class ThreadDetailActivity : AppCompatActivity(), CommentAdapter.OnItemClickList
         val title = intent.getStringExtra("title")
         val content = intent.getStringExtra("content")
         val args = intent.getBundleExtra("bundleArgs")
-        val posts = args!!.getSerializable("bundlePosts") as MutableList<Posts>;
+        val posts = args!!.getSerializable("bundlePosts") as MutableList<Comment>;
         var likes = intent.getIntExtra("likes", 0)
         val userId = intent.getStringExtra("userId");
 
