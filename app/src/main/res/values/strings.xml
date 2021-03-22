@@ -14,7 +14,7 @@
     <string name="isEmpty">The field can not be empty.</string>
     <string name="titleTextInvalid">The title must be between 5 – 20 characters.</string>
     <string name="contentTextInvalid">The content must be between 10 – 300 characters.</string>
-    <string name="commentTextInvalid">The comment can not be empty and shorter than 100 characters.</string>
+    <string name="commentTextInvalid">The comment cannot be empty and more than 100 characters.</string>
 
     <integer name="titleLimit">20</integer>
     <integer name="contentLimit">300</integer>

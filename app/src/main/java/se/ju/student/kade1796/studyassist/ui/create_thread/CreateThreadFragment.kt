@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import se.ju.student.kade1796.studyassist.*
 
@@ -79,6 +81,7 @@ class CreateThreadFragment : Fragment() {
 
                 //intent.putExtra("userId", DatabaseFirestore.instance.auth.currentUser!!.uid)
                 startActivity(intent)
+
             }
         }
     }
@@ -88,7 +91,7 @@ class CreateThreadFragment : Fragment() {
     }
 
     private fun validateTitleText(editText: EditText): Boolean {
-        return (editText.text.length in 6..29)
+        return (editText.text.length in 6..50)
     }
 
     private fun validateContentText(editText: EditText): Boolean {
@@ -102,7 +105,10 @@ class CreateThreadFragment : Fragment() {
     ) {
         db.addThread(
             Threads(
-                threadTitle, threadContent, threadCategory, DatabaseFirestore.instance.auth.currentUser?.uid
+                threadTitle,
+                threadContent,
+                threadCategory,
+                DatabaseFirestore.instance.auth.currentUser?.uid
             )
         )
     }

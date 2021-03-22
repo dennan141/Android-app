@@ -9,9 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.thread_item.view.*
 
 class ThreadAdapter(
-    var threadList: MutableList<Threads>,
-    val listener: OnItemClickListener
+    private var threadList: MutableList<Threads>,
+    var listener: OnItemClickListener
 ) : RecyclerView.Adapter<ThreadAdapter.ThreadViewHolder>() {
+
+
 
     override fun onCreateViewHolder(ThreadsActivty: ViewGroup, viewType: Int): ThreadViewHolder {
         val itemView = LayoutInflater.from(ThreadsActivty.context).inflate(R.layout.thread_item, ThreadsActivty, false)
