@@ -88,7 +88,7 @@ class CreateThreadFragment : Fragment() {
     }
 
     private fun validateTitleText(editText: EditText): Boolean {
-        return (editText.text.length in 6..29)
+        return (editText.text.length in 6..49)
     }
 
     private fun validateContentText(editText: EditText): Boolean {
