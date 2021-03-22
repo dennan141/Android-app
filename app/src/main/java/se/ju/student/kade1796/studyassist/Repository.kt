@@ -13,6 +13,8 @@ class Repository {
     //This is a list of thread, uses: All threads in a category. All threads that a user has created
     var listOfThreads = mutableListOf<Threads>()
 
+    var userThreads = mutableListOf<Threads>()
+
     //This is a list of categories, used in start to display all categories
     var listOfCategories = mutableListOf<Categories>()
 }

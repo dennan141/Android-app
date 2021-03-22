@@ -3,6 +3,7 @@ package se.ju.student.kade1796.studyassist
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import android.util.Log
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FieldValue
 
 class DatabaseFirestore {
@@ -78,22 +79,27 @@ class DatabaseFirestore {
             }
     }
 
+    fun getUsersThreads(user: FirebaseUser, adapter: ThreadAdapter){
+        adapter.update(Repository.instance.userThreads)
+    }
+
     //Adds a new thread from the Threads-data class, recommended!
     //Give it the data class Threads and a category to be added to
     fun addThread(newThread: Threads) {
-        val categoryId = categoryTitleToId(newThread.category.toString())
+        //val categoryId = categoryTitleToId(newThread.category.toString())
         db.collection("categories")
-            .document(categoryId)
+            .document(newThread.category.toString())
             .collection("threads")
             .add(newThread)
             .addOnSuccessListener {
                 Log.d("SuccessAddThread", "Thread added: $newThread")
                 val id = it.id
                 val documentReference = db.collection("categories")
-                    .document(categoryId)
+                    .document(newThread.category.toString())
                     .collection("threads")
                     .document(id)
                 documentReference.update("id", id)
+                Repository.instance.userThreads.add(newThread)
             }
     }
 
@@ -122,13 +128,15 @@ class DatabaseFirestore {
 
     }
 
+
+
     //******************************************POSTS FUNC*************************************************
     //TODO IMPLEMENT POSTS FUNCS
 
     fun addComment(comment: Comment) {
-        val categoryId = categoryTitleToId(comment.category.toString())
+        //val categoryId = categoryTitleToId(comment.category.toString())
         db.collection("categories")
-            .document(categoryId)
+            .document(comment.category.toString())
             .collection("threads")
             .document(comment.threadId.toString())
             .update("posts", FieldValue.arrayUnion("plswork"))
@@ -145,19 +153,6 @@ class DatabaseFirestore {
     }*/
 
     //******************************************LOGIN FUNC ************************************************
-    fun loginWithEmail(email: String, password: String, activity: LogInActivity) {
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Log.d("successTag", "signInWithEmail:success")
-                    //activity.updateUI(auth.currentUser)
-                } else {
-                    // If sign in fails, display a message to the user.
-                    Log.w("FailTag", "signInWithEmail:failure", task.exception)
-                    //activity.updateUI(null)
-                }
-            }
-    }
+
 
 }
