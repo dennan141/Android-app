@@ -27,7 +27,7 @@ import se.ju.student.kade1796.studyassist.*
 
 class CategoryFragment : Fragment(), AdapterView.OnItemClickListener {
     private lateinit var categoryViewModel: CategoryViewModel
-    private var arrayList: ArrayList<Categories>? = null
+    private var categoryList: ArrayList<Categories>? = null
     private var gridView: GridView? = null
     private var categoryAdapter: CategoryAdapter? = null
 
@@ -41,9 +41,9 @@ class CategoryFragment : Fragment(), AdapterView.OnItemClickListener {
         val root = inflater.inflate(R.layout.fragment_category, container, false)
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         gridView = root!!.findViewById(R.id.category_gridView)
-        arrayList = ArrayList()
-        arrayList = categoryViewModel.getCategoryList()
-        categoryAdapter = CategoryAdapter(requireContext(), arrayList!!)
+        categoryList = ArrayList()
+        categoryList = categoryViewModel.getCategoryList()
+        categoryAdapter = CategoryAdapter(requireContext(), categoryList!!)
         gridView!!.adapter = categoryAdapter
         gridView!!.onItemClickListener = this
 
@@ -58,7 +58,7 @@ class CategoryFragment : Fragment(), AdapterView.OnItemClickListener {
         id: Long
     ) {
         //Start ThreadsActivity at clicked item
-        val clickedItem = arrayList!![position]
+        val clickedItem = categoryList!![position]
         val intent = Intent(parent!!.context, ThreadsActivity::class.java)
         intent.putExtra("categoryTitle", clickedItem.categoryTitle)
         startActivity(intent)

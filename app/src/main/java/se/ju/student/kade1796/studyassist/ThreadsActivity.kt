@@ -26,9 +26,6 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
         val categoryText = findViewById<TextView>(R.id.categoryText)
         categoryText.text = category
 
-        println("recyclerview: " + this::recyclerView.isInitialized )
-        println("getAllThreadsInCategory $DatabaseFirestore.instance.getAllThreadsInCategory(category)")
-
         recyclerView.adapter = ThreadAdapter(threadList, this)
         recyclerView.layoutManager = LinearLayoutManager(this)
         DatabaseFirestore.instance.getAllThreadsInCategory(category,
