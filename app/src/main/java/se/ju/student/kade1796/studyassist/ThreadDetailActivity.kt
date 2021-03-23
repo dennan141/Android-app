@@ -1,5 +1,6 @@
 package se.ju.student.kade1796.studyassist
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 //import kotlinx.android.synthetic.main.activity_thread_detail.*
 import android.os.Bundle
@@ -15,7 +16,7 @@ class ThreadDetailActivity : AppCompatActivity(), CommentAdapter.OnItemClickList
     private val commentList: MutableList<Comment> = ArrayList()
     private val db = DatabaseFirestore.instance
     private var thread = Threads()
-    private var threadList:MutableList<Threads> = arrayListOf()
+    private var threadList: MutableList<Threads> = arrayListOf()
     private lateinit var recyclerView: RecyclerView;
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,7 +34,7 @@ class ThreadDetailActivity : AppCompatActivity(), CommentAdapter.OnItemClickList
         if (currentUser != null && thread.userId == currentUser.uid) {
             editButton.visibility = View.VISIBLE;
             deleteButton.visibility = View.VISIBLE;
-        }else {
+        } else {
             editButton.visibility = View.INVISIBLE;
             deleteButton.visibility = View.INVISIBLE;
         }
@@ -61,7 +62,11 @@ class ThreadDetailActivity : AppCompatActivity(), CommentAdapter.OnItemClickList
         }
 
         deleteButton.setOnClickListener {
+            val categoryName = intent.getStringExtra("category")
+            val intent = Intent(this, ThreadsActivity::class.java)
+            intent.putExtra("categoryTitle", categoryName.toString())
             DatabaseFirestore.instance.deleteThread(thread)
+            startActivity(intent)
             finish()
         }
 
@@ -71,10 +76,15 @@ class ThreadDetailActivity : AppCompatActivity(), CommentAdapter.OnItemClickList
 
     override fun addLikes(position: Int) {
         commentList[position].likes = commentList[position].likes?.plus(1)
-        var comment = Comment(commentList[position].category, commentList[position].content, commentList[position].threadId, commentList[position].likes)
+        var comment = Comment(
+            commentList[position].category,
+            commentList[position].content,
+            commentList[position].threadId,
+            commentList[position].likes
+        )
         if (thread != null)
             DatabaseFirestore.instance.updateCommentLikes(comment)
-        
+
     }
 
     private fun loadThread() {
