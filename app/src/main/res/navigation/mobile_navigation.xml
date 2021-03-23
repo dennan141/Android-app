@@ -15,10 +15,10 @@
         android:id="@+id/navigation_category"
         android:name="se.ju.student.kade1796.studyassist.ui.categories.CategoryFragment"
         android:label="@string/text_category"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_category" />
 
     <fragment
-        android:id="@+id/navigation_post"
+        android:id="@+id/navigation_create"
         android:name="se.ju.student.kade1796.studyassist.ui.create_thread.CreateThreadFragment"
         android:label="@string/text_post"
         tools:layout="@layout/fragment_create" />

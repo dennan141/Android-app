@@ -5,15 +5,18 @@ import android.app.AlertDialog
 import androidx.fragment.app.Fragment
 import se.ju.student.kade1796.studyassist.ui.categories.CategoryFragment
 
-class LoadingDialog{
+class LoadingDialog {
     private var activity = Activity()
     private var fragment = Fragment()
-    constructor(activity: Activity){
+
+    constructor(activity: Activity) {
         this.activity = activity
     }
-    constructor(fragment: Fragment){
+
+    constructor(fragment: Fragment) {
         this.fragment = fragment
     }
+
     private lateinit var alertDialog: AlertDialog
 
     fun startLoadingDialog() {
@@ -34,7 +37,7 @@ class LoadingDialog{
         alertDialog.show()
     }
 
-    fun dismissDialog(){
+    fun dismissDialog() {
         alertDialog.dismiss()
     }
 

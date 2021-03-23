@@ -8,11 +8,32 @@
     <string name="create_thread">Create Thread</string>
     <string name="title">Title:</string>
     <string name="content">Content:</string>
+    <string name="selected_item">Selected item</string>
+    <string name="editThread">Edit Thread</string>
+    <string name="deleteThread">Delete Thread</string>
+    <string name="text_campus">Campus</string>
+    <string name="text_social_life">Social Life</string>
+    <string name="text_study_help">Study Help</string>
+    <string name="text_it_help">IT Help</string>
+    <string name="text_math">Math</string>
+    <string name="text_course_material">Course Material</string>
+    <string name="text_exchange_studies">Exchange Studies</string>
+    <string name="text_other">Other</string>
+    <string name="text_could_not_login">Could not login!</string>
+    <string name="text_log_in">Log in</string>
+    <string name="text_search_threads">Search Threads</string>
+    <string name="text_threads">Threads</string>
+    <string name="text_comment">Comment</string>
+    <string name="text_loading">Loading</string>
+    <string name="text_select_thread">Select Thread</string>
+    <string name="text_search_by_title">Search by title...</string>
+    <string name="text_title2">Title</string>
+    <string name="text_description">Description</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="add_comment">Add comment</string>
     <string name="isEmpty">The field can not be empty.</string>
-    <string name="titleTextInvalid">The title must be between 5 – 20 characters.</string>
+    <string name="titleTextInvalid">The title must be between 5 – 50 characters.</string>
     <string name="contentTextInvalid">The content must be between 10 – 300 characters.</string>
     <string name="commentTextInvalid">The comment cannot be empty and more than 100 characters.</string>
 
@@ -51,4 +72,5 @@
     <string name="text_course_material">Course Material</string>
     <string name="text_exchange_students">Exchange Students</string>
     <string name="text_other">Other</string>
+    <string name="text_create">Create</string>
 </resources>

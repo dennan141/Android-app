@@ -7,10 +7,10 @@ import se.ju.student.kade1796.studyassist.R
 class CategoryViewModel : ViewModel() {
 
     fun getCategoryList(): ArrayList<Categories> {
-        
+
         var list = mutableListOf(
-            Categories("Campus", "campus",0 , R.drawable.image_campus),
-            Categories("Social Life", "social",0, R.drawable.image_social),
+            Categories("Campus", "campus", 0, R.drawable.image_campus),
+            Categories("Social Life", "social", 0, R.drawable.image_social),
             Categories("Study Help", "study", 0, R.drawable.image_study),
             Categories("IT Help", "it", 0, R.drawable.image_it_help),
             Categories("Math", "math", 0, R.drawable.image_math),
@@ -18,11 +18,12 @@ class CategoryViewModel : ViewModel() {
             Categories("Exchange Students", "study", 0, R.drawable.image_exchange),
             Categories("Other", "study", 0, R.drawable.image_other)
         )
-        //val list = DatabaseFirestore.instance.getAllCategories()
         list = setCategoryListValues(list as ArrayList<Categories>)
         return list
     }
-}   private fun setCategoryListValues(list: ArrayList<Categories>): ArrayList<Categories> {
+}
+
+private fun setCategoryListValues(list: ArrayList<Categories>): ArrayList<Categories> {
     for (i in list) {
         i.categoryTitleStringResource = when (i.categoryTitle) {
             "Campus" -> R.string.text_campus

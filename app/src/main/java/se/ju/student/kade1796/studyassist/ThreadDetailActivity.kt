@@ -1,8 +1,10 @@
 package se.ju.student.kade1796.studyassist
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 //import kotlinx.android.synthetic.main.activity_thread_detail.*
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -12,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_thread_detail.*
 
 class ThreadDetailActivity : AppCompatActivity(), CommentAdapter.OnItemClickListener {
-    private val commentList:MutableList<Comment> = ArrayList()
+    private val commentList: MutableList<Comment> = ArrayList()
     private val db = DatabaseFirestore.instance
     private var thread = Threads()
     private lateinit var recyclerView: RecyclerView;
@@ -21,7 +23,7 @@ class ThreadDetailActivity : AppCompatActivity(), CommentAdapter.OnItemClickList
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_thread_detail)
 
-        val currentUser = DatabaseFirestore.instance.auth.currentUser
+        val currentUser = Authentication.instance.getCurrentUser()
 
         recyclerView = findViewById(R.id.recyclerView)
         val editButton = findViewById<Button>(R.id.editButton)
@@ -29,9 +31,13 @@ class ThreadDetailActivity : AppCompatActivity(), CommentAdapter.OnItemClickList
         val createCommentButton = findViewById<Button>(R.id.createCommentButton)
         val commentText = findViewById<EditText>(R.id.comment_edittext)
 
-        if(currentUser != null && thread.userId == currentUser.uid) {
+        if (currentUser != null && thread.userId == currentUser.uid) {
+            Log.d("ifCheck", "${currentUser.uid} and  ${thread.userId}")
             editButton.visibility = View.VISIBLE;
             deleteButton.visibility = View.VISIBLE;
+        } else {
+            editButton.visibility = View.INVISIBLE;
+            deleteButton.visibility = View.INVISIBLE;
         }
 
         //TODO: Fix edit thread
@@ -40,9 +46,9 @@ class ThreadDetailActivity : AppCompatActivity(), CommentAdapter.OnItemClickList
 
         createCommentButton.setOnClickListener {
 
-            if(commentText.editableText.isEmpty() || commentText.editableText.length > 100){
+            if (commentText.editableText.isEmpty() || commentText.editableText.length > 100) {
                 commentText.error = getString(R.string.commentTextInvalid)
-            }else{
+            } else {
                 val commentThreadId = intent.getStringExtra("id")
                 val commentContent = commentText.text.toString()
                 val category = intent.getStringExtra("category")
@@ -57,8 +63,12 @@ class ThreadDetailActivity : AppCompatActivity(), CommentAdapter.OnItemClickList
         }
 
         deleteButton.setOnClickListener {
+            val categoryName = intent.getStringExtra("category")
+            val intent = Intent(this, ThreadsActivity::class.java)
+            intent.putExtra("categoryTitle", categoryName.toString())
             DatabaseFirestore.instance.deleteThread(thread)
             finish()
+            startActivity(intent)
         }
 
         loadThread()
@@ -67,10 +77,15 @@ class ThreadDetailActivity : AppCompatActivity(), CommentAdapter.OnItemClickList
 
     override fun addLikes(position: Int) {
         commentList[position].likes = commentList[position].likes?.plus(1)
-        var comment = Comment(commentList[position].category, commentList[position].content, commentList[position].threadId, commentList[position].likes)
+        var comment = Comment(
+            commentList[position].category,
+            commentList[position].content,
+            commentList[position].threadId,
+            commentList[position].likes
+        )
         if (thread != null)
             DatabaseFirestore.instance.updateCommentLikes(comment)
-        
+
     }
 
     private fun loadThread() {
@@ -90,8 +105,8 @@ class ThreadDetailActivity : AppCompatActivity(), CommentAdapter.OnItemClickList
         titleText.text = title
         contentText.text = content
         likesText.text = likes.toString()
-        likeButton.setOnClickListener{
-            likes+=1
+        likeButton.setOnClickListener {
+            likes += 1
             likesText.text = likes.toString()
             db.updateLikes(thread, likes)
         }

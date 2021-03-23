@@ -16,24 +16,32 @@ class CommentAdapter(
     private val listener: OnItemClickListener
 ) : RecyclerView.Adapter<CommentAdapter.CommentViewHolder>() {
 
-    override fun onCreateViewHolder(ThreadDetailActivty: ViewGroup, viewType: Int): CommentViewHolder {
-        val itemView = LayoutInflater.from(ThreadDetailActivty.context).inflate(R.layout.comment_item, ThreadDetailActivty, false)
+    override fun onCreateViewHolder(
+        ThreadDetailActivty: ViewGroup,
+        viewType: Int
+    ): CommentViewHolder {
+        val itemView = LayoutInflater.from(ThreadDetailActivty.context)
+            .inflate(R.layout.comment_item, ThreadDetailActivty, false)
         return CommentViewHolder(itemView)
     }
 
     override fun onBindViewHolder(holder: CommentViewHolder, position: Int) {
+
         println("onBindViewHolder position $position ${commentList[position]}")
         holder.commentTextView.text = commentList[position].content.toString()
         holder.likeButtonImageButton.setOnClickListener{
+
             listener.addLikes(position)
         }
         holder.likesTextView.text = commentList[position].likes.toString()
     }
 
+
     fun addPosts(listOfComments: MutableList<Comment>) {
         println("addPosts")
         this.commentList.addAll(listOfComments)
         this.notifyDataSetChanged()
+
     }
 
     override fun getItemCount() = commentList.size
@@ -45,7 +53,7 @@ class CommentAdapter(
 
     }
 
-    interface OnItemClickListener{
+    interface OnItemClickListener {
         fun addLikes(position: Int)
     }
 }

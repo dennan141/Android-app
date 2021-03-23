@@ -15,7 +15,9 @@ import androidx.recyclerview.widget.RecyclerView
 
 class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
     private lateinit var recyclerView: RecyclerView;
-    private var threadList:MutableList<Threads> = arrayListOf()
+    private var threadList: MutableList<Threads> = arrayListOf()
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,16 +28,21 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
         val categoryText = findViewById<TextView>(R.id.categoryText)
         categoryText.text = category
 
+        println("recyclerview: " + this::recyclerView.isInitialized)
+        println("getAllThreadsInCategory $DatabaseFirestore.instance.getAllThreadsInCategory(category)")
+
+
         recyclerView.adapter = ThreadAdapter(threadList, this)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        DatabaseFirestore.instance.getAllThreadsInCategory(category,
+        DatabaseFirestore.instance.getAllThreadsInCategory(
+            category,
             recyclerView.adapter as ThreadAdapter
         )
 
         //Search function, assign variable
         val searchTextView = findViewById<TextView>(R.id.search_textView)
 
-        searchTextView.setOnClickListener{
+        searchTextView.setOnClickListener {
             //Initialize dialog
             val dialog = Dialog(this)
             //Set custom dialog
@@ -51,7 +58,7 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
             var listView = dialog.findViewById<ListView>(R.id.list_view)
 
             //Create array of thread titles
-            var threadTitles : List<String?> = threadList.map{
+            var threadTitles: List<String?> = threadList.map {
                 it.title
             }
 
@@ -59,12 +66,13 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
             var arrayAdapter = ArrayAdapter(
                 this,
                 android.R.layout.simple_expandable_list_item_1,
-                threadTitles)
+                threadTitles
+            )
 
             //Set adapter
             listView.adapter = arrayAdapter
 
-            editText.addTextChangedListener(object: TextWatcher {
+            editText.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable?) {
                 }
 
@@ -82,7 +90,7 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
                 }
             })
 
-            listView.setOnItemClickListener{ parent, view, position, id ->
+            listView.setOnItemClickListener { parent, view, position, id ->
                 //Code based of code from: "override fun onItemClick(position: Int)"
 
                 //val thread = parent.getItemAtPosition(position) as Threads
@@ -110,7 +118,6 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
     }
 
     override fun onItemClick(position: Int) {
-        Toast.makeText(this, "Item $position clicked", Toast.LENGTH_SHORT).show()
         val thread = threadList[position]
         recyclerView.adapter!!.notifyItemChanged(position)
         val intent = Intent(this, ThreadDetailActivity::class.java)
@@ -126,6 +133,7 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
         intent.putExtra("bundleArgs", args)
         intent.putExtra("likes", thread.likes)
         intent.putExtra("userId", thread.userId)
+        finish()
         startActivity(intent)
     }
 

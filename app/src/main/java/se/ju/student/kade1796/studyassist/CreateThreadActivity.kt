@@ -25,7 +25,8 @@ class CreateThreadActivity : AppCompatActivity() {
                 view: View?,
                 pos: Int,
                 id: Long
-            ) {}
+            ) {
+            }
 
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }

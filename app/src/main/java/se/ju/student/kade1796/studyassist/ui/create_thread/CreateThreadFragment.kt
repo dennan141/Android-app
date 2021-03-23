@@ -57,40 +57,50 @@ class CreateThreadFragment : Fragment() {
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
 
-
         createButton.setOnClickListener{
-            if(!validateTitleText(title)){
-                title.error = getString(R.string.titleTextInvalid)
-            }else if(!validateContentText(content)){
-                content.error = getString(R.string.contentTextInvalid)
-            }else{
-                println(categoryText)
-                val threadTitle = title.text.toString()
-                val threadContent = content.text.toString()
-                val threadCategory = categoryText
+          if (Authentication.instance.getCurrentUser() != null) {
+              if(!validateTitleText(title)){
+                  title.error = getString(R.string.titleTextInvalid)
+              }else if(!validateContentText(content)){
+                  content.error = getString(R.string.contentTextInvalid)
+              }else{
+                  println(categoryText)
+                  val threadTitle = title.text.toString()
+                  val threadContent = content.text.toString()
+                  val threadCategory = categoryText
 
-                addThreadToDb(threadTitle, threadContent, threadCategory)
-                val loadingDialog = LoadingDialog(this)
-                loadingDialog.startLoadingDialog()
-                Handler(Looper.getMainLooper()).postDelayed({
-                    loadingDialog.dismissDialog()
-                    val intent = Intent(this.context, ThreadDetailActivity::class.java)
-                    intent.putExtra("id", DatabaseFirestore.threadid)
-                    intent.putExtra("title", threadTitle)
-                    intent.putExtra("content", threadContent)
-                    intent.putExtra("category", threadCategory)
+                  addThreadToDb(threadTitle, threadContent, threadCategory)
+                
+                  val loadingDialog = LoadingDialog(this)
+                  loadingDialog.startLoadingDialog()
+                
+                  Handler(Looper.getMainLooper()).postDelayed({
+                      loadingDialog.dismissDialog()
+                      val intent = Intent(this.context, ThreadDetailActivity::class.java)
+                      intent.putExtra("id", DatabaseFirestore.threadid)
+                      intent.putExtra("title", threadTitle)
+                      intent.putExtra("content", threadContent)
+                      intent.putExtra("category", threadCategory)
+                    
+                      val args = Bundle()
+                      val posts = ArrayList<Comment>()
+                      args.putSerializable("bundlePosts", posts)
+                      intent.putExtra("bundleArgs", args)
+                      intent.putExtra("userId", DatabaseFirestore.instance.auth.currentUser!!.uid)
+                      startActivity(intent)
+                      activity?.onBackPressed()
+                  }, 1000)
 
-                    val args = Bundle()
-                    val posts = ArrayList<Comment>()
-                    args.putSerializable("bundlePosts", posts)
-                    intent.putExtra("bundleArgs", args)
-
-                    intent.putExtra("userId", DatabaseFirestore.instance.auth.currentUser!!.uid)
+                    //intent.putExtra("userId", DatabaseFirestore.instance.auth.currentUser!!.uid)
                     startActivity(intent)
                     activity?.onBackPressed()
-                }, 1000)
-
+                }
+            } else {
+                val intent = Intent(this.context, LogInActivity::class.java)
+                intent.putExtra("errorMessage", "You must be logged in to do this")
             }
+
+
         }
     }
 
@@ -99,7 +109,7 @@ class CreateThreadFragment : Fragment() {
     }
 
     private fun validateTitleText(editText: EditText): Boolean {
-        return (editText.text.length in 6..50)
+        return (editText.text.length in 6..49)
     }
 
     private fun validateContentText(editText: EditText): Boolean {

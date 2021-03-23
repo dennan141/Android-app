@@ -13,9 +13,9 @@
         android:title="@string/text_account" />
 
     <item
-        android:id="@+id/navigation_post"
+        android:id="@+id/navigation_create"
         android:enabled="true"
         android:icon="@drawable/ic_post_image"
-        android:title="@string/text_post"/>
+        android:title="@string/text_create"/>
 
 </menu>
