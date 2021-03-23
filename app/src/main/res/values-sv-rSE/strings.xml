@@ -22,7 +22,7 @@
     <string name="text_it_help">IT Hjälp</string>
     <string name="text_math">Matte</string>
     <string name="text_course_material">Kurs Material</string>
-    <string name="text_exchange_studies">Utbytes Studier</string>
+    <string name="text_exchange_students">Utbytes Student</string>
     <string name="text_other">Övrigt</string>
     <string name="commentTextInvalid">Kommentaren får inte vara tom och mer än 100 bokstäver</string>
 </resources>

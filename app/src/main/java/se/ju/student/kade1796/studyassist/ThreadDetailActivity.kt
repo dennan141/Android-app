@@ -15,7 +15,6 @@ class ThreadDetailActivity : AppCompatActivity(), CommentAdapter.OnItemClickList
     private val commentList:MutableList<Comment> = ArrayList()
     private val db = DatabaseFirestore.instance
     private var thread = Threads()
-    private var threadList:MutableList<Threads> = arrayListOf()
     private lateinit var recyclerView: RecyclerView;
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,7 +49,7 @@ class ThreadDetailActivity : AppCompatActivity(), CommentAdapter.OnItemClickList
                 // println(Comment(commentThreadId, commentContent, category))
                 val comment = Comment(category, commentContent, commentThreadId)
                 db.addComment(comment)
-
+                println("commentbutton")
                 val commentList = mutableListOf<Comment>(comment)
                 println("commentList $commentList")
                 (recyclerView.adapter as CommentAdapter).addPosts(commentList)

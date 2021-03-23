@@ -1,24 +1,15 @@
 
-
-// *********************** !!! IMPORTANT !!! ****************************
-// *																	*
-// *					Old CategoryFragmet.kt - file					*
-// *		This is what came from the merge but doesnt seem to work?	*
-// *																	*
-// *********************** !!! IMPORTANT !!! ****************************
-
 package se.ju.student.kade1796.studyassist.ui.categories
 
 
 
-import android.content.Context
+
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider

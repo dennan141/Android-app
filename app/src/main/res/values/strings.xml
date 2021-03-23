@@ -49,6 +49,6 @@
     <string name="text_it_help">IT Help</string>
     <string name="text_math">Math</string>
     <string name="text_course_material">Course Material</string>
-    <string name="text_exchange_studies">Exchange Studies</string>
+    <string name="text_exchange_students">Exchange Students</string>
     <string name="text_other">Other</string>
 </resources>

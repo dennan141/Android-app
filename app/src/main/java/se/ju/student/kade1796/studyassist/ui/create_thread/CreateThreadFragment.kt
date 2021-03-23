@@ -2,6 +2,8 @@ package se.ju.student.kade1796.studyassist.ui.create_thread
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -68,19 +70,25 @@ class CreateThreadFragment : Fragment() {
                 val threadCategory = categoryText
 
                 addThreadToDb(threadTitle, threadContent, threadCategory)
+                val loadingDialog = LoadingDialog(this)
+                loadingDialog.startLoadingDialog()
+                Handler(Looper.getMainLooper()).postDelayed({
+                    loadingDialog.dismissDialog()
+                    val intent = Intent(this.context, ThreadDetailActivity::class.java)
+                    intent.putExtra("id", DatabaseFirestore.threadid)
+                    intent.putExtra("title", threadTitle)
+                    intent.putExtra("content", threadContent)
+                    intent.putExtra("category", threadCategory)
 
-                val intent = Intent(this.context, ThreadDetailActivity::class.java)
-                intent.putExtra("title", threadTitle)
-                intent.putExtra("content", threadContent)
-                intent.putExtra("category", threadCategory)
+                    val args = Bundle()
+                    val posts = ArrayList<Comment>()
+                    args.putSerializable("bundlePosts", posts)
+                    intent.putExtra("bundleArgs", args)
 
-                val args = Bundle()
-                val posts = ArrayList<Comment>()
-                args.putSerializable("bundlePosts", posts)
-                intent.putExtra("bundleArgs", args)
-
-                //intent.putExtra("userId", DatabaseFirestore.instance.auth.currentUser!!.uid)
-                startActivity(intent)
+                    intent.putExtra("userId", DatabaseFirestore.instance.auth.currentUser!!.uid)
+                    startActivity(intent)
+                    activity?.onBackPressed()
+                }, 1000)
 
             }
         }
@@ -111,6 +119,8 @@ class CreateThreadFragment : Fragment() {
                 DatabaseFirestore.instance.auth.currentUser?.uid
             )
         )
+        println(DatabaseFirestore.threadid + "coooooooewo")
+
     }
 
 }
