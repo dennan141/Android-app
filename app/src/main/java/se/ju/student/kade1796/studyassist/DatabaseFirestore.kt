@@ -67,13 +67,6 @@ class DatabaseFirestore {
             }
     }
 
-    fun getThreadId(categoryName: String,title: String){
-       val docref = db.collection("categories")
-            .document(categoryName.toString())
-            .collection("threads")
-           .get()
-
-    }
 
 
     //On success deletes a the thread
@@ -112,16 +105,8 @@ class DatabaseFirestore {
             .document(comment.category.toString())
             .collection("threads")
             .document(comment.threadId.toString())
-            .update("posts", FieldValue.arrayUnion(comment))
     }
 
-    fun updateCommentLikes(comment: Comment) {
-        db.collection("categories")
-            .document(comment.category.toString())
-            .collection("threads")
-            .document(comment.threadId.toString())
-        //.update("likes", mapOf("likes" to comment.likes))
-    }
 
     //******************************************LOGIN FUNC ************************************************
 

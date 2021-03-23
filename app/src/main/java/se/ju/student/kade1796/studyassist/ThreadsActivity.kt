@@ -12,12 +12,12 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
     private lateinit var recyclerView: RecyclerView;
     private var threadList: MutableList<Threads> = arrayListOf()
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,9 +27,6 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
         recyclerView = findViewById(R.id.recyclerView)
         val categoryText = findViewById<TextView>(R.id.categoryText)
         categoryText.text = category
-
-        println("recyclerview: " + this::recyclerView.isInitialized)
-        println("getAllThreadsInCategory $DatabaseFirestore.instance.getAllThreadsInCategory(category)")
 
 
         recyclerView.adapter = ThreadAdapter(threadList, this)
@@ -146,4 +143,5 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
         if (thread != null)
             DatabaseFirestore.instance.updateLikes(thread, likes!!)
     }
+
 }

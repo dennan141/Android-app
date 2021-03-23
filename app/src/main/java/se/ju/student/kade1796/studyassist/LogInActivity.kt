@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -36,6 +37,8 @@ class LogInActivity : AppCompatActivity() {
         val loginButton = findViewById<Button>(R.id.loginButton)
         val errorMessage = intent.getStringExtra("errorMessage")
         val currentUser = Authentication.instance.getCurrentUser()
+
+
 
         //If user is logged in, open categories instead
         if (currentUser != null) {

@@ -11,9 +11,9 @@
     <string name="content">Innehåll:</string>
     <string name="selected_item">Valt föremål:</string>
     <string name="add_comment">Lägg till kommentar</string>
-    <string name="isEmpty">Fältet kan inte vara tomt.</string>
-    <string name="titleTextInvalid">Titel måste vara mellan 5 - 50 bokstäver</string>
-    <string name="contentTextInvalid">Innehållet måste vara mellan 10 - 300 bokstäver.</string>
+    <string name="is_empty">Fältet kan inte vara tomt.</string>
+    <string name="title_text_invalid">Titel måste vara mellan 5 - 50 bokstäver</string>
+    <string name="content_text_invalid">Innehållet måste vara mellan 10 - 300 bokstäver.</string>
     <string name="editThread">Ändra Tråd</string>
     <string name="deleteThread">Ta bort Tråd</string>
     <string name="text_campus">Campus</string>
@@ -25,7 +25,7 @@
     <string name="text_exchange_students">Utbytes Student</string>
     <string name="text_other">Övrigt</string>
 
-    <string name="commentTextInvalid">Komlmentaren får inte vara tom och mindre än 100 bokstäver</string>
+    <string name="comment_text_invalid">Komlmentaren får inte vara tom och mindre än 100 bokstäver</string>
     <string name="text_could_not_login">Kunde inte logga in!</string>
     <string name="text_log_in">Logga in</string>
     <string name="text_search_threads">Sök trådar</string>
@@ -37,5 +37,10 @@
     <string name="text_title2">Titel</string>
     <string name="text_description">Beskriving</string>
     <string name="text_create">Skapa</string>
+    <string name="comment_created">Kommentar skapad</string>
+    <string name="succesfully_created_comment">Lyckades lägga till kommentaren!</string>
+    <string name="ok">Ok</string>
+    <string name="not_authorized_create_thread">You have to be logged in to create a thread</string>
+    <string name="not_authorized_comment">You have to login to post a comment</string>
 
 </resources>

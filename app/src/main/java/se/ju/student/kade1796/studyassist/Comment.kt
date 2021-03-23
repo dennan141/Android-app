@@ -8,14 +8,12 @@ data class Comment(
         val category: String? = "",
         val content: String? = "-Empty Content-",
         val threadId: String? = "",
-        var likes: Int? = 0,
 
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
         parcel.readString(),
-        parcel.readString(),
-        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readString()
     ) {
     }
 
@@ -24,7 +22,6 @@ data class Comment(
                 parcel.writeString(category)
                 parcel.writeString(content)
                 parcel.writeString(threadId)
-                parcel.writeValue(likes)
         }
 
 

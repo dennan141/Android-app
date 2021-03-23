@@ -9,11 +9,12 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_thread_detail.*
 
-class ThreadDetailActivity : AppCompatActivity(), CommentAdapter.OnItemClickListener {
+class ThreadDetailActivity : AppCompatActivity() {
     private val commentList: MutableList<Comment> = ArrayList()
     private val db = DatabaseFirestore.instance
     private var thread = Threads()
@@ -41,24 +42,36 @@ class ThreadDetailActivity : AppCompatActivity(), CommentAdapter.OnItemClickList
         }
 
         //TODO: Fix edit thread
-        recyclerView.adapter = CommentAdapter(commentList, this)
+        recyclerView.adapter = CommentAdapter(commentList)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         createCommentButton.setOnClickListener {
+            if (Authentication.instance.getCurrentUser() != null) {
+                if (commentText.editableText.isEmpty() || commentText.editableText.length > 100) {
+                    commentText.error = getString(R.string.comment_text_invalid)
+                } else {
+                    val commentThreadId = intent.getStringExtra("id")
+                    val commentContent = commentText.text.toString()
+                    val category = intent.getStringExtra("category")
+                    val comment = Comment(category, commentContent, commentThreadId)
+                    db.addComment(comment)
+                    val commentList = mutableListOf<Comment>(comment)
+                    (recyclerView.adapter as CommentAdapter).addPosts(commentList)
 
-            if (commentText.editableText.isEmpty() || commentText.editableText.length > 100) {
-                commentText.error = getString(R.string.commentTextInvalid)
-            } else {
-                val commentThreadId = intent.getStringExtra("id")
-                val commentContent = commentText.text.toString()
-                val category = intent.getStringExtra("category")
-                // println(Comment(commentThreadId, commentContent, category))
-                val comment = Comment(category, commentContent, commentThreadId)
-                db.addComment(comment)
-                println("commentbutton")
-                val commentList = mutableListOf<Comment>(comment)
-                println("commentList $commentList")
-                (recyclerView.adapter as CommentAdapter).addPosts(commentList)
+                    val builder = AlertDialog.Builder(this)
+                    builder.setTitle(R.string.comment_created)
+                    builder.setMessage(R.string.succesfully_created_comment)
+                    builder.setNeutralButton(R.string.ok) { dialog, which ->
+                    }
+                    builder.show()
+                }
+            }else{
+                val builder = AlertDialog.Builder(this)
+                builder.setTitle(R.string.not_logged_in)
+                builder.setMessage(R.string.not_authorized_comment)
+                builder.setNeutralButton(R.string.ok) { dialog, which ->
+                }
+                builder.show()
             }
         }
 
@@ -72,20 +85,6 @@ class ThreadDetailActivity : AppCompatActivity(), CommentAdapter.OnItemClickList
         }
 
         loadThread()
-    }
-
-
-    override fun addLikes(position: Int) {
-        commentList[position].likes = commentList[position].likes?.plus(1)
-        var comment = Comment(
-            commentList[position].category,
-            commentList[position].content,
-            commentList[position].threadId,
-            commentList[position].likes
-        )
-        if (thread != null)
-            DatabaseFirestore.instance.updateCommentLikes(comment)
-
     }
 
     private fun loadThread() {

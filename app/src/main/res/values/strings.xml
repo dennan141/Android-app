@@ -17,7 +17,8 @@
     <string name="text_it_help">IT Help</string>
     <string name="text_math">Math</string>
     <string name="text_course_material">Course Material</string>
-    <string name="text_exchange_studies">Exchange Studies</string>
+    <string name="text_exchange_students">Exchange Students</string>
+    <string name="text_create">Create</string>
     <string name="text_other">Other</string>
     <string name="text_could_not_login">Could not login!</string>
     <string name="text_log_in">Log in</string>
@@ -32,10 +33,16 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="add_comment">Add comment</string>
-    <string name="isEmpty">The field can not be empty.</string>
-    <string name="titleTextInvalid">The title must be between 5 – 50 characters.</string>
-    <string name="contentTextInvalid">The content must be between 10 – 300 characters.</string>
-    <string name="commentTextInvalid">The comment cannot be empty and more than 100 characters.</string>
+    <string name="is_empty">The field can not be empty.</string>
+    <string name="title_text_invalid">The title must be between 5 – 50 characters.</string>
+    <string name="content_text_invalid">The content must be between 10 – 300 characters.</string>
+    <string name="comment_text_invalid">The comment cannot be empty and more than 100 characters.</string>
+    <string name="comment_created">Comment Created</string>
+    <string name="succesfully_created_comment">Successfully added the comment!</string>
+    <string name="ok">Ok</string>
+    <string name="not_logged_in">Must be logged in</string>
+    <string name="not_authorized_create_thread">You have to be logged in to create a thread</string>
+    <string name="not_authorized_comment">You have to login to post a comment</string>
 
     <integer name="titleLimit">20</integer>
     <integer name="contentLimit">300</integer>
@@ -61,16 +68,4 @@
         <item>Exchangegdfgd Students</item>
         <item>Other</item>
     </string-array>
-    <string name="selected_item">Selected item</string>
-    <string name="editThread">Edit Thread</string>
-    <string name="deleteThread">Delete Thread</string>
-    <string name="text_campus">Campus</string>
-    <string name="text_social_life">Social Life</string>
-    <string name="text_study_help">Study Help</string>
-    <string name="text_it_help">IT Help</string>
-    <string name="text_math">Math</string>
-    <string name="text_course_material">Course Material</string>
-    <string name="text_exchange_students">Exchange Students</string>
-    <string name="text_other">Other</string>
-    <string name="text_create">Create</string>
 </resources>

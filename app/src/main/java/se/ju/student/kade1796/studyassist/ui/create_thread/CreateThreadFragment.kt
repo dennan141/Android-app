@@ -8,9 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import se.ju.student.kade1796.studyassist.*
 
@@ -58,11 +57,11 @@ class CreateThreadFragment : Fragment() {
         }
 
         createButton.setOnClickListener{
-          if (Authentication.instance.getCurrentUser() != null) {
+            if (Authentication.instance.getCurrentUser() != null) {
               if(!validateTitleText(title)){
-                  title.error = getString(R.string.titleTextInvalid)
+                  title.error = getString(R.string.title_text_invalid)
               }else if(!validateContentText(content)){
-                  content.error = getString(R.string.contentTextInvalid)
+                  content.error = getString(R.string.content_text_invalid)
               }else{
                   println(categoryText)
                   val threadTitle = title.text.toString()
@@ -90,11 +89,18 @@ class CreateThreadFragment : Fragment() {
                       startActivity(intent)
                       activity?.onBackPressed()
                   }, 1000)
-                  
                 }
             } else {
-                val intent = Intent(this.context, LogInActivity::class.java)
-                intent.putExtra("errorMessage", "You must be logged in to do this")
+
+                val builder = AlertDialog.Builder(this.requireContext())
+                builder.setTitle(R.string.not_logged_in)
+                builder.setMessage(R.string.not_authorized_create_thread)
+                builder.setNeutralButton(R.string.ok) { dialog, which ->
+                    val intent = Intent(this.context, LogInActivity::class.java)
+                    startActivity(intent)
+                }
+                builder.show()
+
             }
 
 
