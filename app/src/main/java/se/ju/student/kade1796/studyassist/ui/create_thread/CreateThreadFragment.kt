@@ -90,10 +90,7 @@ class CreateThreadFragment : Fragment() {
                       startActivity(intent)
                       activity?.onBackPressed()
                   }, 1000)
-
-                    //intent.putExtra("userId", DatabaseFirestore.instance.auth.currentUser!!.uid)
-                    startActivity(intent)
-                    activity?.onBackPressed()
+                  
                 }
             } else {
                 val intent = Intent(this.context, LogInActivity::class.java)
