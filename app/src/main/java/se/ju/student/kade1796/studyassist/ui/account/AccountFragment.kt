@@ -2,11 +2,11 @@ package se.ju.student.kade1796.studyassist.ui.account
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -49,6 +49,10 @@ class AccountFragment : Fragment() {
 
         val logOutButton = view.findViewById<Button>(R.id.log_out_button)
         val signUpButton = view.findViewById<Button>(R.id.sign_up_button)
+        val listView = view.findViewById<ListView>(R.id.account_listView)
+        val listOfThreads = Repository.instance.userThreads as ArrayList
+
+
 
 
         //Sets text on log in/out button

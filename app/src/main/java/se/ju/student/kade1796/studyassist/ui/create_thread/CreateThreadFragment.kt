@@ -82,12 +82,11 @@ class CreateThreadFragment : Fragment() {
 
                     //intent.putExtra("userId", DatabaseFirestore.instance.auth.currentUser!!.uid)
                     startActivity(intent)
+                    activity?.onBackPressed()
                 }
             } else {
                 val intent = Intent(this.context, LogInActivity::class.java)
                 intent.putExtra("errorMessage", "You must be logged in to do this")
-
-
             }
 
 

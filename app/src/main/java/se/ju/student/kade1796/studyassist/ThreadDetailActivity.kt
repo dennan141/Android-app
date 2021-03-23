@@ -33,6 +33,9 @@ class ThreadDetailActivity : AppCompatActivity(), CommentAdapter.OnItemClickList
         if (currentUser != null && thread.userId == currentUser.uid) {
             editButton.visibility = View.VISIBLE;
             deleteButton.visibility = View.VISIBLE;
+        }else {
+            editButton.visibility = View.INVISIBLE;
+            deleteButton.visibility = View.INVISIBLE;
         }
 
         //TODO: Fix edit thread

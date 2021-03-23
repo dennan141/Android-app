@@ -22,19 +22,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.044" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/account_recyclerview"
-        android:layout_width="410dp"
-        android:layout_height="404dp"
-        android:background="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/account_email"
-        app:layout_constraintVertical_bias="0.268"
-        tools:listitem="@layout/thread_item" />
-
     <Button
         android:id="@+id/log_out_button"
         android:layout_width="132dp"
@@ -45,9 +32,7 @@
         android:text="Log out"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/account_recyclerview"
-        app:layout_constraintVertical_bias="0.666" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/sign_up_button"
@@ -59,9 +44,7 @@
         android:text="Sign up"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/account_recyclerview"
-        app:layout_constraintVertical_bias="0.666" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/your_threads"
@@ -70,9 +53,15 @@
         android:gravity="center_horizontal"
         android:text="Your threads:"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintBottom_toTopOf="@+id/account_recyclerview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/account_email"
-        app:layout_constraintVertical_bias="0.26" />
+        app:layout_constraintTop_toBottomOf="@+id/account_email" />
+
+    <ListView
+        android:id="@+id/account_listView"
+        android:layout_width="415dp"
+        android:layout_height="461dp"
+        app:layout_constraintBottom_toTopOf="@+id/sign_up_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/your_threads" />
 </androidx.constraintlayout.widget.ConstraintLayout>
