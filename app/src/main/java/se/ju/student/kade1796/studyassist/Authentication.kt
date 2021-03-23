@@ -27,6 +27,10 @@ class Authentication {
         auth.signOut()
     }
 
+    fun isLoggedIn(): Boolean{
+        return auth.currentUser != null
+    }
+
 
     fun isAuthorized(userId: String): Boolean{
         return auth.currentUser?.uid == userId

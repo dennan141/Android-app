@@ -22,7 +22,7 @@ class ThreadDetailActivity : AppCompatActivity(), CommentAdapter.OnItemClickList
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_thread_detail)
 
-        val currentUser = DatabaseFirestore.instance.auth.currentUser
+        val currentUser = Authentication.instance.getCurrentUser()
 
         recyclerView = findViewById(R.id.recyclerView)
         val editButton = findViewById<Button>(R.id.editButton)
