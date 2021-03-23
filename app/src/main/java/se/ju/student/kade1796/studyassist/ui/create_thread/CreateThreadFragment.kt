@@ -2,6 +2,8 @@ package se.ju.student.kade1796.studyassist.ui.create_thread
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -55,30 +57,39 @@ class CreateThreadFragment : Fragment() {
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
 
+        createButton.setOnClickListener{
+          if (Authentication.instance.getCurrentUser() != null) {
+              if(!validateTitleText(title)){
+                  title.error = getString(R.string.titleTextInvalid)
+              }else if(!validateContentText(content)){
+                  content.error = getString(R.string.contentTextInvalid)
+              }else{
+                  println(categoryText)
+                  val threadTitle = title.text.toString()
+                  val threadContent = content.text.toString()
+                  val threadCategory = categoryText
 
-        createButton.setOnClickListener {
-            if (Authentication.instance.getCurrentUser() != null) {
-                if (!validateTitleText(title)) {
-                    title.error = getString(R.string.titleTextInvalid)
-                } else if (!validateContentText(content)) {
-                    content.error = getString(R.string.contentTextInvalid)
-                } else {
-                    println(categoryText)
-                    val threadTitle = title.text.toString()
-                    val threadContent = content.text.toString()
-                    val threadCategory = categoryText
-
-                    addThreadToDb(threadTitle, threadContent, threadCategory)
-
-                    val intent = Intent(this.context, ThreadDetailActivity::class.java)
-                    intent.putExtra("title", threadTitle)
-                    intent.putExtra("content", threadContent)
-                    intent.putExtra("category", threadCategory)
-
-                    val args = Bundle()
-                    val posts = ArrayList<Comment>()
-                    args.putSerializable("bundlePosts", posts)
-                    intent.putExtra("bundleArgs", args)
+                  addThreadToDb(threadTitle, threadContent, threadCategory)
+                
+                  val loadingDialog = LoadingDialog(this)
+                  loadingDialog.startLoadingDialog()
+                
+                  Handler(Looper.getMainLooper()).postDelayed({
+                      loadingDialog.dismissDialog()
+                      val intent = Intent(this.context, ThreadDetailActivity::class.java)
+                      intent.putExtra("id", DatabaseFirestore.threadid)
+                      intent.putExtra("title", threadTitle)
+                      intent.putExtra("content", threadContent)
+                      intent.putExtra("category", threadCategory)
+                    
+                      val args = Bundle()
+                      val posts = ArrayList<Comment>()
+                      args.putSerializable("bundlePosts", posts)
+                      intent.putExtra("bundleArgs", args)
+                      intent.putExtra("userId", DatabaseFirestore.instance.auth.currentUser!!.uid)
+                      startActivity(intent)
+                      activity?.onBackPressed()
+                  }, 1000)
 
                     //intent.putExtra("userId", DatabaseFirestore.instance.auth.currentUser!!.uid)
                     startActivity(intent)
@@ -118,6 +129,8 @@ class CreateThreadFragment : Fragment() {
                 DatabaseFirestore.instance.auth.currentUser?.uid
             )
         )
+        println(DatabaseFirestore.threadid + "coooooooewo")
+
     }
 
 }

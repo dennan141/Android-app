@@ -11,23 +11,13 @@ import org.json.JSONArray
 class DatabaseFirestore {
     companion object {
         val instance = DatabaseFirestore()
+        var threadid = String()
     }
 
     // Loads in the instance of the database and Firestore authenticator
     val db = FirebaseFirestore.getInstance()
     val auth = FirebaseAuth.getInstance()
 
-
-    //************************************PRIVATE FUNCTIONS AND VARIABLES***************************
-
-
-    //*************************************CATEGORIES FUNCTIONS*************************************************
-
-    //*****************************************************************************************************
-    //                                  !!! IMPORTANT !!!
-    //     - NOT BE ACCESSED FROM THE APP IN FUTURE, ONLY FOR CREATING CATEGORIES BEFORE LAUNCH -
-    //                                  !!! IMPORTANT !!!
-    //****************************************************************************************************
 
 
     //****************************************THREADS FUNC*************************************************
@@ -60,10 +50,6 @@ class DatabaseFirestore {
     //Adds a new thread from the Threads-data class, recommended!
     //Give it the data class Threads and a category to be added to
     fun addThread(newThread: Threads) {
-        //val categoryId = categoryTitleToId(newThread.category.toString())
-
-        Log.d("weird", newThread.category.toString())
-
         db.collection("categories")
             .document(newThread.category.toString())
             .collection("threads")
@@ -71,6 +57,7 @@ class DatabaseFirestore {
             .addOnSuccessListener {
                 Log.d("SuccessAddThread", "Thread added: $newThread")
                 val id = it.id
+                threadid = it.id
                 val documentReference = db.collection("categories")
                     .document(newThread.category.toString())
                     .collection("threads")
@@ -80,10 +67,17 @@ class DatabaseFirestore {
             }
     }
 
+    fun getThreadId(categoryName: String,title: String){
+       val docref = db.collection("categories")
+            .document(categoryName.toString())
+            .collection("threads")
+           .get()
+
+    }
+
 
     //On success deletes a the thread
     fun deleteThread(threadToDelete: Threads) {
-        //val categoryId = categoryTitleToId(threadToDelete.category.toString())
 
         db.collection("categories")
             .document(threadToDelete.category.toString())
@@ -96,9 +90,9 @@ class DatabaseFirestore {
 
 
     fun updateLikes(thread: Threads, likes: Int) {
-        //val categoryId = categoryTitleToId(thread.category.toString())
+
         db.collection("categories")
-            .document(thread.toString())
+            .document(thread.category.toString())
             .collection("threads")
             .document(thread.id.toString())
             .update("likes", likes)
