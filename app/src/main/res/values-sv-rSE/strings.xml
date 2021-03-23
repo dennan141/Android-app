@@ -36,5 +36,6 @@
     <string name="text_search_by_title">Sök med titel...</string>
     <string name="text_title2">Titel</string>
     <string name="text_description">Beskriving</string>
+    <string name="text_create">Skapa</string>
 
 </resources>

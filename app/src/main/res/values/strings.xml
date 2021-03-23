@@ -61,5 +61,6 @@
         <item>Exchangegdfgd Students</item>
         <item>Other</item>
     </string-array>
+    <string name="text_create">Create</string>
 
 </resources>
