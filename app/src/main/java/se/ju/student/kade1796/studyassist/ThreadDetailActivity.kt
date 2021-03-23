@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 //import kotlinx.android.synthetic.main.activity_thread_detail.*
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -32,6 +33,7 @@ class ThreadDetailActivity : AppCompatActivity(), CommentAdapter.OnItemClickList
         val commentText = findViewById<EditText>(R.id.comment_edittext)
 
         if (currentUser != null && thread.userId == currentUser.uid) {
+            Log.d("ifCheck", "${currentUser.uid} and  ${thread.userId}")
             editButton.visibility = View.VISIBLE;
             deleteButton.visibility = View.VISIBLE;
         } else {
@@ -66,8 +68,8 @@ class ThreadDetailActivity : AppCompatActivity(), CommentAdapter.OnItemClickList
             val intent = Intent(this, ThreadsActivity::class.java)
             intent.putExtra("categoryTitle", categoryName.toString())
             DatabaseFirestore.instance.deleteThread(thread)
-            startActivity(intent)
             finish()
+            startActivity(intent)
         }
 
         loadThread()

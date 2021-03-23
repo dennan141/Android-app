@@ -118,7 +118,6 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
     }
 
     override fun onItemClick(position: Int) {
-        Toast.makeText(this, "Item $position clicked", Toast.LENGTH_SHORT).show()
         val thread = threadList[position]
         recyclerView.adapter!!.notifyItemChanged(position)
         val intent = Intent(this, ThreadDetailActivity::class.java)
@@ -134,6 +133,7 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
         intent.putExtra("bundleArgs", args)
         intent.putExtra("likes", thread.likes)
         intent.putExtra("userId", thread.userId)
+        finish()
         startActivity(intent)
     }
 
