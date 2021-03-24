@@ -35,7 +35,6 @@ class LogInActivity : AppCompatActivity() {
         val enteredEmail = findViewById<EditText>(R.id.loginEmail).editableText
         val enteredPassword = findViewById<EditText>(R.id.loginPassword).editableText
         val loginButton = findViewById<Button>(R.id.loginButton)
-        val errorMessage = intent.getStringExtra("errorMessage")
         val currentUser = Authentication.instance.getCurrentUser()
 
 

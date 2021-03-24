@@ -105,6 +105,7 @@ class DatabaseFirestore {
             .document(comment.category.toString())
             .collection("threads")
             .document(comment.threadId.toString())
+            .update("posts", FieldValue.arrayUnion(comment))
     }
 
 
