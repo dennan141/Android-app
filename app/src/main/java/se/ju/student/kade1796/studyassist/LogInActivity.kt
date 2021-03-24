@@ -34,7 +34,7 @@ class LogInActivity : AppCompatActivity() {
         val enteredEmail = findViewById<EditText>(R.id.loginEmail).editableText
         val enteredPassword = findViewById<EditText>(R.id.loginPassword).editableText
         val loginButton = findViewById<Button>(R.id.loginButton)
-        val errorMessage = intent.getStringExtra("errorMessage")
+        val errorMessage = intent.getStringExtra(getString(R.string.errorMessage_intent))
         val currentUser = Authentication.instance.getCurrentUser()
 
         //If user is logged in, open categories instead
@@ -46,12 +46,12 @@ class LogInActivity : AppCompatActivity() {
                 Log.d("hejhej", "onclick")
                 if (isEmpty(enteredEmail)) {
                     Toast.makeText(
-                        baseContext, "Enter your email",
+                        baseContext, getString(R.string.text_enter_your_email),
                         Toast.LENGTH_SHORT
                     ).show()
                 } else if (isEmpty(enteredPassword)) {
                     Toast.makeText(
-                        baseContext, "Enter your password",
+                        baseContext, getString(R.string.text_enter_your_password),
                         Toast.LENGTH_SHORT
                     ).show()
                 } else {
@@ -84,10 +84,9 @@ class LogInActivity : AppCompatActivity() {
                     // If sign in fails, display a message to the user.
                     Log.d("tryLogin", "logged in not")
                     Toast.makeText(
-                        baseContext, "Authentication failed.",
+                        baseContext, getString(R.string.text_authentication_failed),
                         Toast.LENGTH_SHORT
                     ).show()
-
 
                 }
             }

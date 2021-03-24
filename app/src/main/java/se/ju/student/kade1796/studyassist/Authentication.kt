@@ -23,20 +23,18 @@ class Authentication {
         return auth.currentUser
     }
 
-    fun logOutUser(){
+    fun logOutUser() {
         auth.signOut()
     }
 
-    fun isLoggedIn(): Boolean{
+    fun isLoggedIn(): Boolean {
         return auth.currentUser != null
     }
 
 
-    fun isAuthorized(userId: String): Boolean{
+    fun isAuthorized(userId: String): Boolean {
         return auth.currentUser?.uid == userId
     }
-
-
 
 
 }

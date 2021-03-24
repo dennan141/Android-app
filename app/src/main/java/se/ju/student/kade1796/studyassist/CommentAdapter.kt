@@ -29,7 +29,7 @@ class CommentAdapter(
 
         println("onBindViewHolder position $position ${commentList[position]}")
         holder.commentTextView.text = commentList[position].content.toString()
-        holder.likeButtonImageButton.setOnClickListener{
+        holder.likeButtonImageButton.setOnClickListener {
 
             listener.addLikes(position)
         }

@@ -57,44 +57,50 @@ class CreateThreadFragment : Fragment() {
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
 
-        createButton.setOnClickListener{
-          if (Authentication.instance.getCurrentUser() != null) {
-              if(!validateTitleText(title)){
-                  title.error = getString(R.string.titleTextInvalid)
-              }else if(!validateContentText(content)){
-                  content.error = getString(R.string.contentTextInvalid)
-              }else{
-                  println(categoryText)
-                  val threadTitle = title.text.toString()
-                  val threadContent = content.text.toString()
-                  val threadCategory = categoryText
+        createButton.setOnClickListener {
+            if (Authentication.instance.getCurrentUser() != null) {
+                if (!validateTitleText(title)) {
+                    title.error = getString(R.string.titleTextInvalid)
+                } else if (!validateContentText(content)) {
+                    content.error = getString(R.string.contentTextInvalid)
+                } else {
+                    println(categoryText)
+                    val threadTitle = title.text.toString()
+                    val threadContent = content.text.toString()
+                    val threadCategory = categoryText
 
-                  addThreadToDb(threadTitle, threadContent, threadCategory)
-                
-                  val loadingDialog = LoadingDialog(this)
-                  loadingDialog.startLoadingDialog()
-                
-                  Handler(Looper.getMainLooper()).postDelayed({
-                      loadingDialog.dismissDialog()
-                      val intent = Intent(this.context, ThreadDetailActivity::class.java)
-                      intent.putExtra("id", DatabaseFirestore.threadid)
-                      intent.putExtra("title", threadTitle)
-                      intent.putExtra("content", threadContent)
-                      intent.putExtra("category", threadCategory)
-                    
-                      val args = Bundle()
-                      val posts = ArrayList<Comment>()
-                      args.putSerializable("bundlePosts", posts)
-                      intent.putExtra("bundleArgs", args)
-                      intent.putExtra("userId", DatabaseFirestore.instance.auth.currentUser!!.uid)
-                      startActivity(intent)
-                      activity?.onBackPressed()
-                  }, 1000)
-                  
+                    addThreadToDb(threadTitle, threadContent, threadCategory)
+
+                    val loadingDialog = LoadingDialog(this)
+                    loadingDialog.startLoadingDialog()
+
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        loadingDialog.dismissDialog()
+                        val intent = Intent(this.context, ThreadDetailActivity::class.java)
+                        intent.putExtra(getString(R.string.id_intent), DatabaseFirestore.threadid)
+                        intent.putExtra(getString(R.string.threadTitle_intent), threadTitle)
+                        intent.putExtra(getString(R.string.threadContent_intent), threadContent)
+                        intent.putExtra(getString(R.string.threadCategory_intent), threadCategory)
+
+                        val args = Bundle()
+                        val posts = ArrayList<Comment>()
+                        args.putSerializable(getString(R.string.bundlePosts_key), posts)
+                        intent.putExtra(getString(R.string.bundleArgs_intent), args)
+                        intent.putExtra(
+                            getString(R.string.userId_intent),
+                            DatabaseFirestore.instance.auth.currentUser!!.uid
+                        )
+                        startActivity(intent)
+                        activity?.onBackPressed()
+                    }, 1000)
+
                 }
             } else {
                 val intent = Intent(this.context, LogInActivity::class.java)
-                intent.putExtra("errorMessage", "You must be logged in to do this")
+                intent.putExtra(
+                    getString(R.string.errorMessage_intent),
+                    getString(R.string.text_you_must_be_logged_in_to_do_this)
+                )
             }
 
 

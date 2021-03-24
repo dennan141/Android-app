@@ -10,4 +10,8 @@ data class Threads(
     val posts: MutableList<Comment>? = mutableListOf<Comment>(),
     val id: String? = " "
 
-)
+) {
+    override fun toString(): String {
+        return title.toString()
+    }
+}

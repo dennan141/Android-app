@@ -9,14 +9,14 @@ class CategoryViewModel : ViewModel() {
     fun getCategoryList(): ArrayList<Categories> {
 
         var list = mutableListOf(
-            Categories("Campus", "campus", 0, R.drawable.image_campus),
-            Categories("Social Life", "social", 0, R.drawable.image_social),
-            Categories("Study Help", "study", 0, R.drawable.image_study),
-            Categories("IT Help", "it", 0, R.drawable.image_it_help),
-            Categories("Math", "math", 0, R.drawable.image_math),
-            Categories("Course Material", "study", 0, R.drawable.image_course_material),
-            Categories("Exchange Students", "study", 0, R.drawable.image_exchange),
-            Categories("Other", "study", 0, R.drawable.image_other)
+            Categories("Campus", 0, R.drawable.image_campus),
+            Categories("Social Life",  0, R.drawable.image_social),
+            Categories("Study Help", 0, R.drawable.image_study),
+            Categories("IT Help", 0, R.drawable.image_it_help),
+            Categories("Math", 0, R.drawable.image_math),
+            Categories("Course Material", 0, R.drawable.image_course_material),
+            Categories("Exchange Students", 0, R.drawable.image_exchange),
+            Categories("Other", 0, R.drawable.image_other)
         )
         list = setCategoryListValues(list as ArrayList<Categories>)
         return list

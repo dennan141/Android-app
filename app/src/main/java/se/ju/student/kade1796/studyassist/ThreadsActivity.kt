@@ -17,13 +17,11 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
     private lateinit var recyclerView: RecyclerView;
     private var threadList: MutableList<Threads> = arrayListOf()
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_threads)
 
-        val category = intent.getStringExtra("categoryTitle").toString()
+        val category = intent.getStringExtra(getString(R.string.categoryTitle_intent)).toString()
         recyclerView = findViewById(R.id.recyclerView)
         val categoryText = findViewById<TextView>(R.id.categoryText)
         categoryText.text = category
@@ -63,14 +61,14 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
             }
 
             //Initialize array adapter
-            var arrayAdapter = ArrayAdapter(
+            var searchAdapter = SearchAdapter(
                 this,
-                android.R.layout.simple_expandable_list_item_1,
-                threadTitles
+                R.layout.dialog_search_item,
+                threadList as ArrayList<Threads>
             )
 
             //Set adapter
-            listView.adapter = arrayAdapter
+            listView.adapter = searchAdapter
 
             editText.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable?) {
@@ -86,30 +84,28 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     //Filter array list
-                    arrayAdapter.filter.filter(s)
+                    searchAdapter.filter.filter(s)
                 }
             })
 
             listView.setOnItemClickListener { parent, view, position, id ->
                 //Code based of code from: "override fun onItemClick(position: Int)"
 
-                //val thread = parent.getItemAtPosition(position) as Threads
-                //Måste hitta rätt position när arrayAdaptern filteras. Kanske en funktion som väljer rätt thread-position baserat på titel?
-                val thread = threadList[position]
+                val thread = parent.getItemAtPosition(position) as Threads
                 recyclerView.adapter!!.notifyItemChanged(position)
                 val intent = Intent(this, ThreadDetailActivity::class.java)
 
                 thread.posts as ArrayList<Comment>
 
-                intent.putExtra("id", thread.id)
-                intent.putExtra("category", thread.category)
-                intent.putExtra("title", thread.title)
-                intent.putExtra("content", thread.content)
+                intent.putExtra(getString(R.string.id_intent), thread.id)
+                intent.putExtra(getString(R.string.threadCategory_intent), thread.category)
+                intent.putExtra(getString(R.string.threadTitle_intent), thread.title)
+                intent.putExtra(getString(R.string.threadContent_intent), thread.content)
                 val args = Bundle()
-                args.putSerializable("bundlePosts", thread.posts)
-                intent.putExtra("bundleArgs", args)
-                intent.putExtra("likes", thread.likes)
-                intent.putExtra("userId", thread.userId)
+                args.putSerializable(getString(R.string.bundlePosts_key), thread.posts)
+                intent.putExtra(getString(R.string.bundleArgs_intent), args)
+                intent.putExtra(getString(R.string.likes_intent), thread.likes)
+                intent.putExtra(getString(R.string.userId_intent), thread.userId)
                 startActivity(intent)
 
                 dialog.dismiss()
@@ -124,15 +120,15 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
 
         thread.posts as ArrayList<Comment>
 
-        intent.putExtra("id", thread.id)
-        intent.putExtra("category", thread.category)
-        intent.putExtra("title", thread.title)
-        intent.putExtra("content", thread.content)
+        intent.putExtra(getString(R.string.id_intent), thread.id)
+        intent.putExtra(getString(R.string.threadCategory_intent), thread.category)
+        intent.putExtra(getString(R.string.threadTitle_intent), thread.title)
+        intent.putExtra(getString(R.string.threadContent_intent), thread.content)
         val args = Bundle()
-        args.putSerializable("bundlePosts", thread.posts)
-        intent.putExtra("bundleArgs", args)
-        intent.putExtra("likes", thread.likes)
-        intent.putExtra("userId", thread.userId)
+        args.putSerializable(getString(R.string.bundlePosts_key), thread.posts)
+        intent.putExtra(getString(R.string.bundleArgs_intent), args)
+        intent.putExtra(getString(R.string.likes_intent), thread.likes)
+        intent.putExtra(getString(R.string.userId_intent), thread.userId)
         finish()
         startActivity(intent)
     }
