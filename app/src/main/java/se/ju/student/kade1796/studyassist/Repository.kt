@@ -2,7 +2,7 @@ package se.ju.student.kade1796.studyassist
 
 class Repository {
 
-    companion object{
+    companion object {
         val instance = Repository()
     }
 

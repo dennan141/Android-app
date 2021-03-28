@@ -29,7 +29,7 @@
         android:layout_marginEnd="36dp"
         android:layout_marginBottom="72dp"
         android:background="@color/primary"
-        android:text="Log out"
+        android:text="@string/text_log_out"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -41,7 +41,7 @@
         android:layout_marginEnd="236dp"
         android:layout_marginBottom="72dp"
         android:background="@color/primary"
-        android:text="Sign up"
+        android:text="@string/text_sign_up"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -51,7 +51,7 @@
         android:layout_width="167dp"
         android:layout_height="40dp"
         android:gravity="center_horizontal"
-        android:text="Your threads:"
+        android:text="@string/text_your_threads"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

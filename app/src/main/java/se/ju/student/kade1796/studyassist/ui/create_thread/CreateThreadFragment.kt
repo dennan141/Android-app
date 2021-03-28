@@ -71,20 +71,22 @@ class CreateThreadFragment : Fragment() {
                   val id = DatabaseFirestore.threadid
 
                   val intent = Intent(this.context, ThreadDetailActivity::class.java)
-                  intent.putExtra("id", id)
-                  intent.putExtra("title", threadTitle)
-                  intent.putExtra("content", threadContent)
-                  intent.putExtra("category", threadCategory)
+                  intent.putExtra(getString(R.string.id_intent), DatabaseFirestore.threadid)
+                  intent.putExtra(getString(R.string.threadTitle_intent), threadTitle)
+                  intent.putExtra(getString(R.string.threadContent_intent), threadContent)
+                  intent.putExtra(getString(R.string.threadCategory_intent), threadCategory)
 
                   val args = Bundle()
                   val posts = ArrayList<Comment>()
-                  args.putSerializable("bundlePosts", posts)
-                  intent.putExtra("bundleArgs", args)
-                  intent.putExtra("userId", DatabaseFirestore.instance.auth.currentUser!!.uid)
+                  args.putSerializable(getString(R.string.bundlePosts_key), posts)
+                  intent.putExtra(getString(R.string.bundleArgs_intent), args)
+                  intent.putExtra(
+                    getString(R.string.userId_intent),
+                    DatabaseFirestore.instance.auth.currentUser!!.uid
+                  )
                   startActivity(intent)
                 }
             } else {
-
                 val builder = AlertDialog.Builder(this.requireContext())
                 builder.setTitle(R.string.not_logged_in)
                 builder.setMessage(R.string.not_authorized_create_thread)

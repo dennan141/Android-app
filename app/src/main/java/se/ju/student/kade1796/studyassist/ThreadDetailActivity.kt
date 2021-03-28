@@ -77,9 +77,9 @@ class ThreadDetailActivity : AppCompatActivity() {
         }
 
         deleteButton.setOnClickListener {
-            val categoryName = intent.getStringExtra("category")
+            val categoryName = intent.getStringExtra(getString(R.string.threadCategory_intent))
             val intent = Intent(this, ThreadsActivity::class.java)
-            intent.putExtra("categoryTitle", categoryName.toString())
+            intent.putExtra(getString(R.string.categoryTitle_intent), categoryName.toString())
             DatabaseFirestore.instance.deleteThread(thread)
             finish()
             startActivity(intent)
@@ -93,14 +93,14 @@ class ThreadDetailActivity : AppCompatActivity() {
         val contentText = findViewById<TextView>(R.id.contentText)
         val likesText = findViewById<TextView>(R.id.likesText)
 
-        val id = intent.getStringExtra("id")
-        val category = intent.getStringExtra("category")
-        val title = intent.getStringExtra("title")
-        val content = intent.getStringExtra("content")
-        val args = intent.getBundleExtra("bundleArgs")
-        val posts = args!!.getSerializable("bundlePosts") as MutableList<Comment>;
-        var likes = intent.getIntExtra("likes", 0)
-        val userId = intent.getStringExtra("userId");
+        val id = intent.getStringExtra(getString(R.string.id_intent))
+        val category = intent.getStringExtra(getString(R.string.threadCategory_intent))
+        val title = intent.getStringExtra(getString(R.string.threadTitle_intent))
+        val content = intent.getStringExtra(getString(R.string.threadContent_intent))
+        val args = intent.getBundleExtra(getString(R.string.bundleArgs_intent))
+        val posts = args!!.getSerializable(getString(R.string.bundlePosts_key)) as MutableList<Comment>;
+        var likes = intent.getIntExtra(getString(R.string.likes_intent), 0)
+        val userId = intent.getStringExtra(getString(R.string.userId_intent))
 
         titleText.text = title
         contentText.text = content

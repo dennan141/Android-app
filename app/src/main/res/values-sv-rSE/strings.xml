@@ -45,5 +45,15 @@
     <string name="msg_notification_token">Du kan ta emot push notifikationer</string>
     <string name="not_logged_in">Måste vara inloggad</string>
     <string name="msg_not_notification_token">Du kan inte ta emot push notifikationer</string>
-
+    <string name="text_not_logged_in">Ej inloggad</string>
+    <string name="text_log_out">Logga Ut</string>
+    <string name="text_you_must_be_logged_in_to_do_this">Du måste vara inloggad för att göra detta.</string>
+    <string name="text_enter_your_email">Skriv in ditt email</string>
+    <string name="text_enter_your_password">Skriv in ditt lösenord</string>
+    <string name="text_authentication_failed">Autentisering misslyckades.</string>
+    <string name="text_passwords_dont_match">Lösenorden matchade inte!</string>
+    <string name="text_password">Lösenord</string>
+    <string name="text_repeat_password">Upprepa Lösenord</string>
+    <string name="text_sign_up">Bli Medlem</string>
+    <string name="text_your_threads">Dina trådar:</string>
 </resources>

@@ -56,7 +56,7 @@ class CategoryFragment : Fragment(), AdapterView.OnItemClickListener {
         //Start ThreadsActivity at clicked item
         val clickedItem = categoryList!![position]
         val intent = Intent(parent!!.context, ThreadsActivity::class.java)
-        intent.putExtra("categoryTitle", clickedItem.categoryTitle)
+        intent.putExtra(getString(R.string.categoryTitle_intent), clickedItem.categoryTitle)
         startActivity(intent)
     }
 

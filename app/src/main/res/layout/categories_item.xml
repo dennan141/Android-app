@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/category_imageView"
             android:layout_centerHorizontal="true"
-            android:text="Title"
+            android:text="@string/text_title2"
             android:textColor="@color/white"
             android:textStyle="bold" />
 

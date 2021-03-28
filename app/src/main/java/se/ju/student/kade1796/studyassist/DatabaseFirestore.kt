@@ -20,7 +20,6 @@ class DatabaseFirestore {
     val auth = FirebaseAuth.getInstance()
 
 
-
     //****************************************THREADS FUNC*************************************************
     //Returns a list of threads to local Repository
     fun getAllThreadsInCategory(categoryName: String, adapter: ThreadAdapter) {

@@ -15,7 +15,6 @@ class ThreadAdapter(
 ) : RecyclerView.Adapter<ThreadAdapter.ThreadViewHolder>() {
 
 
-
     override fun onCreateViewHolder(ThreadsActivty: ViewGroup, viewType: Int): ThreadViewHolder {
         val itemView = LayoutInflater.from(ThreadsActivty.context)
             .inflate(R.layout.thread_item, ThreadsActivty, false)

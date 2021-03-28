@@ -70,4 +70,29 @@
         <item>Other</item>
     </string-array>
     <string name="msg_not_notification_token">Not eligible to receive push notifications</string>
+    <string name="text_exchange_students">Exchange Students</string>
+    <string name="text_create">Create</string>
+    <string name="text_not_logged_in">Not logged in</string>
+    <string name="text_log_out">Log Out</string>
+    <string name="id_intent" translatable="false">id</string>
+    <string name="categoryTitle_intent" translatable="false">categoryTitle</string>
+    <string name="text_you_must_be_logged_in_to_do_this">You must be logged in to do this.</string>
+    <string name="threadTitle_intent" translatable="false">threadTitle</string>
+    <string name="threadContent_intent" translatable="false">threadContent</string>
+    <string name="threadCategory_intent" translatable="false">threadCategory</string>
+    <string name="bundlePosts_key" translatable="false">bundlePosts</string>
+    <string name="bundleArgs_intent" translatable="false">bundleArgs</string>
+    <string name="userId_intent" translatable="false">userId</string>
+    <string name="errorMessage_intent" translatable="false">errorMessage</string>
+    <string name="text_enter_your_email">Enter your email</string>
+    <string name="text_enter_your_password">Enter your password</string>
+    <string name="text_authentication_failed">Authentication failed.</string>
+    <string name="text_passwords_dont_match">Passwords don\'t match!</string>
+    <string name="likes_intent" translatable="false">likes</string>
+    <string name="text_email_exemple" translatable="false">example@student.ju.se</string>
+    <string name="text_password">Password</string>
+    <string name="text_repeat_password">Repeat Password</string>
+    <string name="text_sign_up">Sign Up</string>
+    <string name="likesDefault" translatable="false">0</string>
+    <string name="text_your_threads">Your threads:</string>
 </resources>

@@ -30,14 +30,12 @@ class AccountFragment : Fragment() {
         val accountEmail: TextView = root.findViewById(R.id.account_email)
         accountViewModel.text.observe(viewLifecycleOwner, Observer {
             if (!Authentication.instance.isLoggedIn()) {
-                accountEmail.text = "Not logged in"
+                accountEmail.text = getString(R.string.text_not_logged_in)
             } else {
                 accountEmail.text = Authentication.instance.getCurrentUser()?.email.toString()
             }
 
         })
-
-
 
 
         return root
@@ -53,18 +51,14 @@ class AccountFragment : Fragment() {
         val listOfThreads = Repository.instance.userThreads as ArrayList
 
 
-
-
         //Sets text on log in/out button
         if (Authentication.instance.isLoggedIn()) {
-            logOutButton.text = "Log out"
+            logOutButton.text = getString(R.string.text_log_out)
             signUpButton.visibility = View.INVISIBLE
         } else {
             signUpButton.visibility = View.VISIBLE
-            logOutButton.text = "Log in"
+            logOutButton.text = getString(R.string.text_log_in)
         }
-
-
 
 
         logOutButton.setOnClickListener {

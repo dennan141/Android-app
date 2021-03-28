@@ -38,9 +38,9 @@ class CreateThreadActivity : AppCompatActivity() {
                 content.error = getString(R.string.content_text_invalid)
             } else {
                 val intent = Intent(this, ThreadsActivity::class.java)
-                intent.putExtra("category", category.text)
-                intent.putExtra("title", title.toString())
-                intent.putExtra("content", content.toString())
+                intent.putExtra(getString(R.string.threadCategory_intent), category.text)
+                intent.putExtra(getString(R.string.threadTitle_intent), title.toString())
+                intent.putExtra(getString(R.string.threadContent_intent), content.toString())
                 startActivity(intent)
             }
         }
@@ -50,10 +50,14 @@ class CreateThreadActivity : AppCompatActivity() {
 
 //*********************** PRIVATE FUNCTIONS ************************
 private fun validateTitleText(editText: EditText): Boolean {
-    return (editText.text.length in 6..29)
+    val titleMinLimit = 6
+    val titleMaxLimit = 29
+    return (editText.text.length in titleMinLimit..titleMaxLimit)
 }
 
 private fun validateContentText(editText: EditText): Boolean {
-    return (editText.text.length in 10..300)
+    val contentMinLimit = 10
+    val contentMaxLimit = 300
+    return (editText.text.length in contentMinLimit..contentMaxLimit)
 }
 //*********************** PRIVATE FUNCTIONS ************************
