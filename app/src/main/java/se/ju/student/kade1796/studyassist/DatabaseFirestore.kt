@@ -110,7 +110,7 @@ class DatabaseFirestore {
 
 
     fun addComment(comment: Comment) {
-        Log.d("posts", "threadId: ${comment.threadId} cateoryId: ${comment.category}");
+        Log.d("posts", "threadId: ${comment.threadId} category: ${comment.category}");
 
         //val categoryId = categoryTitleToId(comment.category.toString())
         db.collection("categories")

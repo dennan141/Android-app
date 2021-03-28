@@ -70,8 +70,6 @@
         <item>Other</item>
     </string-array>
     <string name="msg_not_notification_token">Not eligible to receive push notifications</string>
-    <string name="text_exchange_students">Exchange Students</string>
-    <string name="text_create">Create</string>
     <string name="text_not_logged_in">Not logged in</string>
     <string name="text_log_out">Log Out</string>
     <string name="id_intent" translatable="false">id</string>

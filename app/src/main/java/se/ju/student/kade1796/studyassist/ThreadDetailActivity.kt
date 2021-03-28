@@ -1,15 +1,13 @@
 package se.ju.student.kade1796.studyassist
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
-//import kotlinx.android.synthetic.main.activity_thread_detail.*
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_thread_detail.*
@@ -33,7 +31,6 @@ class ThreadDetailActivity : AppCompatActivity() {
         val commentText = findViewById<EditText>(R.id.comment_edittext)
 
         if (currentUser != null && thread.userId == currentUser.uid) {
-            Log.d("ifCheck", "${currentUser.uid} and  ${thread.userId}")
             editButton.visibility = View.VISIBLE;
             deleteButton.visibility = View.VISIBLE;
         } else {
@@ -50,9 +47,9 @@ class ThreadDetailActivity : AppCompatActivity() {
                 if (commentText.editableText.isEmpty() || commentText.editableText.length > 100) {
                     commentText.error = getString(R.string.comment_text_invalid)
                 } else {
-                    val commentThreadId = intent.getStringExtra("id")
+                    val commentThreadId = intent.getStringExtra(getString(R.string.id_intent))
                     val commentContent = commentText.text.toString()
-                    val category = intent.getStringExtra("category")
+                    val category = intent.getStringExtra(getString(R.string.threadCategory_intent))
                     val comment = Comment(category, commentContent, commentThreadId)
                     db.addComment(comment)
                     val commentList = mutableListOf<Comment>(comment)
