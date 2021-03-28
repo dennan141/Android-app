@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_category"
+        android:enabled="true"
+        android:icon="@drawable/ic_home_image"
+        android:title="@string/text_categories"/>
+
+    <item
+        android:id="@+id/navigation_account"
+        android:enabled="true"
+        android:icon="@drawable/ic_account_image"
+        android:title="@string/text_account" />
+
+    <item
+        android:id="@+id/navigation_create"
+        android:enabled="true"
+        android:icon="@drawable/ic_post_image"
+        android:title="@string/text_create"/>
+
+</menu>

@@ -1,0 +1,96 @@
+<resources>
+    <string name="app_name">StudyAssist</string>
+    <string name="text_categories">Categories</string>
+    <string name="text_account">Account</string>
+    <string name="text_home">Home</string>
+    <string name="text_post">Post</string>
+    <string name="text_category">Category</string>
+    <string name="create_thread">Create Thread</string>
+    <string name="title">Title:</string>
+    <string name="content">Content:</string>
+    <string name="selected_item">Selected item</string>
+    <string name="editThread">Edit Thread</string>
+    <string name="deleteThread">Delete Thread</string>
+    <string name="text_campus">Campus</string>
+    <string name="text_social_life">Social Life</string>
+    <string name="text_study_help">Study Help</string>
+    <string name="text_it_help">IT Help</string>
+    <string name="text_math">Math</string>
+    <string name="text_course_material">Course Material</string>
+    <string name="text_exchange_students">Exchange Students</string>
+    <string name="text_create">Create</string>
+    <string name="text_other">Other</string>
+    <string name="text_could_not_login">Could not login!</string>
+    <string name="text_log_in">Log in</string>
+    <string name="text_search_threads">Search Threads</string>
+    <string name="text_threads">Threads</string>
+    <string name="text_comment">Comment</string>
+    <string name="text_loading">Loading</string>
+    <string name="text_select_thread">Select Thread</string>
+    <string name="text_search_by_title">Search by title...</string>
+    <string name="text_title2">Title</string>
+    <string name="text_description">Description</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="add_comment">Add comment</string>
+    <string name="is_empty">The field can not be empty.</string>
+    <string name="title_text_invalid">The title must be between 5 – 50 characters.</string>
+    <string name="content_text_invalid">The content must be between 10 – 300 characters.</string>
+    <string name="comment_text_invalid">The comment cannot be empty and more than 100 characters.</string>
+    <string name="comment_created">Comment Created</string>
+    <string name="succesfully_created_comment">Successfully added the comment!</string>
+    <string name="ok">Ok</string>
+    <string name="not_logged_in">Must be logged in</string>
+    <string name="not_authorized_create_thread">You have to be logged in to create a thread</string>
+    <string name="not_authorized_comment">You have to login to post a comment</string>
+    <string name="msg_notification_token">Eligible to recieve push notifications</string>
+
+    <integer name="titleLimit">20</integer>
+    <integer name="contentLimit">300</integer>
+
+    <string-array name="categories">
+        <item>Campus</item>
+        <item>Social Life</item>
+        <item>Math</item>
+        <item>Study Help</item>
+        <item>IT Help</item>
+        <item>Course Material</item>
+        <item>Exchange Students</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="threads">
+        <item>Campus 1</item>
+        <item>Social 123Life</item>
+        <item>Math323</item>
+        <item>Study4324w Help</item>
+        <item>IT Hrewrewelp</item>
+        <item>Coursetdfd Material</item>
+        <item>Exchangegdfgd Students</item>
+        <item>Other</item>
+    </string-array>
+    <string name="msg_not_notification_token">Not eligible to receive push notifications</string>
+    <string name="text_not_logged_in">Not logged in</string>
+    <string name="text_log_out">Log Out</string>
+    <string name="id_intent" translatable="false">id</string>
+    <string name="categoryTitle_intent" translatable="false">categoryTitle</string>
+    <string name="text_you_must_be_logged_in_to_do_this">You must be logged in to do this.</string>
+    <string name="threadTitle_intent" translatable="false">threadTitle</string>
+    <string name="threadContent_intent" translatable="false">threadContent</string>
+    <string name="threadCategory_intent" translatable="false">threadCategory</string>
+    <string name="bundlePosts_key" translatable="false">bundlePosts</string>
+    <string name="bundleArgs_intent" translatable="false">bundleArgs</string>
+    <string name="userId_intent" translatable="false">userId</string>
+    <string name="errorMessage_intent" translatable="false">errorMessage</string>
+    <string name="text_enter_your_email">Enter your email</string>
+    <string name="text_enter_your_password">Enter your password</string>
+    <string name="text_authentication_failed">Authentication failed.</string>
+    <string name="text_passwords_dont_match">Passwords don\'t match!</string>
+    <string name="likes_intent" translatable="false">likes</string>
+    <string name="text_email_exemple" translatable="false">example@student.ju.se</string>
+    <string name="text_password">Password</string>
+    <string name="text_repeat_password">Repeat Password</string>
+    <string name="text_sign_up">Sign Up</string>
+    <string name="likesDefault" translatable="false">0</string>
+    <string name="text_your_threads">Your threads:</string>
+</resources>

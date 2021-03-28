@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_category">
+
+    <fragment
+        android:id="@+id/navigation_account"
+        android:name="se.ju.student.kade1796.studyassist.ui.account.AccountFragment"
+        android:label="@string/text_account"
+        tools:layout="@layout/fragment_account" />
+
+    <fragment
+        android:id="@+id/navigation_category"
+        android:name="se.ju.student.kade1796.studyassist.ui.categories.CategoryFragment"
+        android:label="@string/text_category"
+        tools:layout="@layout/fragment_category" />
+
+    <fragment
+        android:id="@+id/navigation_create"
+        android:name="se.ju.student.kade1796.studyassist.ui.create_thread.CreateThreadFragment"
+        android:label="@string/text_post"
+        tools:layout="@layout/fragment_create" />
+</navigation>
