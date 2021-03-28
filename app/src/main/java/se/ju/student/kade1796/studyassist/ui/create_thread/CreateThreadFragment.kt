@@ -2,15 +2,12 @@ package se.ju.student.kade1796.studyassist.ui.create_thread
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import se.ju.student.kade1796.studyassist.*
 
@@ -57,53 +54,48 @@ class CreateThreadFragment : Fragment() {
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
 
-        createButton.setOnClickListener {
+        createButton.setOnClickListener{
             if (Authentication.instance.getCurrentUser() != null) {
-                if (!validateTitleText(title)) {
-                    title.error = getString(R.string.titleTextInvalid)
-                } else if (!validateContentText(content)) {
-                    content.error = getString(R.string.contentTextInvalid)
-                } else {
-                    println(categoryText)
-                    val threadTitle = title.text.toString()
-                    val threadContent = content.text.toString()
-                    val threadCategory = categoryText
+              if(!validateTitleText(title)){
+                  title.error = getString(R.string.title_text_invalid)
+              }else if(!validateContentText(content)){
+                  content.error = getString(R.string.content_text_invalid)
+              }else{
+                  println(categoryText)
+                  val threadTitle = title.text.toString()
+                  val threadContent = content.text.toString()
+                  val threadCategory = categoryText
 
-                    addThreadToDb(threadTitle, threadContent, threadCategory)
+                  addThreadToDb(threadTitle, threadContent, threadCategory)
 
-                    val loadingDialog = LoadingDialog(this)
-                    loadingDialog.startLoadingDialog()
+                  val id = DatabaseFirestore.threadid
 
-                    Handler(Looper.getMainLooper()).postDelayed({
-                        loadingDialog.dismissDialog()
-                        val intent = Intent(this.context, ThreadDetailActivity::class.java)
-                        intent.putExtra(getString(R.string.id_intent), DatabaseFirestore.threadid)
-                        intent.putExtra(getString(R.string.threadTitle_intent), threadTitle)
-                        intent.putExtra(getString(R.string.threadContent_intent), threadContent)
-                        intent.putExtra(getString(R.string.threadCategory_intent), threadCategory)
+                  val intent = Intent(this.context, ThreadDetailActivity::class.java)
+                  intent.putExtra(getString(R.string.id_intent), DatabaseFirestore.threadid)
+                  intent.putExtra(getString(R.string.threadTitle_intent), threadTitle)
+                  intent.putExtra(getString(R.string.threadContent_intent), threadContent)
+                  intent.putExtra(getString(R.string.threadCategory_intent), threadCategory)
 
-                        val args = Bundle()
-                        val posts = ArrayList<Comment>()
-                        args.putSerializable(getString(R.string.bundlePosts_key), posts)
-                        intent.putExtra(getString(R.string.bundleArgs_intent), args)
-                        intent.putExtra(
-                            getString(R.string.userId_intent),
-                            DatabaseFirestore.instance.auth.currentUser!!.uid
-                        )
-                        startActivity(intent)
-                        activity?.onBackPressed()
-                    }, 1000)
-
+                  val args = Bundle()
+                  val posts = ArrayList<Comment>()
+                  args.putSerializable(getString(R.string.bundlePosts_key), posts)
+                  intent.putExtra(getString(R.string.bundleArgs_intent), args)
+                  intent.putExtra(
+                    getString(R.string.userId_intent),
+                    DatabaseFirestore.instance.auth.currentUser!!.uid
+                  )
+                  startActivity(intent)
                 }
             } else {
-                val intent = Intent(this.context, LogInActivity::class.java)
-                intent.putExtra(
-                    getString(R.string.errorMessage_intent),
-                    getString(R.string.text_you_must_be_logged_in_to_do_this)
-                )
+                val builder = AlertDialog.Builder(this.requireContext())
+                builder.setTitle(R.string.not_logged_in)
+                builder.setMessage(R.string.not_authorized_create_thread)
+                builder.setNeutralButton(R.string.ok) { dialog, which ->
+                    val intent = Intent(this.context, LogInActivity::class.java)
+                    startActivity(intent)
+                }
+                builder.show()
             }
-
-
         }
     }
 

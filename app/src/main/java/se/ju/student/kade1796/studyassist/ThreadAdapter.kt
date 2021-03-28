@@ -10,7 +10,8 @@ import kotlinx.android.synthetic.main.thread_item.view.*
 
 class ThreadAdapter(
     private var threadList: MutableList<Threads>,
-    var listener: OnItemClickListener
+    var listener: OnItemClickListener,
+    var loadingDialog: LoadingDialog
 ) : RecyclerView.Adapter<ThreadAdapter.ThreadViewHolder>() {
 
 
@@ -32,8 +33,10 @@ class ThreadAdapter(
     override fun getItemCount() = threadList.size
 
     fun update(threads: MutableList<Threads>) {
+        this.threadList.clear()
         this.threadList.addAll(threads)
         this.notifyDataSetChanged()
+        loadingDialog.dismissDialog()
     }
 
     inner class ThreadViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),

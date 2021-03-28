@@ -8,25 +8,20 @@ data class Comment(
     val category: String? = "",
     val content: String? = "-Empty Content-",
     val threadId: String? = "",
-    var likes: Int? = 0,
 
     ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
         parcel.readString(),
-        parcel.readString(),
-        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readString()
     ) {
     }
 
-
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(category)
-        parcel.writeString(content)
-        parcel.writeString(threadId)
-        parcel.writeValue(likes)
+            parcel.writeString(category)
+            parcel.writeString(content)
+            parcel.writeString(threadId)
     }
-
 
     override fun describeContents(): Int {
         return 0

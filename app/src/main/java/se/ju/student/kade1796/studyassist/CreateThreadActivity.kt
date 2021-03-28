@@ -2,7 +2,6 @@ package se.ju.student.kade1796.studyassist
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -34,9 +33,9 @@ class CreateThreadActivity : AppCompatActivity() {
         //********************* ON CLICK CREATE THREAD ************************
         createButton.setOnClickListener {
             if (!validateTitleText(title)) {
-                title.error = getString(R.string.titleTextInvalid)
+                title.error = getString(R.string.title_text_invalid)
             } else if (!validateContentText(content)) {
-                content.error = getString(R.string.contentTextInvalid)
+                content.error = getString(R.string.content_text_invalid)
             } else {
                 val intent = Intent(this, ThreadsActivity::class.java)
                 intent.putExtra(getString(R.string.threadCategory_intent), category.text)

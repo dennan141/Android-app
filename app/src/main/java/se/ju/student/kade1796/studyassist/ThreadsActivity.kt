@@ -8,7 +8,10 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.widget.*
+import android.widget.ArrayAdapter
+import android.widget.EditText
+import android.widget.ListView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,16 +24,17 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_threads)
 
+        var loadingDialog = LoadingDialog(this);
+        loadingDialog.startLoadingDialogActivity();
+
         val category = intent.getStringExtra(getString(R.string.categoryTitle_intent)).toString()
+      
         recyclerView = findViewById(R.id.recyclerView)
         val categoryText = findViewById<TextView>(R.id.categoryText)
         categoryText.text = category
 
-        println("recyclerview: " + this::recyclerView.isInitialized)
-        println("getAllThreadsInCategory $DatabaseFirestore.instance.getAllThreadsInCategory(category)")
 
-
-        recyclerView.adapter = ThreadAdapter(threadList, this)
+        recyclerView.adapter = ThreadAdapter(threadList, this, loadingDialog)
         recyclerView.layoutManager = LinearLayoutManager(this)
         DatabaseFirestore.instance.getAllThreadsInCategory(
             category,
@@ -113,6 +117,16 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        val category = intent.getStringExtra("categoryTitle").toString()
+
+        DatabaseFirestore.instance.getAllThreadsInCategory(
+            category,
+            recyclerView.adapter as ThreadAdapter
+        )
+    }
+
     override fun onItemClick(position: Int) {
         val thread = threadList[position]
         recyclerView.adapter!!.notifyItemChanged(position)
@@ -125,11 +139,12 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
         intent.putExtra(getString(R.string.threadTitle_intent), thread.title)
         intent.putExtra(getString(R.string.threadContent_intent), thread.content)
         val args = Bundle()
+
         args.putSerializable(getString(R.string.bundlePosts_key), thread.posts)
         intent.putExtra(getString(R.string.bundleArgs_intent), args)
         intent.putExtra(getString(R.string.likes_intent), thread.likes)
         intent.putExtra(getString(R.string.userId_intent), thread.userId)
-        finish()
+
         startActivity(intent)
     }
 
@@ -142,4 +157,5 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
         if (thread != null)
             DatabaseFirestore.instance.updateLikes(thread, likes!!)
     }
+
 }
