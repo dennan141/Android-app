@@ -8,12 +8,13 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.widget.*
+import android.widget.ArrayAdapter
+import android.widget.EditText
+import android.widget.ListView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import java.util.*
-import kotlin.collections.ArrayList
 
 class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
     private lateinit var recyclerView: RecyclerView;
@@ -23,13 +24,16 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_threads)
 
+        var loadingDialog = LoadingDialog(this);
+        loadingDialog.startLoadingDialogActivity();
+
         val category = intent.getStringExtra("categoryTitle").toString()
         recyclerView = findViewById(R.id.recyclerView)
         val categoryText = findViewById<TextView>(R.id.categoryText)
         categoryText.text = category
 
 
-        recyclerView.adapter = ThreadAdapter(threadList, this)
+        recyclerView.adapter = ThreadAdapter(threadList, this, loadingDialog)
         recyclerView.layoutManager = LinearLayoutManager(this)
         DatabaseFirestore.instance.getAllThreadsInCategory(
             category,
@@ -114,6 +118,16 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        val category = intent.getStringExtra("categoryTitle").toString()
+
+        DatabaseFirestore.instance.getAllThreadsInCategory(
+            category,
+            recyclerView.adapter as ThreadAdapter
+        )
+    }
+
     override fun onItemClick(position: Int) {
         val thread = threadList[position]
         recyclerView.adapter!!.notifyItemChanged(position)
@@ -130,7 +144,6 @@ class ThreadsActivity : AppCompatActivity(), ThreadAdapter.OnItemClickListener {
         intent.putExtra("bundleArgs", args)
         intent.putExtra("likes", thread.likes)
         intent.putExtra("userId", thread.userId)
-        finish()
         startActivity(intent)
     }
 

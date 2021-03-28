@@ -2,9 +2,6 @@ package se.ju.student.kade1796.studyassist.ui.create_thread
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -85,7 +82,6 @@ class CreateThreadFragment : Fragment() {
                   intent.putExtra("bundleArgs", args)
                   intent.putExtra("userId", DatabaseFirestore.instance.auth.currentUser!!.uid)
                   startActivity(intent)
-                  activity?.onBackPressed()
                 }
             } else {
 
@@ -97,10 +93,7 @@ class CreateThreadFragment : Fragment() {
                     startActivity(intent)
                 }
                 builder.show()
-
             }
-
-
         }
     }
 

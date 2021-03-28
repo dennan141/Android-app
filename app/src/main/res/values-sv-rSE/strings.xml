@@ -42,5 +42,8 @@
     <string name="ok">Ok</string>
     <string name="not_authorized_create_thread">You have to be logged in to create a thread</string>
     <string name="not_authorized_comment">You have to login to post a comment</string>
+    <string name="msg_notification_token">Du kan ta emot push notifikationer</string>
+    <string name="not_logged_in">Måste vara inloggad</string>
+    <string name="msg_not_notification_token">Du kan inte ta emot push notifikationer</string>
 
 </resources>

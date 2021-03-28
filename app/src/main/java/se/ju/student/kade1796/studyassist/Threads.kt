@@ -8,6 +8,6 @@ data class Threads(
     val userId: String? = DatabaseFirestore.instance.auth.currentUser?.uid,
     var likes: Int? = 0,
     val posts: MutableList<Comment>? = mutableListOf<Comment>(),
-    val id: String? = " "
-
+    val id: String? = " ",
+    var notificationToken: String? = " "
 )

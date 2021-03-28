@@ -1,12 +1,13 @@
 package se.ju.student.kade1796.studyassist
 
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import android.util.Log
+import com.google.android.datatransport.cct.internal.NetworkConnectionInfo.builder
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
-import org.json.JSONArray
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.messaging.FirebaseMessaging
 
 class DatabaseFirestore {
     companion object {
@@ -50,25 +51,36 @@ class DatabaseFirestore {
     //Adds a new thread from the Threads-data class, recommended!
     //Give it the data class Threads and a category to be added to
     fun addThread(newThread: Threads) {
-        db.collection("categories")
-            .document(newThread.category.toString())
-            .collection("threads")
-            .add(newThread)
-            .addOnSuccessListener {
-                Log.d("SuccessAddThread", "Thread added: $newThread")
-                val id = it.id
-                threadid = it.id
-                val documentReference = db.collection("categories")
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w(
+                    MyFirebaseMessagingService.TAG,
+                    "Fetching registration token failed",
+                    task.exception
+                )
+                return@OnCompleteListener
+            } else {
+                newThread.notificationToken = task.result;
+
+                db.collection("categories")
                     .document(newThread.category.toString())
                     .collection("threads")
-                    .document(id)
-                documentReference.update("id", id)
-                Repository.instance.userThreads.add(newThread)
-                Repository.instance.doneLoading = true
+                    .add(newThread)
+                    .addOnSuccessListener {
+                        Log.d("SuccessAddThread", "Thread added: $newThread")
+                        val id = it.id
+                        threadid = it.id
+                        val documentReference = db.collection("categories")
+                            .document(newThread.category.toString())
+                            .collection("threads")
+                            .document(id)
+                        documentReference.update("id", id)
+                        Repository.instance.userThreads.add(newThread)
+                        Repository.instance.doneLoading = true
+                    }
             }
+        })
     }
-
-
 
     //On success deletes a the thread
     fun deleteThread(threadToDelete: Threads) {

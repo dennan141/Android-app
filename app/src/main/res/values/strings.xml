@@ -43,6 +43,7 @@
     <string name="not_logged_in">Must be logged in</string>
     <string name="not_authorized_create_thread">You have to be logged in to create a thread</string>
     <string name="not_authorized_comment">You have to login to post a comment</string>
+    <string name="msg_notification_token">Eligible to recieve push notifications</string>
 
     <integer name="titleLimit">20</integer>
     <integer name="contentLimit">300</integer>
@@ -68,4 +69,5 @@
         <item>Exchangegdfgd Students</item>
         <item>Other</item>
     </string-array>
+    <string name="msg_not_notification_token">Not eligible to receive push notifications</string>
 </resources>
