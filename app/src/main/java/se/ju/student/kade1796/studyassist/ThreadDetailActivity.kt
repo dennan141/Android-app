@@ -73,6 +73,7 @@ class ThreadDetailActivity : AppCompatActivity() {
                 }
                 builder.show()
             }
+            commentText.text.clear()
         }
 
         deleteButton.setOnClickListener {

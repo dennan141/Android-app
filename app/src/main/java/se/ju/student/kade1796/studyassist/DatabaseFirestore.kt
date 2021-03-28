@@ -64,6 +64,7 @@ class DatabaseFirestore {
                     .document(id)
                 documentReference.update("id", id)
                 Repository.instance.userThreads.add(newThread)
+                Repository.instance.doneLoading = true
             }
     }
 

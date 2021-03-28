@@ -18,4 +18,6 @@ class Repository {
     //This is a list of categories, used in start to display all categories
     var listOfCategories = mutableListOf<Categories>()
 
+    var doneLoading = false
+
 }
